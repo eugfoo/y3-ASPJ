@@ -1,0 +1,507 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ProfilePage.master.cs" Inherits="FinalProj.ProfilePage" %>
+
+<%@ Import Namespace="FinalProj.BLL" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>ClearView</title>
+    <style>
+        .hexagon {
+            position: relative;
+            width: 30px;
+            height: 17.32px;
+            background-color: #ffffff;
+            margin: 8.66px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.35);
+        }
+
+            .hexagon:before,
+            .hexagon:after {
+                content: "";
+                position: absolute;
+                z-index: 1;
+                width: 21.21px;
+                height: 21.21px;
+                -webkit-transform: scaleY(0.5774) rotate(-45deg);
+                -ms-transform: scaleY(0.5774) rotate(-45deg);
+                transform: scaleY(0.5774) rotate(-45deg);
+                background-color: inherit;
+                left: 4.3934px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.35);
+            }
+
+            .hexagon:before {
+                top: -10.6066px;
+            }
+
+            .hexagon:after {
+                bottom: -10.6066px;
+            }
+
+            /*cover up extra shadows*/
+            .hexagon span {
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0;
+                width: 30px;
+                height: 17.3205px;
+                z-index: 2;
+                background: inherit;
+            }
+
+        .pplinks {
+            height: 35px;
+            font-size: 20px;
+            transition: box-shadow 0.2s;
+        }
+
+            .pplinks:hover {
+                box-shadow: 0px 5px 5px #aaaaaa;
+            }
+
+        .pphyperlinks {
+            display: block;
+        }
+
+            .pphyperlinks:hover {
+                text-decoration: none;
+            }
+
+        .ppSMlinks {
+            border: none !important;
+        }
+
+            .ppSMlinks a img {
+                border-radius: 100%;
+                box-shadow: 0px 5px 5px #626b80;
+                height: 30px;
+                width: 30px;
+                transition: box-shadow 0.2s;
+            }
+
+                .ppSMlinks a img:hover {
+                    box-shadow: 0px 2px 2px #454b59;
+                }
+
+            .ppSMlinks div {
+                height: 30px;
+            }
+
+        @media screen and (min-width: 985px) {
+            #ddCaret {
+                margin-left: 5px;
+            }
+
+            #imgCon {
+                margin-left: 6px;
+            }
+
+            .gpic a img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .fdback-head:nth-of-type(2n) {
+                text-align: right;
+            }
+
+            #hmpage-link {
+                margin-left: 0.5rem !important;
+            }
+        }
+
+        @media screen and (max-width: 985px) {
+            #ddCaret {
+                margin-left: 5px;
+            }
+
+            #imgCon {
+                margin-right: 6px;
+            }
+
+            .gpic a img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .fdback-head:nth-of-type(2n) {
+                text-align: right;
+            }
+
+            #navbarnav ul li {
+                text-align:right;
+            }
+
+            #hmpage-link {
+                margin-left: 1rem !important;
+            }
+            
+        }
+
+        @media screen and (max-width: 575px) {
+            #ppContainer {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .gpic a img {
+                width: 50px;
+                height: 50px;
+            }
+
+            #imgCon {
+                margin-right: 15px;
+            }
+
+            .gpic a img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .fdback-head:nth-of-type(2n) {
+                text-align: left;
+            }
+
+            
+        }
+
+        /* Set CSS for drop down list */
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            text-align: center;
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 300px;
+            min-height:70px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 3px;
+        }
+
+            .dropdown-content a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 14px 12px;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown-content p {
+                    font-weight: bold;
+                    color: dodgerblue;
+                    display: inline;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .hexagon {
+            background-color: lightblue;
+        }
+
+        #link {
+            text-decoration: none;
+        }
+
+        /* End Drop down list */
+
+        #ddCaret i:hover {
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+	
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <% Users userG = (Users)Session["user"];
+                    if (userG != null)
+                    {%>
+                        <div class="dropdown">
+                        <div id="hexagon" class="hexagon">
+                            <% if (Session["id"] != null)
+                                { %>
+                            <div class="dropdown-content">
+                                <br />
+                                <% if (notiList.Count == 0)
+                                    { %>
+                                    <p id="link">You have no notifications</p>
+                                   <% }
+                                    else
+                                    { %>
+                                    <% for (int i = 0; i < notiList.Count; i++)
+                                            {
+                                            if (notiList[i].User_id.ToString() == Session["id"].ToString())
+                                            { %>
+                                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link"><p id="eventName"><%= notiList[i].EventName %></p> has ended! <br /> Please click here to complete feedback to get points! </a>
+                                            <% }
+                                        } %>
+                                <% } %>
+                            </div>
+                            <% } %>
+
+                        <span></span>
+                    </div>
+                </div>
+                  <%}%>
+                <a id="hmpage-link" style="" class="navbar-brand text-center" href="/homepage.aspx">Clear View</a>
+                <button style="padding:0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav"
+                    aria-controls="navbarnav" aria-expanded="false" aria-label="toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarnav">
+                <ul class="navbar-nav">
+                    <li class="nav-item mr-3">
+                        <asp:HyperLink ID="lblBookmark" CssClass="nav-link" runat="server" NavigateUrl="/bookmark.aspx">Bookmarks</asp:HyperLink>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" href="/forumPage1.aspx">Forum</a>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <div class="btn-group">
+
+                            <asp:HyperLink ID="lblProfile" CssClass="nav-link" runat="server" NavigateUrl="/EventStatus.aspx"></asp:HyperLink>
+                            <span id="ddCaret" runat="server" class="text-secondary pt-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-down"></i></span>
+
+                            <div id="ddMenu" runat="server" class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="/EditProfile.aspx">Edit Profile</a>
+                                <% Users user = (Users)Session["user"];
+                                    if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
+                                    { %>
+                                <div class="dropdown-divider"></div>
+                                <button id="openModal" runat="server" type="button" class="btn dropdown-item" data-toggle="modal" data-target="#reqVer">Request Verification</button>
+                                <%  }%>
+                                <div id="norgItems" runat="server">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
+                                    <%--<a class="dropdown-item" href="#">Request Recommendation</a>--%>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="liLogOut" runat="server" class="nav-item mr-3">
+                        <asp:LinkButton ID="lbLogOut" CssClass="nav-link" OnClick="lblLogOut_Click" runat="server" CausesValidation="False">Log Out</asp:LinkButton>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="ppContainer" class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div style="max-width: 1100px; position: relative;" class="card">
+                        <div style="top: 0;">
+                            <asp:Image CssClass="card-img-top" Style="max-width: 1100px; min-height: 200px; max-height: 200px; min-width: 300px;" ID="imgBP" runat="server" />
+                        </div>
+                        <div id="imgCon" style="position: absolute; top: 125px; left: 45%;" class="text-center">
+                            <asp:Image CssClass="img img-thumbnail text-center" Style="max-width: 100px; max-height: 100px; min-height: 100px; min-width: 100px;" ID="imgDP" runat="server" />
+                        </div>
+                        <br />
+                        <div style="min-height: 200px;" class="text-center card-body">
+                            <ul style="float: left; position: absolute; background-color: none !important;" class="list-group">
+                                <li class="list-group-item ppSMlinks">
+                                    <div>
+                                        <% if (hlFacebook.NavigateUrl != "")
+                                            { %>
+                                        <asp:HyperLink ID="hlFacebook" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                                <img style="" class="img " src="https://image.flaticon.com/icons/svg/124/124010.svg" alt="f icon" />
+                                        </asp:HyperLink>
+                                        <% }
+                                            else
+                                            { %>
+                                        <asp:HyperLink ID="HyperLink1" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                                <img style="box-shadow:none;" class="img " src="https://image.flaticon.com/icons/svg/124/124010.svg" alt="f icon" />
+                                        </asp:HyperLink>
+                                        <%}%>
+                                    </div>
+                                </li>
+                                <li class="list-group-item ppSMlinks">
+                                    <div>
+                                        <% if (hlInstagram.NavigateUrl != "")
+                                            { %>
+                                        <asp:HyperLink ID="hlInstagram" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                            <img style="" class="img " src="https://image.flaticon.com/icons/svg/2111/2111463.svg" alt="i icon" />
+                                        </asp:HyperLink>
+                                        <% }
+                                            else 
+                                            { %>
+                                        <asp:HyperLink ID="HyperLink2" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                            <img style="box-shadow:none;" class="img " src="https://image.flaticon.com/icons/svg/2111/2111463.svg" alt="i icon" />
+                                        </asp:HyperLink>
+                                        <%}%>
+                                    </div>
+                                </li>
+                                <li class="list-group-item ppSMlinks">
+                                    <div>
+                                        <% if (hlTwitter.NavigateUrl != "")
+                                            { %>
+                                        <asp:HyperLink ID="hlTwitter" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                            <img style="" class="img " src="https://image.flaticon.com/icons/svg/124/124021.svg" alt="t icon" />
+                                        </asp:HyperLink>
+                                        <% }
+                                            else 
+                                            { %>
+                                        <asp:HyperLink ID="HyperLink3" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
+                            <img style="box-shadow:none;" class="img " src="https://image.flaticon.com/icons/svg/124/124021.svg" alt="t icon" />
+                                        </asp:HyperLink>
+                                        <%}%>
+
+                                    </div>
+                                </li>
+                            </ul>
+                            <div>
+                                <asp:Label ID="lblUserName" Style="font-size: 30px;" runat="server" Text="PH" CssClass="card-title"></asp:Label>
+                                <span visible="false" runat="server" id="bluetick"><i style="font-size: 30px;" class="text-primary fas fa-check"></i></span>
+                                <div>
+                                    <asp:Label ID="lblRating" runat="server" Text="">
+                                        <% for (int i = 0; i < rating; i++)
+                                            { %>
+                                                <span><i class="text-warning fa fa-star"></i></span>
+                                            <% } %>
+                                    </asp:Label>
+                                    <asp:Label ID="lblEventCount" CssClass="font-small text-muted" runat="server" Text="PH"></asp:Label>
+                                </div>
+                            </div>
+                            <div style="margin-left: 80px; margin-right: 80px;" class="my-3 card-text">
+                                <asp:Label ID="lblDesc" runat="server" Text="PH"></asp:Label>
+                            </div>
+                        </div>
+                        <% Users user = (Users)Session["user"];
+                            Users userF = new Users();
+                            if (viewingUserId != null)
+                            { %>
+                        <ul class="list-group text-center" style="border-bottom: 1px solid rgba(0,0,0,.125); display: flex; flex-direction: row;">
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/EventStatus.aspx?userId=<%=viewingUserId.ToString()%>">Events</a></li>
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/PPGallery.aspx?userId=<%=viewingUserId.ToString()%>">Gallery</a></li>
+                            <% if (userF.GetUserById(Convert.ToInt32(viewingUserId)).rating != 0)
+                                {
+                            %>
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/PPRating.aspx?userId=<%=viewingUserId.ToString()%>">Rating</a></li>
+                            <%} %>
+                            <li id="linkPPPoints" runat="server" class="pplinks list-inline-item mx-0 col-3"><a class="pphyperlinks text-dark"
+                                href="/PPPoints.aspx?userId=<%=viewingUserId.ToString()%>">Points</a></li>
+                        </ul>
+                        <% }
+                            else
+                            { %>
+                        <ul class="list-group text-center" style="border-bottom: 1px solid rgba(0,0,0,.125); display: flex; flex-direction: row;">
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/EventStatus.aspx">Events</a></li>
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/PPGallery.aspx">Gallery</a></li>
+                            <% if (user != null && user.rating != 0)
+                                {
+                            %>
+                            <li class="pplinks list-inline-item mx-0 col-3 border-right"><a class="pphyperlinks text-dark"
+                                href="/PPRating.aspx">Rating</a></li>
+                            <%} %>
+                            <li id="li1" runat="server" class="pplinks list-inline-item mx-0 col-3"><a class="pphyperlinks text-dark"
+                                href="/PPPoints.aspx">Points</a></li>
+                        </ul>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0,0,0,.125); box-shadow: gray 2px 2px inset"></div>
+
+        <div style="min-height: 70vh">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+        <div class="modal fade" id="reqVer" tabindex="-1" role="dialog" aria-labelledby="reqVerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-img" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reqVerLabel">Request Verification</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Name of Organisation</label>
+                            <asp:RequiredFieldValidator ControlToValidate="tbNameOrg" ID="RequiredFieldValidator1" runat="server" ForeColor="Red" ErrorMessage="*" ValidationGroup="verGroup"></asp:RequiredFieldValidator>
+                            <br />
+                            <asp:TextBox type="text" PlaceHolder="" CssClass="form-control" ID="tbNameOrg" runat="server" CausesValidation="True"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Description of Organisation</label>
+                            <asp:RequiredFieldValidator ControlToValidate="tbDescOrg" ID="RequiredFieldValidator2" runat="server" ForeColor="Red" ErrorMessage="*" ValidationGroup="verGroup"></asp:RequiredFieldValidator>
+                            <br />
+                            <asp:TextBox type="text" PlaceHolder="" CssClass="form-control" ID="tbDescOrg" runat="server" CausesValidation="True" TextMode="MultiLine" Rows="5" Columns="20"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Proof</label>
+                            <asp:RequiredFieldValidator ControlToValidate="fuProof" ID="RequiredFieldValidator3" runat="server" ForeColor="Red" ErrorMessage="*" ValidationGroup="verGroup"></asp:RequiredFieldValidator>
+                            <br />
+                            <div class="form-control">
+                                <asp:FileUpload ID="fuProof" runat="server" accept=".png,.jpg,.jpeg" CssClass="fileUpload text-right" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="btnSend" CssClass="btn btn-success" runat="server" OnClick="btnSend_Click" Text="Send" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="small bg-dark text-white">
+            <div class="container py-4">
+                <ul class="list-inline mb-0 text-center">
+                    <li class="list-inline-item">&copy; 2017 Web Company, Inc</li>
+                    <li class="list-inline-item">All rights reserved,</li>
+                    <li class="list-inline-item"><a href="#0">Terms of use and privacy policy.</a></li>
+                </ul>
+                <ul class="list-inline mb-0 text-center">
+                    <li class="list-inline-item">
+                        <img style="max-height: 15px;" class="img mr-1" src="https://image.flaticon.com/icons/svg/2111/2111463.svg" alt="i icon" />instagram: <a href="#">@clearviewSingapore.</a></li>
+                </ul>
+            </div>
+        </footer>
+    </form>
+</body>
+    <script>
+        var count = <%= count %>;
+        var color = ['#DC143C', 'white'];
+        var index = 0;
+
+        if (count > 0) {
+            setInterval(function () {
+                document.getElementById("hexagon").style.backgroundColor = color[index];
+                index = (index + 1) % 2;
+            }, 1000);
+        }
+    </script>
+</html>
+

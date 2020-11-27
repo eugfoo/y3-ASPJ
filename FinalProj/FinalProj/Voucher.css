@@ -1,0 +1,124 @@
+﻿#title {
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: darkred;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    width: 370px;
+    padding: 5px 0 5px 0;
+}
+
+#pointDiv {
+    text-align: center;
+}
+
+#ContentPlaceHolder1_panelError {
+    text-align: center;
+    margin: 30px auto 40px auto;
+    width: 70%;
+}
+
+#ContentPlaceHolder1_panelSuccess {
+    text-align: center;
+    margin: 30px auto 40px auto;
+    width: 70%;
+}
+
+#ContentPlaceHolder1_no {
+    text-align: center;
+    margin-top: 200px;
+}
+
+#btnHref {
+    text-align: center;
+    display: block;
+    width: 130px;
+    margin-left: auto;
+    margin-right: 20%;
+    margin: 20px 20% 20px auto;
+}
+
+h3 {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#numPoints {
+    color: green;
+    font-weight: 600;
+}
+
+#voucherRow {
+    padding: 20px 5px 20px 5px;
+    height: 250px;
+    box-shadow: 0px 1px 5px grey;
+}
+
+#voucherTable {
+    width: 60%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+#voucherImg {
+    max-height: 45%;
+    padding: 10px 20px 10px 20px;
+    max-width: 90%;
+    min-width: 200px;
+}
+
+#tdRepeat {
+    width: 40%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#voucherName {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+#amountP {
+    font-size: 25px;
+    float:left;
+    margin-right: 10px;
+}
+
+#voucherAmount {
+    font-size: 25px;
+    color: green;
+    font-weight: 600;
+}
+
+#btnRedeem {
+    margin-top: 30px;
+    color: #fff;
+    background-color: dodgerblue;
+    width: 120px;
+    border: none 0px transparent;
+    font-size: 20px;
+    padding: 4px 8px 4px 8px;
+    webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+}
+
+    #btnRedeem:hover {
+        background-color: lightblue;
+        border: solid 1px #fff;
+        webkit-border-radius: 2px 2px 2px 2px;
+        -moz-border-radius: 2px 2px 2px 2px;
+        border-radius: 2px 2px 2px 2px;
+    }
+
+#divButton {
+    box-shadow: 0px 1px 5px grey;
+}
