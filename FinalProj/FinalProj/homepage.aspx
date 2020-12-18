@@ -470,6 +470,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<img src="Img/together.PNG" style="width: 100%; height: auto;" />
 	<div class="container">
+		<%=""%>
 		<br />
 		<asp:Panel ID="panelSuccess" Visible="false" runat="server" CssClass="alert alert-dismissable alert-success">
 			<asp:Label ID="lb_success" runat="server"></asp:Label>
@@ -630,7 +631,7 @@
 				</div>
 					</asp:Panel>
 				<asp:TextBox ID="hidingDate" CssClass="forHide" runat="server"></asp:TextBox>
-				<input type="hidden" id="previousDate" value="<%=setCalendarDate %>" />
+				<input type="hidden" id="previousDate" value="<%=setCalendarDate%>" />
 				<asp:Button ID="testbtn" CssClass="forHide" runat="server" OnClick="DateClicked" CausesValidation="False" />
 			</div>
 		</div>

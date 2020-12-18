@@ -172,7 +172,6 @@
     <Compile Include="BLL\Events.cs" />
     <Compile Include="BLL\Feedback.cs" />
     <Compile Include="BLL\GPictures.cs" />
-    <Compile Include="BLL\KeyManagement.cs" />
     <Compile Include="BLL\Notifications.cs" />
     <Compile Include="BLL\Thread.cs" />
     <Compile Include="BLL\ThreadReply.cs" />

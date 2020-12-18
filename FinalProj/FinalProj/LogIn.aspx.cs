@@ -8,7 +8,6 @@ using FinalProj.BLL;
 using System.Text;
 using System.Security.Cryptography;
 
-
 namespace FinalProj
 {
     public partial class LogIn : System.Web.UI.Page
@@ -38,7 +37,7 @@ namespace FinalProj
                 {
                     if (tryingUser.passHash == passHash)
                     {
-                        FinalProj.BLL.KeyManagement.
+                  
                         Session["user"] = tryingUser;
                         Session["id"] = tryingUser.id;
                         Session["Name"] = tryingUser.name;
