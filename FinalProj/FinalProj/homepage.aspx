@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteBootstrap.Master" AutoEventWireup="true" CodeBehind="homepage.aspx.cs" Inherits="FinalProj.Corporate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-	<style>
+    <style>
 		/**
  * Eric Meyer's Reset CSS v2.0+ (https://meyerweb.com/eric/tools/css/reset/)
  * http://cssreset.com
@@ -280,6 +280,23 @@
 		.forHide {
 			display: none;
 		}
+	    .auto-style1 {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border-radius: .25rem;
+            left: 0px;
+            top: 0px;
+        }
 	</style>
 	<script>
 
@@ -468,7 +485,7 @@
 	</script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-	<img src="Img/together.PNG" style="width: 100%; height: auto;" />
+    <img src="Img/together.PNG" style="width: 100%; height: auto;" />
 	<div class="container">
 		<%=""%>
 		<br />
@@ -501,7 +518,7 @@
 					<% foreach (var element in evList)
 						{ %>
 
-					<div class="card" style="margin: 1em auto;">
+					<div class="auto-style1" style="margin: 1em auto;">
 						<div class="card-header">
 							<%= element.Date %>, <%= element.StartTime %>
 						</div>

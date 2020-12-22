@@ -70,5 +70,10 @@ namespace FinalProj
                 return builder.ToString();
             }
         }
+
+        protected void btnOTP_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

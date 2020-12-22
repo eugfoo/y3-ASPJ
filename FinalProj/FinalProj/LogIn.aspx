@@ -43,6 +43,7 @@
                         <label for="formGroupExampleInput2">Password</label>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" CssClass="vError" runat="server" ControlToValidate="tbPass" 
                             EnableClientScript="False" ErrorMessage="*" ValidationGroup="Credentials"></asp:RequiredFieldValidator>
+                        &nbsp;<asp:Button ID="btnOTP" runat="server" CssClass="btn btn-secondary" Text="OTP Login" OnClick="btnOTP_Click" ValidateRequestMode="Enabled" Font-Size="10pt" Height="30px" />
                         <asp:TextBox type="password" CssClass="form-control" ID="tbPass" runat="server" ValidationGroup="Credentials"></asp:TextBox>
                         </div>
                     <div class="align-bottom" style="text-align: right;">

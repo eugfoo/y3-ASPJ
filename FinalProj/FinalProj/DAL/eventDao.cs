@@ -20,7 +20,7 @@ namespace FinalProj.DAL
             SqlConnection myConn = new SqlConnection(DBConnect);
 
             //Step 2 -  Create a DataAdapter to retrieve data from the database table
-            string sqlStmt = "Select * from tdEvent Where eventDate = @paraDate Order By eventStartTime";
+            string sqlStmt = "Select * from tdEvent Where eventApproved = 1 AND eventDate = @paraDate Order By eventStartTime";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
 
 			da.SelectCommand.Parameters.AddWithValue("@paraDate", date);
