@@ -43,9 +43,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit, Version=19.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ASP.NET AJAX Control Toolkit\Bin\AjaxControlToolkit.dll</HintPath>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
@@ -83,6 +82,7 @@
     <Content Include="AttendanceSubmitted.css" />
     <Content Include="beach.jpg" />
     <Content Include="bookmark.aspx" />
+    <Content Include="Content\Site.css" />
     <Content Include="editForumPost.aspx" />
     <Content Include="EditProfile.aspx" />
     <Content Include="editEventDetails.aspx" />
@@ -137,6 +137,7 @@
     <Content Include="AddVoucher.aspx" />
     <Content Include="VoucherRedemption.aspx" />
     <Content Include="Web.config" />
+    <Content Include="addCollaborator.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acknowledge.aspx.cs">
@@ -403,6 +404,13 @@
     <Compile Include="VoucherRedemption.aspx.designer.cs">
       <DependentUpon>VoucherRedemption.aspx</DependentUpon>
     </Compile>
+    <Compile Include="addCollaborator.aspx.cs">
+      <DependentUpon>addCollaborator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="addCollaborator.aspx.designer.cs">
+      <DependentUpon>addCollaborator.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -412,6 +420,10 @@
     <None Include="packages.config" />
     <Content Include="SiteBootstrap.Master" />
     <Content Include="ProfilePage.Master" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -420,9 +432,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Start\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Data\" />
     <Folder Include="Img\User\" />
     <Folder Include="Img\Voucher\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Client\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

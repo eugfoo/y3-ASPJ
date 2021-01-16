@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FinalProj {
-    
-    
-    public partial class Corporate {
-        
+namespace FinalProj
+{
+
+
+    public partial class Corporate
+    {
+
         /// <summary>
         /// panelSuccess control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panelSuccess;
-        
+
         /// <summary>
         /// lb_success control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_success;
-        
+
         /// <summary>
         /// panelError control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panelError;
-        
+
         /// <summary>
         /// lb_error control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lb_error;
-        
+
         /// <summary>
         /// showAvailableEvnts control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox showAvailableEvnts;
-        
+
         /// <summary>
         /// createEvent control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button createEvent;
-        
+
         /// <summary>
         /// calPanel control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel calPanel;
-        
+
         /// <summary>
         /// hidingDate control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox hidingDate;
-        
+
         /// <summary>
         /// testbtn control.
         /// </summary>

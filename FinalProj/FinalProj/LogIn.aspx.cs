@@ -24,10 +24,11 @@ namespace FinalProj
                 if (tbEmail.Text == "admin@admin")
                 {
                     string adminPassHash = ComputeSha256Hash(tbPass.Text);
-                    if (adminPassHash == "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3") // hashed version of adminPass41111
+                    if (adminPassHash == "ca5ce9636699b4bfa0a3801e2c28842638c13f22e04820b586041a425ce665d9") // hashed version of adminPass41111
                     {
                         Session["admin"] = true;
                         Response.Redirect("homepage.aspx");
+                        
                     }
                 }
                 Users user = new Users();

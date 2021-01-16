@@ -7,7 +7,9 @@
             Also, Kovi can you please not change the css of the html elements, please use classes and ids.
             Really appreaciate it. I hope you can change it in your EventStatus.aspx so it doesn't interfere with my html-->
         <div class="display-4 text-center">
-                Hello World! This is the Admin Page. Here is where only the ADMINS can run the show!
+                Hello World! This is the Admin Page. Here is where only the ADMINS can run the show!<br />
+                <asp:TextBox ID="txtMacAddress" runat="server"></asp:TextBox>
+&nbsp;<asp:Button ID="btnMACgetter" runat="server" OnClick="btnMACgetter_Click" Text="Button" />
         </div>
     </div>
 </asp:Content>

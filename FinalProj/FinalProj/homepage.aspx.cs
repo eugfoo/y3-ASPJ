@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -129,5 +130,6 @@ namespace FinalProj
                 calPanel.Visible = true;
             }
         }
+
     }
 }

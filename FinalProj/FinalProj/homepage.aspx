@@ -487,7 +487,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <img src="Img/together.PNG" style="width: 100%; height: auto;" />
 	<div class="container">
-		<%=""%>
+        <%--<p id="reset">reset</p>--%>
 		<br />
 		<asp:Panel ID="panelSuccess" Visible="false" runat="server" CssClass="alert alert-dismissable alert-success">
 			<asp:Label ID="lb_success" runat="server"></asp:Label>
