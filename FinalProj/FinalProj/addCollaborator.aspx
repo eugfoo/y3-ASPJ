@@ -22,7 +22,7 @@
     </style>
     <asp:Label ID="Label1" runat="server" Text="Manage Access" ></asp:Label>
     <br />
-    <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" Text="Invite a Collaborator" />
+    <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success"  Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
     <br />
     <table id="myTable" class="table table-bordered">
         <tr class="header">
@@ -36,4 +36,42 @@
     </table>
 
     <br />
+
+    <div id="MyPopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;</button>
+                <h4 class="modal-title">
+                </h4>
+            </div>
+            <div class="modal-body" style="text-align:center;">
+                <div class="form-group">
+                <asp:Label runat="server" style="font-size: 28px;">Invite a Collaborator</asp:Label>
+                    <br />
+
+                    <asp:Label for="collabEmail" runat="server" style="float:left;">Email address:</asp:Label>
+                    <p>
+
+                    <asp:TextBox type="email" ID="collabEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
+                    <p>
+                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block"  Text="Submit"/>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+    function ShowPopup(title, body) {
+        $("#MyPopup").modal("show");
+    }
+    </script>
 </asp:Content>

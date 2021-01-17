@@ -16,10 +16,18 @@ namespace FinalProj
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }
             else
-            {
+            { 
                 // Whatever you want here.
                 
             }
         }
+
+        protected void addCollabBtn_Click(object sender, EventArgs e)
+        {
+            
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup();", true);
+        }
+
+        
     }
 }
