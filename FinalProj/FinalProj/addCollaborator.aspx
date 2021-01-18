@@ -20,7 +20,21 @@
          border-left: none;
     }
     </style>
-    <asp:Label ID="Label1" runat="server" Text="Manage Access" ></asp:Label>
+    <% if (result == "true")
+        { %>
+        <div class="alert alert-success" role="alert">
+          Collaborator Invited!
+        </div>
+    <%}
+    else if (result == "false")
+    {%>
+    <div class="alert alert-danger" role="alert">
+        Collaborator does not exist!
+    </div>
+    <%}
+    else
+    { %><%} %>
+    <asp:Label ID="Label1" runat="server" Text="Manage Access"></asp:Label>
     <br />
     <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success"  Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
     <br />
@@ -57,7 +71,8 @@
 
                     <asp:TextBox type="email" ID="collabEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
                     <p>
-                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block"  Text="Submit"/>
+                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block"  Text="Submit" OnClick="submit_Click"/>
+                    <asp:Label ID="resultMsg" runat="server" style="float:left;" Visible="False"></asp:Label>
 
                 </div>
             </div>
