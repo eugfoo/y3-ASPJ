@@ -17,8 +17,6 @@ namespace FinalProj
     {
         public string result ="";
         protected List<Admins> adList;
-        
-
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -74,7 +72,6 @@ namespace FinalProj
 
             } 
         }
-
 
         static async Task Execute()
         {
