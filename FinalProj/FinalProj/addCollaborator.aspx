@@ -20,6 +20,8 @@
          border-left: none;
     }
     </style>
+
+    
     <% if (result == "true")
         { %>
         <div class="alert alert-success" role="alert">
@@ -34,19 +36,29 @@
     <%}
     else
     { %><%} %>
-    <asp:Label ID="Label1" runat="server" Text="Manage Access"></asp:Label>
-    <br />
-    <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success"  Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
-    <br />
-    <table id="myTable" class="table table-bordered">
+    <div style="margin-left:3%; margin-right:3%">
+        <asp:Label ID="Label1" style="font-size:50px; margin-top:3%;" runat="server" Text="Manage Access"></asp:Label>
+        
+            <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: right;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
+        
+    </div>
+    
+    <table id="myTable"  style="margin-top:5%;" class="table table-bordered">
         <tr class="header">
-            <th style="width:60%;">Name</th>
-            <th style="width:40%;"></th>
+            <th style="width:50%;">Name</th>
+            <th style="width:30%;">Role</th>
+            <th style="width:20%;">Status</th>
+
         </tr>
+        <% foreach (var element in adList)
+            { %>
         <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Germany</td>
+            <td><%= element.adminName %></td>
+            <td><%= element.adminRole %></td>
+            <td><%= element.adminStatus %></td>
+
         </tr>
+        <%} %>
     </table>
 
     <br />
@@ -71,8 +83,7 @@
 
                     <asp:TextBox type="email" ID="collabEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
                     <p>
-                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block"  Text="Submit" OnClick="submit_Click"/>
-                    <asp:Label ID="resultMsg" runat="server" style="float:left;" Visible="False"></asp:Label>
+                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
 
                 </div>
             </div>
@@ -87,6 +98,8 @@
     <script type="text/javascript">
     function ShowPopup(title, body) {
         $("#MyPopup").modal("show");
-    }
+        }
+
+       
     </script>
 </asp:Content>

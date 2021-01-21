@@ -16,27 +16,32 @@ namespace FinalProj
     public partial class WebForm1 : System.Web.UI.Page
     {
         public string result ="";
-        String line;
-        string path = @"C:\Users\Eugene Foo\Documents\y3-ASPJ\FinalProj\FinalProj\EAK.txt";
+        protected List<Admins> adList;
+        
+
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
+                Admins ad = new Admins();
+                adList = ad.GetAllAdmins();
+
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }
             else
             {
                 // Whatever you want here.
 
+                // string newIIP = GetIPAddress();
+                // Label1.Text = newIIP.ToString();
 
-                byte[] fileBytes = File.ReadAllBytes(path);
-                string textAs = Encoding.UTF8.GetString(fileBytes);
-                
-
-
-
+                //byte[] fileBytes = File.ReadAllBytes(path);
+                //string textAs = Encoding.UTF8.GetString(fileBytes);
+                Admins ad = new Admins();
+                adList = ad.GetAllAdmins();
+                Console.WriteLine(adList);
             }
 
 
@@ -56,31 +61,50 @@ namespace FinalProj
             if (findCollaborator != null)
             { // user exists
                 result = "true";
-                resultMsg.Visible = true;
-                resultMsg.Text = "Collaborator Added";
                 Execute();
 
+                Users us = new Users();
+                Users subAdmin = us.GetUserByEmail(collabEmail.Text);
+                Admins ad = new Admins();
+                ad.AddAdmin(subAdmin.name, collabEmail.Text);
+                Response.Redirect("addCollaborator.aspx");
             }
             else {
                 result = "false";
 
-                resultMsg.Visible = true;
-                resultMsg.Text = "Collaborator Not Found";
             } 
         }
 
 
         static async Task Execute()
         {
-            var apiKey = Environment.GetEnvironmentVariable("mk");
             var client = new SendGridClient("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");
-            var from = new EmailAddress("184707d@mymail.nyp.edu.sg", "Example User");
-            var subject = "Sending with SendGrid is Fun";
-            var to = new EmailAddress("eugenefoo9@gmail.com", "Example User");
+            var from = new EmailAddress("184707d@mymail.nyp.edu.sg", "ASPJ");
+            var subject = "Verify your Sub-admin Account";
+            var to = new EmailAddress("eugenefoo9@gmail.com", "Eugene Foo");
             var plainTextContent = "and easy to do anywhere, even with C#";
             var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
+        }
+
+
+        // Get IP Address of user
+        protected string GetIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+
+            return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
 

@@ -180,6 +180,7 @@
     <Compile Include="AttendanceSubmitted.aspx.designer.cs">
       <DependentUpon>AttendanceSubmitted.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="bookmark.aspx.designer.cs">
       <DependentUpon>bookmark.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\AdminDAO.cs" />
     <Compile Include="DAL\AttendanceDAO.cs" />
     <Compile Include="DAL\eventStatusDAO.cs" />
     <Compile Include="DAL\eventDao.cs" />
@@ -449,6 +451,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
