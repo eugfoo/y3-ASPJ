@@ -36,14 +36,16 @@
     <%}
     else
     { %><%} %>
-    <div style="margin-left:3%; margin-right:3%">
-        <asp:Label ID="Label1" style="font-size:50px; margin-top:3%;" runat="server" Text="Manage Access"></asp:Label>
-        
-            <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: right;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
-        
+    <div style="text-align: center;">
+        <asp:Label ID="Label1" style="font-size:50px;  margin-top:3%;" runat="server" Text="Manage Access"></asp:Label>
     </div>
-    
-    <table id="myTable"  style="margin-top:5%;" class="table table-bordered">
+
+        <p></p>
+       <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: left;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
+        
+        <p></p>
+
+    <table id="myTable" class="table table-bordered">
         <tr class="header">
             <th style="width:50%;">Name</th>
             <th style="width:30%;">Role</th>

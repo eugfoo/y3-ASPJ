@@ -32,8 +32,8 @@ namespace FinalProj
             {
                 // Whatever you want here.
 
-                // string newIIP = GetIPAddress();
-                // Label1.Text = newIIP.ToString();
+                string newIIP = GetIPAddress();
+                Label1.Text = newIIP.ToString();
 
                 //byte[] fileBytes = File.ReadAllBytes(path);
                 //string textAs = Encoding.UTF8.GetString(fileBytes);
@@ -79,8 +79,8 @@ namespace FinalProj
             var from = new EmailAddress("184707d@mymail.nyp.edu.sg", "ASPJ");
             var subject = "Verify your Sub-admin Account";
             var to = new EmailAddress("eugenefoo9@gmail.com", "Eugene Foo");
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var plainTextContent = "Click here to accept sub admin role: http://localhost:60329/homepage.aspx";
+            var htmlContent = "Click here to accept sub admin role: <br/> http://localhost:60329/homepage.aspx";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }

@@ -20,9 +20,9 @@ namespace FinalProj
             {
                 Response.Redirect("/homepage.aspx");
             }
-
         }
 
+        private static readonly HttpClient client = new HttpClient();
 
 
         protected void changetoDefaultBorder()
@@ -176,6 +176,7 @@ namespace FinalProj
 
                     string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
                     FileUploadControl.SaveAs(Server.MapPath("~/Img/" + filename));
+                    // insert malware file checker
                     picture = filename;
                     picChosen.Text = filename;
 

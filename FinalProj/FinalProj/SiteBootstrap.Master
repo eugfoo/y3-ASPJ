@@ -212,6 +212,7 @@
 
                                 <div id="ddMenu" runat="server" class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="/EditProfile.aspx">Edit Profile</a>
+
                                     
                                     <% Users user = (Users)Session["user"];
                                         if (!Convert.ToBoolean(Session["admin"]))
@@ -223,6 +224,12 @@
                                     <div id="norgItems" runat="server">
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
+                                        <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
+                                    </div>
+
+                                    <div id="Div1" runat="server">
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/sessionHistory.aspx">Session History</a>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
 
