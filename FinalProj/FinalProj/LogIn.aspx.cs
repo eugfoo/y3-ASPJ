@@ -14,7 +14,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.IO;
 using System.Text;
-
+using System.Drawing;
 
 namespace FinalProj
 {
@@ -34,48 +34,56 @@ namespace FinalProj
         {
             if (Page.IsValid)
             {
-                if (tbEmail.Text == "admin@admin")
+                MainAdmins mainadmin = new MainAdmins();
+                MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+
+                string adminPassHash = ComputeSha256Hash(tbPass.Text);
+                if (adminlogin != null) //user exists
                 {
-                    string adminPassHash = ComputeSha256Hash(tbPass.Text);
-                    if (adminPassHash == "ca5ce9636699b4bfa0a3801e2c28842638c13f22e04820b586041a425ce665d9") // hashed version of adminPass41111
+                    if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
                     {
                         Session["admin"] = true;
                         Response.Redirect("homepage.aspx");
-                        
-                    }
-                }
-                Users user = new Users();
-                Users tryingUser = user.GetUserByEmail(tbEmail.Text);
-                
-                string passHash = ComputeSha256Hash(tbPass.Text);
-                if (tryingUser != null) // user exists
-                {
-                    if (tryingUser.passHash == passHash)
-                    {
-                  
-                        Session["user"] = tryingUser;
-                        Session["id"] = tryingUser.id;
-                        Session["Name"] = tryingUser.name;
-                        Session["Pic"] = tryingUser.DPimage;
-                        Session["email"] = tryingUser.email;
 
-
-                        string ipAddr = GetIPAddress();
-                        string countryLogged = Execute(ipAddr).ToString();
-                        
-                        DateTime dtLog = DateTime.Now;
-                        Logs lg = new Logs();
-                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-                        Response.Redirect("homepage.aspx");
-                    }
-                    else
-                    {
-                        lblError.Visible = true;
                     }
                 }
                 else
                 {
-                    lblError.Visible = true;
+                    Users user = new Users();
+                    Users tryingUser = user.GetUserByEmail(tbEmail.Text);
+
+                    string passHash = ComputeSha256Hash(tbPass.Text);
+                    if (tryingUser != null) // user exists
+                    {
+                        if (tryingUser.passHash == passHash)
+                        {
+
+                            Session["user"] = tryingUser;
+                            Session["id"] = tryingUser.id;
+                            Session["Name"] = tryingUser.name;
+                            Session["Pic"] = tryingUser.DPimage;
+                            Session["email"] = tryingUser.email;
+
+
+                            string ipAddr = GetIPAddress();
+                            string countryLogged = Execute(ipAddr).ToString();
+
+                            DateTime dtLog = DateTime.Now;
+                            Logs lg = new Logs();
+                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                            Response.Redirect("homepage.aspx");
+                        }
+                        else
+                        {
+                            lblError.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        lblError.Text = "Email doesn't exist. Please create an account.";
+                        lblError.Visible = true; ;
+                        lblError.ForeColor = Color.Red;
+                    }
                 }
             }
         }
