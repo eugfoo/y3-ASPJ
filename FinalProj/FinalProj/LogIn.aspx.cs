@@ -124,45 +124,36 @@ namespace FinalProj
 
         protected void btnOTP_Click(object sender, EventArgs e)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup();", true);
-
         }
 
         protected void submit_Click(object sender, EventArgs e)
         {
-
+            Random rnd = new Random();
             Users user = new Users();
-            Users findCollaborator = user.GetUserByEmail(userEmail.Text);
-            if (findCollaborator != null)
+            Users findUser = user.GetUserByEmail(userEmail.Text);
+            if (findUser != null)
             { // user exists
                 result = "true";
-                Execute();
+                OTPassword = rnd.Next(100000, 999999).ToString();
 
-                Users us = new Users();
-                Users subAdmin = us.GetUserByEmail(userEmail.Text);
-                Admins ad = new Admins();
-                ad.AddAdmin(subAdmin.name, userEmail.Text);
-                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ClosePopup();", true);
+                Execute();
             }
             else
             {
                 result = "false";
-
             }
         }
 
         static async Task Execute()
         {
-            var lgn = new LogIn();
             Random rnd = new Random();
+            var lgn = new LogIn();
             lgn.OTPassword = rnd.Next(100000, 999999).ToString();
-            lgn.OTPEmail = lgn.userEmail.Text;
-
-
+            
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
             var subject = "OTP";
-            var to = new EmailAddress(lgn.OTPEmail, "Kovi Tan");
+            var to = new EmailAddress("kovitanwk@gmail.com", "Kovi Tan");
             var plainTextContent = "Your OTP is: ";
             var htmlContent = lgn.OTPassword;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);

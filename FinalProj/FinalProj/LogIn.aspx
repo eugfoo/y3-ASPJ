@@ -8,20 +8,22 @@
     <title>ClearView</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
     <style type="text/css">
         .vError {
             color: red;
         }
+        #box {
+            display: none;
+        }
+        #closeBtn {
+            color: white;
+        }
+        #btnOTP {
+            margin: 2%;
+        }
     </style>
-    <script type="text/javascript">
-        function ShowPopup(title, body) {
-            $("#MyPopup").modal("show");
-        }
 
-        function ClosePopup(title, body) {
-            $("#MyPopup").modal("fade");
-        }
-</script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -52,7 +54,7 @@
                         <label for="formGroupExampleInput2">Password</label>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" CssClass="vError" runat="server" ControlToValidate="tbPass"
                             EnableClientScript="False" ErrorMessage="*" ValidationGroup="Credentials"></asp:RequiredFieldValidator>
-                        &nbsp;<asp:Button ID="btnOTP" runat="server" CssClass="btn btn-secondary" Text="OTP Login" OnClick="btnOTP_Click" ValidateRequestMode="Enabled" Font-Size="10pt" Height="30px" />
+                        <asp:Button runat="server" id="btnOTP" type="button" text="OTP Login" cssclass="btn btn-secondary" OnClientClick="pop()" OnClick="btnOTP_Click"></asp:Button>
                         <asp:TextBox type="password" CssClass="form-control" ID="tbPass" runat="server" ValidationGroup="Credentials"></asp:TextBox>
                     </div>
                     <div class="align-bottom" style="text-align: right;">
@@ -60,45 +62,40 @@
                         <asp:Button ID="btnSignIn" runat="server" CssClass="btn btn-primary" Text="Sign In" OnClick="btnSignIn_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
                         &nbsp;
                     </div>
-                </div>
-                <!-- this is the start of the popup-->
-                <div id="MyPopup" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    &times;</button>
-                                <h4 class="modal-title"></h4>
-                            </div>
-                            <div class="modal-body" style="text-align: center;">
-                                <div class="form-group">
-                                    <asp:Label runat="server" Style="font-size: 28px;">Send OTP Password</asp:Label>
-                                    <br />
+                    <!-- this is the start of the popup-->
 
-                                    <asp:Label for="userEmail" runat="server" Style="float: left;">Your Email address:</asp:Label>
-                                    <p>
+                    <div id="box">
+                        <asp:Label runat="server" Style="font-size: 28px;">Send OTP Password</asp:Label>
+                        <br />
 
-                                        <asp:TextBox type="email" ID="userEmail" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
-                                        <p>
-                                            <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                    Close</button>
-                            </div>
-                        </div>
+                        <asp:Label for="userEmail" runat="server" Style="float: left;">Your Email address:</asp:Label>
+                        <p>
+
+                            <asp:TextBox type="email" ID="userEmail" class="form-control" aria-describedby="emailHelp" placeholder="Enter your email" runat="server"></asp:TextBox>
+                            <p>
+                                <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" OnClientClick="setSession()"/><br />
+                                <a id="closeBtn" class="btn btn-danger" onclick="pop()">Close</a>
                     </div>
+                    <!-- this is the end of the popup-->
                 </div>
-                <!-- this is the end of the popup-->
             </div>
         </div>
+        <script type="text/javascript">
+            var modal = null
+            function pop() {
+                if (modal === null) {
+                    document.getElementById("box").style.display = "block";
+                    modal = true
+                } else {
+                    document.getElementById("box").style.display = "none";
+                    modal = null
+                }
+            }
 
+            function setSession() {
+                sessionStorage.setItem("Email", document.getElementById("<%=userEmail.ClientID%>").value);
+            }
+        </script>
     </form>
-
 </body>
-
-
-
 </html>
