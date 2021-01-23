@@ -10,11 +10,21 @@ using System.Security.Cryptography;
 using System.Net.Http;
 using IpData;
 using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.IO;
+using System.Text;
+
 
 namespace FinalProj
 {
     public partial class LogIn : System.Web.UI.Page
     {
+        public string result = "";
+        public string OTPEmail = "";
+        public string OTPassword = "";
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -114,7 +124,49 @@ namespace FinalProj
 
         protected void btnOTP_Click(object sender, EventArgs e)
         {
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup();", true);
 
+        }
+
+        protected void submit_Click(object sender, EventArgs e)
+        {
+
+            Users user = new Users();
+            Users findCollaborator = user.GetUserByEmail(userEmail.Text);
+            if (findCollaborator != null)
+            { // user exists
+                result = "true";
+                Execute();
+
+                Users us = new Users();
+                Users subAdmin = us.GetUserByEmail(userEmail.Text);
+                Admins ad = new Admins();
+                ad.AddAdmin(subAdmin.name, userEmail.Text);
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ClosePopup();", true);
+            }
+            else
+            {
+                result = "false";
+
+            }
+        }
+
+        static async Task Execute()
+        {
+            var lgn = new LogIn();
+            Random rnd = new Random();
+            lgn.OTPassword = rnd.Next(100000, 999999).ToString();
+            lgn.OTPEmail = lgn.userEmail.Text;
+
+
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
+            var subject = "OTP";
+            var to = new EmailAddress(lgn.OTPEmail, "Kovi Tan");
+            var plainTextContent = "Your OTP is: ";
+            var htmlContent = lgn.OTPassword;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
