@@ -276,7 +276,7 @@ namespace FinalProj
             var subject = "OTP For Event Creation of " + eventName;
             var to = new EmailAddress(email, name);
             var plainTextContent = "Your OTP is: ";
-            var htmlContent = otp; //OTP here
+            var htmlContent = "Your OTP is: " + otp;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }

@@ -46,12 +46,20 @@
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Authenticator, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GoogleAuthenticator.2.1.1\lib\net45\Google.Authenticator.dll</HintPath>
+    </Reference>
     <Reference Include="IpData, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IpData.2.0.1\lib\netstandard2.0\IpData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.9\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="SendGrid, Version=9.22.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <HintPath>..\packages\SendGrid.9.22.0\lib\net452\SendGrid.dll</HintPath>
@@ -77,6 +85,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -94,6 +103,7 @@
     <Content Include="AttendanceEdit.css" />
     <Content Include="AttendanceSubmitted.aspx" />
     <Content Include="AttendanceSubmitted.css" />
+    <Content Include="Authenticator.aspx" />
     <Content Include="beach.jpg" />
     <Content Include="bookmark.aspx" />
     <Content Include="Content\Site.css" />
@@ -184,13 +194,22 @@
     <Compile Include="AttendanceSubmitted.aspx.designer.cs">
       <DependentUpon>AttendanceSubmitted.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Authenticator.aspx.cs">
+      <DependentUpon>Authenticator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Authenticator.aspx.designer.cs">
+      <DependentUpon>Authenticator.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
     <Compile Include="BLL\Feedback.cs" />
     <Compile Include="BLL\GPictures.cs" />
+    <Compile Include="BLL\HistoryOTP.cs" />
     <Compile Include="BLL\Logs.cs" />
+    <Compile Include="BLL\MainAdmins.cs" />
     <Compile Include="BLL\Notifications.cs" />
     <Compile Include="BLL\Thread.cs" />
     <Compile Include="BLL\ThreadReply.cs" />
@@ -206,11 +225,13 @@
     </Compile>
     <Compile Include="DAL\AdminDAO.cs" />
     <Compile Include="DAL\AttendanceDAO.cs" />
+    <Compile Include="DAL\HistoryOTPDAO.cs" />
     <Compile Include="DAL\LogsDAO.cs" />
     <Compile Include="DAL\eventStatusDAO.cs" />
     <Compile Include="DAL\eventDao.cs" />
     <Compile Include="DAL\FeedbackDAO.cs" />
     <Compile Include="DAL\gpictureDAO.cs" />
+    <Compile Include="DAL\MainAdminsDAO.cs" />
     <Compile Include="DAL\notificationsDAO.cs" />
     <Compile Include="DAL\ThreadReplyDAO.cs" />
     <Compile Include="DAL\ThreadDAO.cs" />

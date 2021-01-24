@@ -262,7 +262,7 @@ namespace FinalProj
             var subject = "OTP Login ClearView";
             var to = new EmailAddress(email, name);
             var plainTextContent = "Your OTP is: ";
-            var htmlContent = otp; //password here
+            var htmlContent = "Your OTP is: " + otp;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
