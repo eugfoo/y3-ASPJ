@@ -103,9 +103,6 @@
                 }
             }
 
-            function setSession() {
-                sessionStorage.setItem("OTP", true);
-            }
         </script>
 
     </form>

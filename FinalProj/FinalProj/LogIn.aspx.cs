@@ -36,19 +36,19 @@ namespace FinalProj
                 HistoryOTP otp = new HistoryOTP();
                 HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
-                //MainAdmins mainadmin = new MainAdmins();
-                //MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+                MainAdmins mainadmin = new MainAdmins();
+                MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
 
-                //string adminPassHash = ComputeSha256Hash(tbPass.Text);
-                //if (adminlogin != null) //user exists
-                //{
-                //    if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
-                //    {
-                //        Session["admin"] = true;
-                //        Response.Redirect("homepage.aspx");
+                string adminPassHash = ComputeSha256Hash(tbPass.Text);
+                if (adminlogin != null) //user exists
+                {
+                    if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
+                    {
+                        Session["admin"] = true;
+                        Response.Redirect("homepage.aspx");
 
-                //    }
-                //}
+                    }
+                }
 
                 if (userTrying != null)
                 {
