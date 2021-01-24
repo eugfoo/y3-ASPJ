@@ -70,7 +70,7 @@
                     <!-- this is the start of the popup-->
 
                     <div id="box">
-                        <asp:Label runat="server" Style="font-size: 28px;">Send OTP Password</asp:Label>
+                        <asp:Label runat="server" Style="font-size: 28px;">Send One-Time Password</asp:Label>
                         <br />
 
                         <asp:Label for="userEmail" runat="server" Style="float: left;">Your Email address:</asp:Label>
