@@ -23,6 +23,7 @@ namespace FinalProj
         public string result = "";
         public string OTPEmail = "";
         public string OTPassword = "";
+        public string userName = "";
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -230,6 +231,7 @@ namespace FinalProj
             { // user exists
                 OTPassword = rnd.Next(100000, 999999).ToString();
                 OTPEmail = userEmail.Text;
+                userName = findUser.name;
                 int OTPCheck = 1;
 
 
@@ -237,14 +239,14 @@ namespace FinalProj
                 {
                     result = "true";
                     otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
-                    Execute();
+                    Enable(OTPEmail, OTPassword,userName);
                 }
 
                 else
                 {
                     result = "true";
                     otp.AddHistoryOTP(OTPEmail, OTPassword);
-                    Execute();
+                    Enable(OTPEmail, OTPassword, userName);
                 }
             }
             else
@@ -253,16 +255,14 @@ namespace FinalProj
             }
         }
 
-        public static async Task Execute()
+        public static async Task Enable(string email, string otp, string name)
         {
-
-
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
             var subject = "OTP Login ClearView";
-            var to = new EmailAddress("kovitanwk@gmail.com", "Kovi Tan");
+            var to = new EmailAddress(email, name);
             var plainTextContent = "Your OTP is: ";
-            var htmlContent = ""; //password here
+            var htmlContent = otp; //password here
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
