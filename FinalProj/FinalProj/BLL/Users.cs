@@ -24,7 +24,8 @@ namespace FinalProj.BLL
 		public string facebook { get; set; }
 		public string instagram { get; set; }
 		public string twitter { get; set; }
-        public string diet { get; set; }
+		public string diet { get; set; }
+		public int twofactor { get; set; }
 
 
 		public Users() { }
@@ -40,7 +41,7 @@ namespace FinalProj.BLL
 
 		public Users(int uId, string uEmail, string uPassHash, string uName, string uDPImage, string uBPImage,
 			string uDesc, int uRating, string uIsOrg, double uPoints, string uParticipate, int uVerified, string uRegDate,
-			string uFacebook, string uInstagram, string uTwitter, string uDiet)
+			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor)
 		{
 			id = uId;
 			email = uEmail;
@@ -59,6 +60,7 @@ namespace FinalProj.BLL
 			instagram = uInstagram;
 			twitter = uTwitter;
             diet = uDiet;
+			twofactor = uTwoFactor;
 		}
 
 		public int AddUser()
@@ -151,8 +153,13 @@ namespace FinalProj.BLL
 			userDAO user = new userDAO();
 			return user.UpdateTwitter(id, twit);
 		}
+		public int UpdateTwoFactorByID(int id, int twofactor)
+		{
+			userDAO user = new userDAO();
+			return user.UpdateTwoFactor(id, twofactor);
+		}
 
-        public int getLastUserId()
+		public int getLastUserId()
         {
             userDAO dao = new userDAO();
             int result = dao.getLastUserId();

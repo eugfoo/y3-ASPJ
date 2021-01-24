@@ -60,6 +60,11 @@ namespace FinalProj
             {
                 user.UpdateBPByID(user.id, Session["tempBP"].ToString());
             }
+            if (CB2FA.Checked == true)
+            {
+                var twofactor = 1;
+                user.UpdateTwoFactorByID(user.id, twofactor);
+            }
             if (ddlDiet.SelectedItem.Value != user.diet)
             {
                 if (ddlDiet.SelectedItem.Value == "Others")
@@ -167,6 +172,17 @@ namespace FinalProj
                     ddlDiet.SelectedIndex = 3;
                     tbOtherDiet.Attributes.Remove("readonly");
                     tbOtherDiet.Text = user.diet;
+                }
+            }
+            if (!Page.IsPostBack)
+            {
+                if (user.twofactor == 0)
+                {
+                    CB2FA.Checked = false;
+                }
+                else
+                {
+                    CB2FA.Checked = true;
                 }
             }
         }

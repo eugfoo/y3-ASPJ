@@ -76,10 +76,11 @@ namespace FinalProj.DAL
                 string Uinstagram = row["userInstagram"].ToString();
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
+                int Utwofactor = Convert.ToInt32(row["user2FA"]);
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, 
                     Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook, 
-                    Uinstagram, Utwitter, Udiet);
+                    Uinstagram, Utwitter, Udiet,Utwofactor);
             }
             else
             {
@@ -121,8 +122,10 @@ namespace FinalProj.DAL
                 string Uinstagram = row["userInstagram"].ToString();
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
+                int Utwofactor = Convert.ToInt32(row["user2FA"]);
+
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints, 
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet,Utwofactor);
             }
             else
             {
@@ -166,8 +169,10 @@ namespace FinalProj.DAL
                 string Uinstagram = row["userInstagram"].ToString();
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
+                int Utwofactor = Convert.ToInt32(row["user2FA"]);
+
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet,Utwofactor);
                 allUserList.Add(user);
             }
 
@@ -380,6 +385,22 @@ namespace FinalProj.DAL
 			myConn.Close();
 			return result;
 		}
+
+        public int UpdateTwoFactor(int id, int twofactor)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET user2FA = @paraTwoFactor where id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@paraTwoFactor", twofactor);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
 
         public int getLastUserId()
         {

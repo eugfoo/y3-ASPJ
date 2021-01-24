@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FinalProj {
-    
-    
-    public partial class EditProfile {
-        
+namespace FinalProj
+{
+
+
+    public partial class EditProfile
+    {
+
         /// <summary>
         /// imgBP control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgBP;
-        
+
         /// <summary>
         /// fuBP control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuBP;
-        
+
         /// <summary>
         /// btnUploadBP control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadBP;
-        
+
         /// <summary>
         /// imgDP control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgDP;
-        
+
         /// <summary>
         /// fuDP control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuDP;
-        
+
         /// <summary>
         /// btnUploadDP control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadDP;
-        
+
         /// <summary>
         /// tbName control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbName;
-        
+
         /// <summary>
         /// tbDesc control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbDesc;
-        
+
         /// <summary>
         /// tbFacebook control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbFacebook;
-        
+
         /// <summary>
         /// tbInstagram control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbInstagram;
-        
+
         /// <summary>
         /// tbTwitter control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbTwitter;
-        
+
         /// <summary>
         /// ddlDiet control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDiet;
-        
+
         /// <summary>
         /// tbOtherDiet control.
         /// </summary>
@@ -128,7 +130,16 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbOtherDiet;
-        
+
+        /// <summary>
+        /// CB2FA control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CB2FA;
+
         /// <summary>
         /// btnCancel control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancel;
-        
+
         /// <summary>
         /// btnUpdate control.
         /// </summary>
