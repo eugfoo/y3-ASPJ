@@ -27,26 +27,110 @@ namespace FinalProj
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
-                MainAdmins mainadmin = new MainAdmins();
-                MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+                HistoryOTP otp = new HistoryOTP();
+                HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
-                string adminPassHash = ComputeSha256Hash(tbPass.Text);
-                if (adminlogin != null) //user exists
+                //MainAdmins mainadmin = new MainAdmins();
+                //MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+
+                //string adminPassHash = ComputeSha256Hash(tbPass.Text);
+                //if (adminlogin != null) //user exists
+                //{
+                //    if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
+                //    {
+                //        Session["admin"] = true;
+                //        Response.Redirect("homepage.aspx");
+
+                //    }
+                //}
+
+                if (userTrying != null)
                 {
-                    if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
-                    {
-                        Session["admin"] = true;
-                        Response.Redirect("homepage.aspx");
+                    Users user = new Users();
+                    Users tryingUser = user.GetUserByEmail(tbEmail.Text);
 
+                    string otpSent = tbPass.Text;
+
+                    if (tryingUser != null) // user exists
+                    {
+                        if (userTrying.userOTPCheck == 1)
+                        {
+                            if (userTrying.userOTP == otpSent)
+                            {
+                                int OTPChecked = 0;
+
+                                Session["user"] = tryingUser;
+                                Session["id"] = tryingUser.id;
+                                Session["Name"] = tryingUser.name;
+                                Session["Pic"] = tryingUser.DPimage;
+                                Session["email"] = tryingUser.email;
+
+                                Session["user"] = tryingUser;
+                                Session["id"] = tryingUser.id;
+                                Session["Name"] = tryingUser.name;
+                                Session["Pic"] = tryingUser.DPimage;
+                                Session["email"] = tryingUser.email;
+
+                                string ipAddr = GetIPAddress();
+                                string countryLogged = Execute(ipAddr).ToString();
+
+                                DateTime dtLog = DateTime.Now;
+                                Logs lg = new Logs();
+                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+
+                                otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+                                Response.Redirect("homepage.aspx");
+                            }
+                            else
+                            {
+                                string passHash = ComputeSha256Hash(tbPass.Text);
+                                if (tryingUser != null) // user exists
+                                {
+                                    if (tryingUser.passHash == passHash)
+                                    {
+                                        int OTPChecked = 0;
+
+                                        Session["user"] = tryingUser;
+                                        Session["id"] = tryingUser.id;
+                                        Session["Name"] = tryingUser.name;
+                                        Session["Pic"] = tryingUser.DPimage;
+                                        Session["email"] = tryingUser.email;
+
+
+                                        string ipAddr = GetIPAddress();
+                                        string countryLogged = Execute(ipAddr).ToString();
+
+                                        DateTime dtLog = DateTime.Now;
+                                        Logs lg = new Logs();
+                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                                        otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+
+                                        Response.Redirect("homepage.aspx");
+                                    }
+                                    else
+                                    {
+                                        lblError.Visible = true;
+                                    }
+                                }
+                                else
+                                {
+                                    lblError.Visible = true;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        lblError.Visible = true;
                     }
                 }
+
                 else
                 {
                     Users user = new Users();
@@ -80,15 +164,13 @@ namespace FinalProj
                     }
                     else
                     {
-                        lblError.Text = "Email doesn't exist. Please create an account.";
-                        lblError.Visible = true; ;
-                        lblError.ForeColor = Color.Red;
+                        lblError.Visible = true;
                     }
                 }
             }
         }
 
-        static async Task<String>  Execute(string ip)
+        static async Task<String> Execute(string ip)
         {
             var client = new IpDataClient("058ea76069b23c5b3c45cf40558ecd563e0f324f6a8210028747a273");
 
@@ -98,7 +180,7 @@ namespace FinalProj
             return country;
         }
 
-            protected string GetIPAddress()
+        protected string GetIPAddress()
         {
             System.Web.HttpContext context = System.Web.HttpContext.Current;
             string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
@@ -138,13 +220,32 @@ namespace FinalProj
         {
             Random rnd = new Random();
             Users user = new Users();
+            HistoryOTP otp = new HistoryOTP();
+
             Users findUser = user.GetUserByEmail(userEmail.Text);
+            bool findEmail = otp.GetUserByEmail(userEmail.Text);
+
+
             if (findUser != null)
             { // user exists
-                result = "true";
                 OTPassword = rnd.Next(100000, 999999).ToString();
+                OTPEmail = userEmail.Text;
+                int OTPCheck = 1;
 
-                Execute();
+
+                if (findEmail)
+                {
+                    result = "true";
+                    otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
+                    Execute();
+                }
+
+                else
+                {
+                    result = "true";
+                    otp.AddHistoryOTP(OTPEmail, OTPassword);
+                    Execute();
+                }
             }
             else
             {
@@ -152,18 +253,16 @@ namespace FinalProj
             }
         }
 
-        static async Task Execute()
+        public static async Task Execute()
         {
-            Random rnd = new Random();
-            var lgn = new LogIn();
-            lgn.OTPassword = rnd.Next(100000, 999999).ToString();
-            
+
+
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
-            var subject = "OTP";
+            var subject = "OTP Login ClearView";
             var to = new EmailAddress("kovitanwk@gmail.com", "Kovi Tan");
             var plainTextContent = "Your OTP is: ";
-            var htmlContent = lgn.OTPassword;
+            var htmlContent = ""; //password here
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }

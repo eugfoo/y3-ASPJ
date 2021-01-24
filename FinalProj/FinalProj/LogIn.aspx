@@ -8,17 +8,20 @@
     <title>ClearView</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
     <style type="text/css">
         .vError {
             color: red;
         }
+
         #box {
             display: none;
         }
+
         #closeBtn {
             color: white;
         }
+
         #btnOTP {
             margin: 2%;
         }
@@ -28,6 +31,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server">
+            </asp:ScriptManager>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="ml-2 navbar-brand text-center" href="/homepage.aspx" onclick="deleteAllCookies()">Clear View</a>
             </nav>
@@ -54,7 +59,7 @@
                         <label for="formGroupExampleInput2">Password</label>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" CssClass="vError" runat="server" ControlToValidate="tbPass"
                             EnableClientScript="False" ErrorMessage="*" ValidationGroup="Credentials"></asp:RequiredFieldValidator>
-                        <asp:Button runat="server" id="btnOTP" type="button" text="OTP Login" cssclass="btn btn-secondary" OnClientClick="pop()" OnClick="btnOTP_Click"></asp:Button>
+                        <button id="btnOTP" type="button" class="btn btn-secondary" onclick="pop()">OTP Login</button>
                         <asp:TextBox type="password" CssClass="form-control" ID="tbPass" runat="server" ValidationGroup="Credentials"></asp:TextBox>
                     </div>
                     <div class="align-bottom" style="text-align: right;">
@@ -73,7 +78,13 @@
 
                             <asp:TextBox type="email" ID="userEmail" class="form-control" aria-describedby="emailHelp" placeholder="Enter your email" runat="server"></asp:TextBox>
                             <p>
-                                <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" OnClientClick="setSession()"/><br />
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:Button ID="submit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
+
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <br />
                                 <a id="closeBtn" class="btn btn-danger" onclick="pop()">Close</a>
                     </div>
                     <!-- this is the end of the popup-->
@@ -93,9 +104,10 @@
             }
 
             function setSession() {
-                sessionStorage.setItem("Email", document.getElementById("<%=userEmail.ClientID%>").value);
+                sessionStorage.setItem("OTP", true);
             }
         </script>
+
     </form>
 </body>
 </html>
