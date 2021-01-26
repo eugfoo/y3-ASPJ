@@ -24,7 +24,7 @@ namespace FinalProj
         public string OTPEmail = "";
         public string OTPassword = "";
         public string userName = "";
-
+        protected List<Logs> lgList;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -65,7 +65,6 @@ namespace FinalProj
                             if (userTrying.userOTP == otpSent)
                             {
                                 int OTPChecked = 0;
-
                                 Session["user"] = tryingUser;
                                 Session["id"] = tryingUser.id;
                                 Session["Name"] = tryingUser.name;
@@ -84,8 +83,8 @@ namespace FinalProj
                                 DateTime dtLog = DateTime.Now;
                                 Logs lg = new Logs();
                                 lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-
                                 otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+
                                 Response.Redirect("homepage.aspx");
                             }
                         }
@@ -97,6 +96,7 @@ namespace FinalProj
                                 if (tryingUser.passHash == passHash)
                                 {
                                     int OTPChecked = 0;
+                                    int counter = 0;
 
                                     Session["user"] = tryingUser;
                                     Session["id"] = tryingUser.id;
@@ -111,7 +111,24 @@ namespace FinalProj
                                     DateTime dtLog = DateTime.Now;
                                     Logs lg = new Logs();
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+
                                     otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+
+                                    //Email function for new sign in
+                                    lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+
+                                    foreach (var log in lgList)
+                                    {
+                                        if (log.ipAddr != ipAddr)
+                                        {
+                                            counter++;
+                                        }
+                                    }
+
+                                    if (counter >= 1)
+                                    {
+                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged); 
+                                    }
 
                                     Response.Redirect("homepage.aspx");
                                 }
@@ -131,7 +148,6 @@ namespace FinalProj
                         lblError.Visible = true;
                     }
                 }
-
                 else
                 {
                     Users user = new Users();
@@ -239,14 +255,14 @@ namespace FinalProj
                 {
                     result = "true";
                     otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
-                    Enable(OTPEmail, OTPassword, userName);
+                    EmailFxOTP(OTPEmail, OTPassword, userName);
                 }
 
                 else
                 {
                     result = "true";
                     otp.AddHistoryOTP(OTPEmail, OTPassword);
-                    Enable(OTPEmail, OTPassword, userName);
+                    EmailFxOTP(OTPEmail, OTPassword, userName);
                 }
             }
             else
@@ -255,7 +271,7 @@ namespace FinalProj
             }
         }
 
-        public static async Task Enable(string email, string otp, string name)
+        public static async Task EmailFxOTP(string email, string otp, string name)
         {
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
@@ -263,6 +279,18 @@ namespace FinalProj
             var to = new EmailAddress(email, name);
             var plainTextContent = "Your OTP is: ";
             var htmlContent = "Your OTP is: " + otp;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
+
+        public static async Task EmailFxNew(string email, string name, string ip, string country)
+        {
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
+            var subject = "Is this you? Login ClearView";
+            var to = new EmailAddress(email, name);
+            var plainTextContent = "";
+            var htmlContent = "<strong><h2>We detected a new sign-in to your account</h2></strong><br/><p><strong>New sign-in detected from this IP-Address: </strong> " + ip + "</p><p> <strong>Country:</strong> " + country + "</p><strong><p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/ForgotPassword.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
