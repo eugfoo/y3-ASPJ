@@ -159,6 +159,12 @@ namespace FinalProj.BLL
 			return user.UpdateTwoFactor(id, twofactor);
 		}
 
+		public int UpdateGoogleAuthByID(int id, string secretKey)
+		{
+			userDAO user = new userDAO();
+			return user.UpdateGoogleAuthenticator(id, secretKey);
+		}
+
 		public int getLastUserId()
         {
             userDAO dao = new userDAO();

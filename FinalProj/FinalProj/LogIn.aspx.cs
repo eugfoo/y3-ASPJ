@@ -88,41 +88,41 @@ namespace FinalProj
                                 otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
                                 Response.Redirect("homepage.aspx");
                             }
-                            else
+                        }
+                        else
+                        {
+                            string passHash = ComputeSha256Hash(tbPass.Text);
+                            if (tryingUser != null) // user exists
                             {
-                                string passHash = ComputeSha256Hash(tbPass.Text);
-                                if (tryingUser != null) // user exists
+                                if (tryingUser.passHash == passHash)
                                 {
-                                    if (tryingUser.passHash == passHash)
-                                    {
-                                        int OTPChecked = 0;
+                                    int OTPChecked = 0;
 
-                                        Session["user"] = tryingUser;
-                                        Session["id"] = tryingUser.id;
-                                        Session["Name"] = tryingUser.name;
-                                        Session["Pic"] = tryingUser.DPimage;
-                                        Session["email"] = tryingUser.email;
+                                    Session["user"] = tryingUser;
+                                    Session["id"] = tryingUser.id;
+                                    Session["Name"] = tryingUser.name;
+                                    Session["Pic"] = tryingUser.DPimage;
+                                    Session["email"] = tryingUser.email;
 
 
-                                        string ipAddr = GetIPAddress();
-                                        string countryLogged = Execute(ipAddr).ToString();
+                                    string ipAddr = GetIPAddress();
+                                    string countryLogged = Execute(ipAddr).ToString();
 
-                                        DateTime dtLog = DateTime.Now;
-                                        Logs lg = new Logs();
-                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-                                        otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+                                    DateTime dtLog = DateTime.Now;
+                                    Logs lg = new Logs();
+                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                                    otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
-                                        Response.Redirect("homepage.aspx");
-                                    }
-                                    else
-                                    {
-                                        lblError.Visible = true;
-                                    }
+                                    Response.Redirect("homepage.aspx");
                                 }
                                 else
                                 {
                                     lblError.Visible = true;
                                 }
+                            }
+                            else
+                            {
+                                lblError.Visible = true;
                             }
                         }
                     }
@@ -239,7 +239,7 @@ namespace FinalProj
                 {
                     result = "true";
                     otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
-                    Enable(OTPEmail, OTPassword,userName);
+                    Enable(OTPEmail, OTPassword, userName);
                 }
 
                 else

@@ -1,14 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Authenticator.aspx.cs" Inherits="FinalProj.Authenticator" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteBootstrap.Master" AutoEventWireup="true" CodeBehind="Authenticator.aspx.cs" Inherits="FinalProj.Authenticator" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <%--href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />--%>  
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />  
-</head>  
-<body>  
-    <form id="form1" runat="server">  
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div class="container">  
             <div class="jumbotron">  
                 <h2 class="text-info text-center">Google Authenticator</h2>  
@@ -69,6 +64,4 @@
                 </div>  
             </div>  
         </div>  
-    </form>  
-</body>  
-</html>  
+</asp:Content>

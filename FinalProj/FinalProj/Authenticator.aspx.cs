@@ -11,15 +11,13 @@ namespace FinalProj
 {
     public partial class Authenticator : System.Web.UI.Page
     {
-        //Users user = (Users)Session["user"];
-
-        String AuthenticationCode
+        string AuthenticationCode
         {
             get
             {
                 if (ViewState["AuthenticationCode"] != null)
                     return ViewState["AuthenticationCode"].ToString().Trim();
-                return String.Empty;
+                return string.Empty;
             }
             set
             {
@@ -27,7 +25,7 @@ namespace FinalProj
             }
         }
 
-        String AuthenticationTitle
+        string AuthenticationTitle
         {
             get
             {
@@ -36,13 +34,13 @@ namespace FinalProj
         }
 
 
-        String AuthenticationBarCodeImage
+        string AuthenticationBarCodeImage
         {
             get;
             set;
         }
 
-        String AuthenticationManualCode
+        string AuthenticationManualCode
         {
             get;
             set;
@@ -52,7 +50,7 @@ namespace FinalProj
         {
             if (!Page.IsPostBack)
             {
-                lblResult.Text = String.Empty;
+                lblResult.Text = string.Empty;
                 lblResult.Visible = false;
                 GenerateTwoFactorAuthentication();
                 imgQrCode.ImageUrl = AuthenticationBarCodeImage;
@@ -63,8 +61,8 @@ namespace FinalProj
 
         protected void btnValidate_Click(object sender, EventArgs e)
         {
-            String pin = txtSecurityCode.Text.Trim();
-            Boolean status = ValidateTwoFactorPIN(pin);
+            string pin = txtSecurityCode.Text.Trim();
+            bool status = ValidateTwoFactorPIN(pin);
             if (status)
             {
                 lblResult.Visible = true;
@@ -77,19 +75,19 @@ namespace FinalProj
             }
         }
 
-        public Boolean ValidateTwoFactorPIN(String pin)
+        public bool ValidateTwoFactorPIN(string pin)
         {
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             return tfa.ValidateTwoFactorPIN(AuthenticationCode, pin);
         }
 
-        public Boolean GenerateTwoFactorAuthentication()
+        public bool GenerateTwoFactorAuthentication()
         {
             Guid guid = Guid.NewGuid();
-            String uniqueUserKey = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+            string uniqueUserKey = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
             AuthenticationCode = uniqueUserKey;
 
-            Dictionary<String, String> result = new Dictionary<String, String>();
+            Dictionary<string, string> result = new Dictionary<string, string>();
             TwoFactorAuthenticator tfa = new TwoFactorAuthenticator();
             var setupInfo = tfa.GenerateSetupCode("ClearView", AuthenticationTitle, AuthenticationCode, false, 3); if (setupInfo != null)
             {

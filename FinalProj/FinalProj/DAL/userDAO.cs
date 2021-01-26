@@ -78,9 +78,9 @@ namespace FinalProj.DAL
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
 
-                user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, 
-                    Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook, 
-                    Uinstagram, Utwitter, Udiet,Utwofactor);
+                user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc,
+                    Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook,
+                    Uinstagram, Utwitter, Udiet, Utwofactor);
             }
             else
             {
@@ -124,8 +124,8 @@ namespace FinalProj.DAL
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
 
-                user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints, 
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet,Utwofactor);
+                user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace FinalProj.DAL
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
 
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet,Utwofactor);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor);
                 allUserList.Add(user);
             }
 
@@ -240,7 +240,7 @@ namespace FinalProj.DAL
                         count++;
                     }
                 }
-                
+
                 int avgRating = totalRating / count;
 
                 sqlCmd.Parameters.AddWithValue("@paraRating", avgRating);
@@ -251,7 +251,7 @@ namespace FinalProj.DAL
                 sqlCmd.Parameters.AddWithValue("@paraRating", 0);
                 sqlCmd.Parameters.AddWithValue("@paraId", id);
             }
-            
+
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();
@@ -338,53 +338,53 @@ namespace FinalProj.DAL
             return result;
         }
 
-		public int UpdateFacebook(int id, string fb)
-		{
-			string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-			SqlConnection myConn = new SqlConnection(DBConnect);
-			string sqlStmt = "UPDATE Users SET userFacebook = @paraFacebook where id = @paraId";
-			int result = 0;
-			SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
-			sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
-			sqlCmd.Parameters.AddWithValue("@paraFacebook", fb);
-			sqlCmd.Parameters.AddWithValue("@paraId", id);
-			myConn.Open();
-			result = sqlCmd.ExecuteNonQuery();
-			myConn.Close();
-			return result;
-		}
+        public int UpdateFacebook(int id, string fb)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET userFacebook = @paraFacebook where id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@paraFacebook", fb);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
 
-		public int UpdateInstagram(int id, string inst)
-		{
-			string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-			SqlConnection myConn = new SqlConnection(DBConnect);
-			string sqlStmt = "UPDATE Users SET userInstagram = @paraInstagram where id = @paraId";
-			int result = 0;
-			SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
-			sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
-			sqlCmd.Parameters.AddWithValue("@paraInstagram", inst);
-			sqlCmd.Parameters.AddWithValue("@paraId", id);
-			myConn.Open();
-			result = sqlCmd.ExecuteNonQuery();
-			myConn.Close();
-			return result;
-		}
+        public int UpdateInstagram(int id, string inst)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET userInstagram = @paraInstagram where id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@paraInstagram", inst);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
 
-		public int UpdateTwitter(int id, string twit)
-		{
-			string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-			SqlConnection myConn = new SqlConnection(DBConnect);
-			string sqlStmt = "UPDATE Users SET userTwitter = @paraTwitter where id = @paraId";
-			int result = 0;
-			SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
-			sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
-			sqlCmd.Parameters.AddWithValue("@paraTwitter", twit);
-			sqlCmd.Parameters.AddWithValue("@paraId", id);
-			myConn.Open();
-			result = sqlCmd.ExecuteNonQuery();
-			myConn.Close();
-			return result;
-		}
+        public int UpdateTwitter(int id, string twit)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET userTwitter = @paraTwitter where id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@paraTwitter", twit);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
 
         public int UpdateTwoFactor(int id, int twofactor)
         {
@@ -395,6 +395,22 @@ namespace FinalProj.DAL
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
             sqlCmd.Parameters.AddWithValue("@paraTwoFactor", twofactor);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
+        public int UpdateGoogleAuthenticator(int id, string secretKey)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET userGoogleSecretKey = @secretKey, userGoogleAuth = 1 WHERE id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@secretKey", secretKey);
             sqlCmd.Parameters.AddWithValue("@paraId", id);
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
@@ -417,8 +433,7 @@ namespace FinalProj.DAL
 
             return result;
         }
-    }
 
-       
-    
+
+    }
 }
