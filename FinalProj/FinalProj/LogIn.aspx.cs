@@ -62,61 +62,52 @@ namespace FinalProj
 
                     if (tryingUser != null) // user exists
                     {
-                        if (userTrying.userOTPCheck == 1)
+                        string passHash = ComputeSha256Hash(tbPass.Text);
+
+                        if (tryingUser.passHash == passHash)
                         {
-                            if (userTrying.userOTP == otpSent)
+                            int OTPChecked = 0;
+                            int counter = 0;
+
+                            Session["user"] = tryingUser;
+                            Session["id"] = tryingUser.id;
+                            Session["Name"] = tryingUser.name;
+                            Session["Pic"] = tryingUser.DPimage;
+                            Session["email"] = tryingUser.email;
+
+                            string ipAddr = GetIPAddress();
+                            string countryLogged = CityStateCountByIp(ipAddr);
+                            DateTime dtLog = DateTime.Now;
+                            Logs lg = new Logs();
+
+                            //Email function for new sign in
+                            lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+
+                            foreach (var log in lgList)
                             {
-                                int counter = 0;
-                                int OTPChecked = 0;
-
-                                Session["user"] = tryingUser;
-                                Session["id"] = tryingUser.id;
-                                Session["Name"] = tryingUser.name;
-                                Session["Pic"] = tryingUser.DPimage;
-                                Session["email"] = tryingUser.email;
-
-                                string ipAddr = GetIPAddress();
-                                string countryLogged = CityStateCountByIp(ipAddr);
-                                CityStateCountByIp(ipAddr);
-
-                                DateTime dtLog = DateTime.Now;
-                                Logs lg = new Logs();
-
-                                //Email function for new sign in
-                                lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
-
-                                foreach (var log in lgList)
+                                if (log.ipAddr == ipAddr)
                                 {
-                                    if (log.ipAddr == ipAddr)
-                                    {
-                                        counter++;
-                                    }
+                                    counter++;
                                 }
-
-                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-                                otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
-
-
-
-                                if (counter == 0)
-                                {
-                                    EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
-                                }
-
-                                Response.Redirect("homepage.aspx");
-
-
                             }
+
+                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                            otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+                            if (counter == 0)
+                            {
+                                EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                            }
+
+                            Response.Redirect("homepage.aspx");
                         }
                         else
                         {
-                            string passHash = ComputeSha256Hash(tbPass.Text);
-                            if (tryingUser != null) // user exists
+                            if (userTrying.userOTPCheck == 1)
                             {
-                                if (tryingUser.passHash == passHash)
+                                if (userTrying.userOTP == otpSent)
                                 {
-                                    int OTPChecked = 0;
                                     int counter = 0;
+                                    int OTPChecked = 0;
 
                                     Session["user"] = tryingUser;
                                     Session["id"] = tryingUser.id;
@@ -124,9 +115,10 @@ namespace FinalProj
                                     Session["Pic"] = tryingUser.DPimage;
                                     Session["email"] = tryingUser.email;
 
-
                                     string ipAddr = GetIPAddress();
                                     string countryLogged = CityStateCountByIp(ipAddr);
+                                    CityStateCountByIp(ipAddr);
+
                                     DateTime dtLog = DateTime.Now;
                                     Logs lg = new Logs();
 
@@ -142,21 +134,14 @@ namespace FinalProj
                                     }
 
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-
                                     otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
-
-                                    Response.Redirect("homepage.aspx");
-
-
 
                                     if (counter == 0)
                                     {
                                         EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                     }
-                                }
-                                else
-                                {
-                                    lblError.Visible = true;
+
+                                    Response.Redirect("homepage.aspx");
                                 }
                             }
                             else
@@ -172,44 +157,10 @@ namespace FinalProj
                 }
                 else
                 {
-                    Users user = new Users();
-                    Users tryingUser = user.GetUserByEmail(tbEmail.Text);
-
-                    string passHash = ComputeSha256Hash(tbPass.Text);
-                    if (tryingUser != null) // user exists
-                    {
-                        if (tryingUser.passHash == passHash)
-                        {
-
-                            Session["user"] = tryingUser;
-                            Session["id"] = tryingUser.id;
-                            Session["Name"] = tryingUser.name;
-                            Session["Pic"] = tryingUser.DPimage;
-                            Session["email"] = tryingUser.email;
-
-
-                            string ipAddr = GetIPAddress();
-                            //string countryLogged = "Singapore";
-                            string countryLogged = CityStateCountByIp(ipAddr);
-                            DateTime dtLog = DateTime.Now;
-                            Logs lg = new Logs();
-                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-                            Response.Redirect("homepage.aspx");
-                        }
-                        else
-                        {
-                            lblError.Visible = true;
-                        }
-                    }
-                    else
-                    {
-                        lblError.Visible = true;
-                    }
+                    lblError.Visible = true;
                 }
             }
         }
-
-
 
         public static string CityStateCountByIp(string IP)
         {
@@ -219,7 +170,7 @@ namespace FinalProj
             var request = System.Net.WebRequest.Create(url);
             WebResponse myWebResponse = request.GetResponse();
             Stream stream = myWebResponse.GetResponseStream();
-           
+
             using (StreamReader reader = new StreamReader(stream))
             {
                 string json = reader.ReadToEnd();
@@ -284,7 +235,6 @@ namespace FinalProj
                 userName = findUser.name;
                 int OTPCheck = 1;
 
-
                 if (findEmail)
                 {
                     result = "true";
@@ -301,6 +251,7 @@ namespace FinalProj
             }
             else
             {
+                lblError.Visible = true;
                 result = "false";
             }
         }
