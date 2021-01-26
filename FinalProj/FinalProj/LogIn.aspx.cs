@@ -15,6 +15,9 @@ using SendGrid.Helpers.Mail;
 using System.IO;
 using System.Text;
 using System.Drawing;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace FinalProj
 {
@@ -78,7 +81,8 @@ namespace FinalProj
                                 Session["email"] = tryingUser.email;
 
                                 string ipAddr = GetIPAddress();
-                                string countryLogged = Execute(ipAddr).ToString();
+                                string countryLogged = CityStateCountByIp(ipAddr);
+                                CityStateCountByIp(ipAddr);
 
                                 DateTime dtLog = DateTime.Now;
                                 Logs lg = new Logs();
@@ -106,8 +110,7 @@ namespace FinalProj
 
 
                                     string ipAddr = GetIPAddress();
-                                    string countryLogged = Execute(ipAddr).ToString();
-
+                                    string countryLogged = CityStateCountByIp(ipAddr);
                                     DateTime dtLog = DateTime.Now;
                                     Logs lg = new Logs();
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
@@ -167,8 +170,8 @@ namespace FinalProj
 
 
                             string ipAddr = GetIPAddress();
-                            string countryLogged = Execute(ipAddr).ToString();
-
+                            //string countryLogged = "Singapore";
+                            string countryLogged = CityStateCountByIp(ipAddr);
                             DateTime dtLog = DateTime.Now;
                             Logs lg = new Logs();
                             lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
@@ -187,15 +190,29 @@ namespace FinalProj
             }
         }
 
-        static async Task<String> Execute(string ip)
-        {
-            var client = new IpDataClient("058ea76069b23c5b3c45cf40558ecd563e0f324f6a8210028747a273");
 
-            // Get IP data from IP
-            var ipInfo = await client.Lookup(ip);
-            string country = ipInfo.CountryName;
-            return country;
+
+        public static string CityStateCountByIp(string IP)
+        {
+            //var url = "http://freegeoip.net/json/" + IP;
+            //var url = "http://freegeoip.net/json/" + IP;
+            string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+            var request = System.Net.WebRequest.Create(url);
+            WebResponse myWebResponse = request.GetResponse();
+            Stream stream = myWebResponse.GetResponseStream();
+           
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                JObject objJson = JObject.Parse(json);
+                string Country = objJson["country_name"].ToString();
+
+                return Country;
+            }
+
         }
+
+
 
         protected string GetIPAddress()
         {

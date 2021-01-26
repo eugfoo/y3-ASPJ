@@ -2,8 +2,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <script>
 
-    <table id="example" class="table table-striped table-bordered" style="width:100%">
+
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+        });
+    </script>
+    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>DateTime</th>
@@ -32,4 +39,5 @@
             </tr>
         </tfoot>
     </table>
+
 </asp:Content>
