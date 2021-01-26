@@ -77,10 +77,12 @@ namespace FinalProj.DAL
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
+                int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
+
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc,
                     Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook,
-                    Uinstagram, Utwitter, Udiet, Utwofactor);
+                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
             }
             else
             {
@@ -123,9 +125,10 @@ namespace FinalProj.DAL
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
+                int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
             }
             else
             {
@@ -170,9 +173,10 @@ namespace FinalProj.DAL
                 string Utwitter = row["userTwitter"].ToString();
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
+                int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
 
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
                 allUserList.Add(user);
             }
 

@@ -26,6 +26,7 @@ namespace FinalProj.BLL
 		public string twitter { get; set; }
 		public string diet { get; set; }
 		public int twofactor { get; set; }
+		public int googleauth { get; set; }
 
 
 		public Users() { }
@@ -41,7 +42,7 @@ namespace FinalProj.BLL
 
 		public Users(int uId, string uEmail, string uPassHash, string uName, string uDPImage, string uBPImage,
 			string uDesc, int uRating, string uIsOrg, double uPoints, string uParticipate, int uVerified, string uRegDate,
-			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor)
+			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor, int googleAut)
 		{
 			id = uId;
 			email = uEmail;
@@ -61,6 +62,7 @@ namespace FinalProj.BLL
 			twitter = uTwitter;
             diet = uDiet;
 			twofactor = uTwoFactor;
+			googleauth = googleAut;
 		}
 
 		public int AddUser()

@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.IO;
-using System.Text;
 using System.Drawing;
 using System.Net;
 using Newtonsoft.Json.Linq;
@@ -67,12 +66,8 @@ namespace FinalProj
                         {
                             if (userTrying.userOTP == otpSent)
                             {
+                                int counter = 0;
                                 int OTPChecked = 0;
-                                Session["user"] = tryingUser;
-                                Session["id"] = tryingUser.id;
-                                Session["Name"] = tryingUser.name;
-                                Session["Pic"] = tryingUser.DPimage;
-                                Session["email"] = tryingUser.email;
 
                                 Session["user"] = tryingUser;
                                 Session["id"] = tryingUser.id;
@@ -86,10 +81,31 @@ namespace FinalProj
 
                                 DateTime dtLog = DateTime.Now;
                                 Logs lg = new Logs();
+
+                                //Email function for new sign in
+                                lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+
+                                foreach (var log in lgList)
+                                {
+                                    if (log.ipAddr == ipAddr)
+                                    {
+                                        counter++;
+                                    }
+                                }
+
                                 lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
                                 otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
+
+
+                                if (counter == 0)
+                                {
+                                    EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                }
+
                                 Response.Redirect("homepage.aspx");
+
+
                             }
                         }
                         else
@@ -113,27 +129,30 @@ namespace FinalProj
                                     string countryLogged = CityStateCountByIp(ipAddr);
                                     DateTime dtLog = DateTime.Now;
                                     Logs lg = new Logs();
-                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
-
-                                    otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                     //Email function for new sign in
                                     lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
 
                                     foreach (var log in lgList)
                                     {
-                                        if (log.ipAddr != ipAddr)
+                                        if (log.ipAddr == ipAddr)
                                         {
                                             counter++;
                                         }
                                     }
 
-                                    if (counter >= 1)
-                                    {
-                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged); 
-                                    }
+                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+
+                                    otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                     Response.Redirect("homepage.aspx");
+
+
+
+                                    if (counter == 0)
+                                    {
+                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                    }
                                 }
                                 else
                                 {

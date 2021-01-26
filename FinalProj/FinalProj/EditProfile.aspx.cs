@@ -185,7 +185,25 @@ namespace FinalProj
                     CB2FA.Checked = true;
                 }
             }
+            if (!Page.IsPostBack)
+            {;
+                if (user.googleauth == 0)
+                {
+                    CB2FA.Checked = false;
+                }
+                else
+                {
+                    CB2FA.Checked = true;
+                }
+            }
         }
 
+        protected void cbGoogle_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbGoogle.Checked == true)
+            {
+                Response.Redirect("Authenticator.aspx");
+            }
+        }
     }
 }

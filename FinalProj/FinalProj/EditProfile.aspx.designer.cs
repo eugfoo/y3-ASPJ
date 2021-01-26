@@ -141,6 +141,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.CheckBox CB2FA;
 
         /// <summary>
+        /// cbGoogle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbGoogle;
+
+        /// <summary>
         /// btnCancel control.
         /// </summary>
         /// <remarks>
