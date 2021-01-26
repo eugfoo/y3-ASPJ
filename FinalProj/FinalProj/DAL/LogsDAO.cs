@@ -15,7 +15,7 @@ namespace FinalProj.DAL
 
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "Select * from logs where userEmail = @email";
+            string sqlStmt = "Select * from logs where userEmail = @email ORDER BY DateTime DESC";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
             da.SelectCommand.Parameters.AddWithValue("@email", email);
             DataSet ds = new DataSet();

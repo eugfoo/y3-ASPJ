@@ -31,8 +31,6 @@ namespace FinalProj
                 var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
                 Label1.Text = result.ToString();
 
-
-
             }
             else {
 

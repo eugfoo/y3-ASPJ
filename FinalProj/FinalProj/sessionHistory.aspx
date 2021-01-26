@@ -5,9 +5,22 @@
     
     <script>
 
+        //$("#dtBasicExample").dataTable({
+        //    "aaSorting": [0, 'desc']
+        //});
 
         $(document).ready(function () {
-            $('#dtBasicExample').DataTable();
+            $('#dtBasicExample').DataTable({
+                "aaSorting": []
+            });
+        });  
+        var table = $('#dtBasicExample').DataTable({
+            columnDefs: [
+                {
+                    type: 'DateTime',
+                    targets: [0],
+                }
+            ],           
         });
     </script>
     <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -23,21 +36,15 @@
             <% foreach (var element in lgList)
             { %>
         <tr>
-            <td><%= element.DateTime %></td>
+            <td><%= Convert.ToDateTime(element.DateTime) %></td>
             <td><%= element.ipAddr %></td>
             <td><%= element.Country %></td>
 
-        </tr>
+        </tr>        
         <%} %>
 
         </tbody>
-        <tfoot>
-            <tr>
-                <th>DateTime</th>
-                <th>Ip Address</th>
-                <th>Country</th>
-            </tr>
-        </tfoot>
+
     </table>
     <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
 </asp:Content>

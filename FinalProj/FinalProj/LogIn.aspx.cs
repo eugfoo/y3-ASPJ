@@ -176,6 +176,18 @@ namespace FinalProj
                 string json = reader.ReadToEnd();
                 JObject objJson = JObject.Parse(json);
                 string Country = objJson["country_name"].ToString();
+                string Country_code = objJson["country_code"].ToString();
+                if (Country == "")
+                {
+                    Country = "NIL";
+                }
+                else if (Country_code == "") {
+                    Country = Country;
+                }
+                else
+                {
+                    Country = Country + " (" + Country_code + ")";
+                }
 
                 return Country;
             }
