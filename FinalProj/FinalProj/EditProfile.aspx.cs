@@ -204,6 +204,10 @@ namespace FinalProj
             {
                 Response.Redirect("Authenticator.aspx");
             }
+            if (cbGoogle.Checked == false)
+            {
+                
+            }
         }
     }
 }

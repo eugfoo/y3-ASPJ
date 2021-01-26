@@ -174,7 +174,7 @@
                          <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable Google Authenticator to create events instead of receiving OTPs!"></i>
                             <label class="switch">    
-                                <asp:CheckBox ID="cbGoogle" runat="server" CausesValidation="false" value="1" Checked="false" OnCheckedChanged="cbGoogle_CheckedChanged"/>  
+                                <asp:CheckBox ID="cbGoogle" runat="server" value="1" AutoPostBack="true" Checked="false" OnCheckedChanged="cbGoogle_CheckedChanged"/>  
                                 <span class="slider round"></span>
                             </label>
                     </div>

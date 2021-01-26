@@ -406,16 +406,18 @@ namespace FinalProj.DAL
             return result;
         }
 
-        public int UpdateGoogleAuthenticator(int id, string secretKey)
+        public int UpdateGoogleAuthenticator(int id, string secretKey, int number)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE Users SET userGoogleSecretKey = @secretKey, userGoogleAuth = 1 WHERE id = @paraId";
+            string sqlStmt = "UPDATE Users SET userGoogleSecretKey = @newsecretKey, userGoogleAuth = @number WHERE id = @paraId";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
-            sqlCmd.Parameters.AddWithValue("@secretKey", secretKey);
+            sqlCmd.Parameters.AddWithValue("@newsecretKey", secretKey);
             sqlCmd.Parameters.AddWithValue("@paraId", id);
+            sqlCmd.Parameters.AddWithValue("@number", number);
+
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();

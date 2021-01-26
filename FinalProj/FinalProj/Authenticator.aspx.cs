@@ -11,6 +11,8 @@ namespace FinalProj
 {
     public partial class Authenticator : System.Web.UI.Page
     {
+        public string viewingUserId;
+
         string AuthenticationCode
         {
             get
@@ -56,7 +58,16 @@ namespace FinalProj
                 imgQrCode.ImageUrl = AuthenticationBarCodeImage;
                 lblManualSetupCode.Text = AuthenticationManualCode;
                 lblAccountName.Text = AuthenticationTitle;
-            }
+
+                if (Session["user"] == null)
+                {
+                    Response.Redirect("homepage.aspx");
+                }
+                else
+                {
+
+                }
+                }
         }
 
         protected void btnValidate_Click(object sender, EventArgs e)
@@ -65,8 +76,13 @@ namespace FinalProj
             bool status = ValidateTwoFactorPIN(pin);
             if (status)
             {
+                Users usr = new Users();
+                Users user = (Users)Session["user"];
+
+                usr.UpdateGoogleAuthByID(user.id, lblManualSetupCode.Text, 1);
                 lblResult.Visible = true;
                 lblResult.Text = "Code Successfully Verified.";
+
             }
             else
             {
