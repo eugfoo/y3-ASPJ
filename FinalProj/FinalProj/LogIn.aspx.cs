@@ -212,8 +212,6 @@ namespace FinalProj
 
         }
 
-
-
         protected string GetIPAddress()
         {
             System.Web.HttpContext context = System.Web.HttpContext.Current;

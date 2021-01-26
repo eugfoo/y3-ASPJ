@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using AvScan.AVG;
 using FinalProj.BLL;
+using Nerdicus.VirusTotalNET;
 
 namespace FinalProj
 {
@@ -22,11 +24,22 @@ namespace FinalProj
                 Logs lg = new Logs();
 
                 lgList = lg.GetAllLogsOfUser(em);
+
+                var exeLocation = "C://Program Files//AVG//Antivirus//AVGUI.exe";
+                var scanner = new AVGScanner(exeLocation);
+                var result = scanner.Scan("C://Users//Eugene Foo//Desktop//digfotassignment//Security.evtx");
+                Label1.Text = result.ToString();
             }
             else {
+
                 Response.Redirect("homepage.aspx");
             }
-           
+
         }
+
+
+
+        
+        
     }
 }

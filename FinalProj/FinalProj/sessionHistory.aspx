@@ -39,5 +39,5 @@
             </tr>
         </tfoot>
     </table>
-
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
 </asp:Content>
