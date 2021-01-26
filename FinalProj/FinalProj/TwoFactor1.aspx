@@ -1,4 +1,5 @@
-﻿
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TwoFactor1.aspx.cs" Inherits="FinalProj.TwoFactor1" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,7 +36,7 @@
                         <label for="formGroupExampleInput">Input Google Authenticator code here.</label>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" CssClass="vError" runat="server" ControlToValidate="tbAuthenticator"
                             EnableClientScript="False" ErrorMessage="*" ValidationGroup="Credentials"></asp:RequiredFieldValidator>
-                        <asp:TextBox type="email" CssClass="form-control" ID="tbAuthenticator" runat="server"></asp:TextBox>
+                        <asp:TextBox type="number" CssClass="form-control" ID="tbAuthenticator" runat="server"></asp:TextBox>
              </div>
             <div class="align-bottom" style="text-align: right;">
                   <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect account information. Please try again.</asp:Label>
