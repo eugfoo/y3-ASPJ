@@ -52,6 +52,9 @@
     <Reference Include="AvScan.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AvScan.Core.1.0.3\lib\net452\AvScan.Core.dll</HintPath>
     </Reference>
+    <Reference Include="AvScan.WindowsDefender, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvScan.WindowsDefender.1.0.3\lib\net452\AvScan.WindowsDefender.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Authenticator, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GoogleAuthenticator.2.1.1\lib\net45\Google.Authenticator.dll</HintPath>
     </Reference>

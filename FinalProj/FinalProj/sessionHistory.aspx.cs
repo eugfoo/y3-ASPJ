@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using AvScan.AVG;
 using FinalProj.BLL;
 using Nerdicus.VirusTotalNET;
+using AvScan.WindowsDefender;
 
 namespace FinalProj
 {
@@ -25,10 +26,13 @@ namespace FinalProj
 
                 lgList = lg.GetAllLogsOfUser(em);
 
-                var exeLocation = "C://Program Files//AVG//Antivirus//AVGUI.exe";
-                var scanner = new AVGScanner(exeLocation);
-                var result = scanner.Scan("C://Users//Eugene Foo//Desktop//digfotassignment//Security.evtx");
+                var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
+                var scanner = new WindowsDefenderScanner(exeLocation);
+                var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
                 Label1.Text = result.ToString();
+
+
+
             }
             else {
 
