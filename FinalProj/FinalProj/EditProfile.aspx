@@ -95,7 +95,7 @@
             }
 
         #box {
-            display: none;
+            display: block;
             margin-top: 4%;
             margin-bottom: 4%;
         }
@@ -178,6 +178,7 @@
                         <asp:TextBox TextMode="MultiLine" Columns="50" Rows="3" type="text"
                             CssClass="form-control" ID="tbOtherDiet" runat="server" CausesValidation="True"></asp:TextBox>
                     </div>
+
                     <!--change password-->
                     <div class="form-group">
                         <button id="btnChangePwd" type="button" class="btn btn-warning" onclick="pop()">Change Password</button><br />
@@ -185,15 +186,18 @@
                             <h5 class="card-title text-muted font-italic">Input New Passwords</h5>
                             <asp:Label for="userPassword" runat="server" Style="float: left;">New Password:</asp:Label>
                             <p>
-                                <asp:TextBox type="password" ID="userPassword" class="form-control" aria-describedby="passwordHelp" placeholder="New Password" runat="server"></asp:TextBox>
+                                <asp:TextBox type="password" CssClass="form-control" ID="userPassword" placeholder="New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword_TextChanged" AutoPostBack="true"></asp:TextBox>
                             <p>
-                                <asp:Label for="userPassword" runat="server" Style="float: left;">Confirm New Password:</asp:Label>
+                                <asp:Label for="userPassword" runat="server" CssClass="fa-pull-left" Width="167px">Confirm New Password:</asp:Label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Red"></asp:Label>
                             <p>
-                                <asp:TextBox type="password" ID="userPassword1" class="form-control" aria-describedby="passwordHelp" placeholder="Confirm New Password" runat="server"></asp:TextBox>
+                                <asp:TextBox type="password" CssClass="form-control" ID="userPassword1" placeholder="Confirm New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword1_TextChanged" AutoPostBack="true"></asp:TextBox>
                             <p>
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
-                                        <asp:Button ID="btnSubmit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" OnClientClick="pop()" />
+                                        <asp:Button ID="btnSubmit" input="button" runat="server" class="btn btn-success btn-md" Text="Confirm" OnClick="submit_Click"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
                                         <asp:Label ID="lblSuccess" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Green">Changed Password!</asp:Label>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -201,6 +205,7 @@
                         </div>
                     </div>
                     <%-- End of change pwd --%>
+
                     <div class="form-group">
                         <label for="formGroup2FA">2 Factor Authentication</label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
@@ -215,7 +220,7 @@
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable Google Authenticator to create events instead of receiving OTPs!"></i>
                         <label class="switch">
-                            <asp:CheckBox ID="cbGoogle" runat="server" OnCheckedChanged="cbGoogle_CheckedChanged" AutoPostBack="true"/>
+                            <asp:CheckBox ID="cbGoogle" runat="server" OnCheckedChanged="cbGoogle_CheckedChanged" AutoPostBack="true" />
                             <span class="slider round"></span>
                         </label>
                     </div>

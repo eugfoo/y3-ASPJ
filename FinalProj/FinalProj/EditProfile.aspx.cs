@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Web;
 using System.Web.UI;
 using FinalProj.BLL;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FinalProj
 {
@@ -224,8 +221,70 @@ namespace FinalProj
         }
 
         protected void submit_Click(object sender, EventArgs e)
-        {
+        {
+
         }
+
+        protected void userPassword_TextChanged(object sender, EventArgs e)
+        {
+            string passHash = ComputeSha256Hash(userPassword.Text);
+            Users user = new Users();
+            Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
+
+            if (tryingUser.passHash == passHash)
+            {
+                lblError.Text += "This is an old password!";
+                lblError.Visible = true;
+            }
+            else if (userPassword.Text != userPassword1.Text)
+            {
+                lblError.Text += "Passwords are not the same!";
+                lblError.Visible = true;
+            }
+            else
+            {
+                lblError.Text = "";
+            }
+        }
+
+        protected void userPassword1_TextChanged(object sender, EventArgs e)
+        {
+            string passHash = ComputeSha256Hash(userPassword.Text);
+            Users user = new Users();
+            Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
+
+            if (tryingUser.passHash == passHash)
+            {
+                lblError.Text += "This is an old password!";
+                lblError.Visible = true;
+            }
+            else if (userPassword.Text != userPassword1.Text)
+            {
+                lblError.Text += "Passwords are not the same!";
+                lblError.Visible = true;
+            }
+            else
+            {
+                lblError.Text = "";
+            }
+        }
+
+        public string ComputeSha256Hash(string data)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(data));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+
     }
 }
 /*if (CB2FA.Checked == true)

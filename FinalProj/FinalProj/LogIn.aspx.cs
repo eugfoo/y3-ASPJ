@@ -7,15 +7,15 @@ using System.Web.UI.WebControls;
 using FinalProj.BLL;
 using System.Text;
 using System.Security.Cryptography;
-using System.Net.Http;
-using IpData;
-using System.Threading.Tasks;
+using System.Net.Http;
+using IpData;
+using System.Threading.Tasks;
 using SendGrid;
-using SendGrid.Helpers.Mail;
-using System.IO;
-using System.Drawing;
-using System.Net;
-using Newtonsoft.Json.Linq;
+using SendGrid.Helpers.Mail;
+using System.IO;
+using System.Drawing;
+using System.Net;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 namespace FinalProj
