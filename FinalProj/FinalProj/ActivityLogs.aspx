@@ -49,13 +49,18 @@
                 { %>
                 <td style="color: #006400;"><%= element.Action %></td>
             <%}
-                else if (element.Action == "Failed Login Attempt")
-                { %>
-                    <td style="color: #8B0000;"><%= element.Action %></td>
-                <%}
-                else
-                { %>
-                    <td><%= element.Action %></td>
+            else if (element.Action == "Failed Login Attempt")
+            { %>
+                <td style="color: #8B0000;"><%= element.Action %></td>
+            <%}
+            else if (element.ViolationType == "-")
+            { %>
+                    <td style="color: #006400;"><%= element.Action %></td>
+            <%}
+            else
+            {%>
+                <td style="color: #8B0000;"><%= element.Action %></td>
+
             <%} %>
             <td><%= element.ViolationType %></td>
             <td><%= element.userEmail %></td>
