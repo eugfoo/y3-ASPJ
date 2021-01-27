@@ -211,7 +211,7 @@
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable 2 Factor Authentication to receive a verification code whenever you log in!"></i>
                         <label class="switch">
-                            <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" value="1" />
+                            <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" AutoPostBack="true" OnCheckedChanged="CB2FA_CheckedChanged"/>
                             <span class="slider round"></span>
                         </label>
                     </div>

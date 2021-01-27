@@ -66,6 +66,7 @@
                             Organization
                         </label>
                     </div>
+                    <div id="ReCaptchContainer"></div>
                     <div class="align-bottom" style="text-align: right;">
                         <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Email is already in use.</asp:Label>
                         <asp:Button ID="btnRegister" runat="server" CssClass="btn btn-primary" Text="Register" OnClick="btnRegister_Click" />
@@ -74,5 +75,23 @@
             </div>
         </div>
     </form>
+      <script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
+     <script type="text/javascript">
+         var your_site_key = '6LdJqj4aAAAAADXys_74SixLJ13hcdCH3w-T3vQS';
+         var renderRecaptcha = function () {
+             grecaptcha.render('ReCaptchContainer', {
+                 'sitekey': '6LdJqj4aAAAAADXys_74SixLJ13hcdCH3w-T3vQS',
+                 'callback': reCaptchaCallback,
+                 theme: 'light', //light or dark
+                 type: 'image',// image or audio
+                 size: 'normal'//normal or compact
+             });
+         };
+         var reCaptchaCallback = function (response) {
+             if (response !== '') {
+                 document.getElementById('lblMessage1').innerHTML = "";
+             }
+         };
+     </script>
 </body>
 </html>

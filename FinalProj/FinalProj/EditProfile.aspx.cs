@@ -208,12 +208,12 @@ namespace FinalProj
         {
             Users usr = new Users();
             Users user = (Users)Session["user"];
-            if (cbGoogle.Checked == true)
+            if (CB2FA.Checked == true)
             {
                 user.UpdateTwoFactorByID(user.id, 1);
                 Response.Redirect("Authenticator.aspx");
             }
-            if (cbGoogle.Checked == false)
+            if (CB2FA.Checked == false)
             {
 
                 usr.UpdateTwoFactorByID(user.id, 0);
