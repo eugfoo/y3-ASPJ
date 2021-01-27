@@ -136,7 +136,19 @@ namespace FinalProj
 				}
 				else if(result == -1)
 				{
-					
+					Logs lg = new Logs();
+					Users us = new Users();
+					ActivityLog alg = new ActivityLog();
+					DateTime dtLog = DateTime.Now;
+
+					string ipAddr = GetIPAddress();
+					CityStateCountByIp(ipAddr);
+
+
+					string countryLogged = CityStateCountByIp(ipAddr);
+
+					alg.AddActivityLog(dtLog, user.name, ipAddr, "Tried to join: " + eventDetail.Title, "Event Clash", user.email, countryLogged);
+
 					Session["SessionERM"] = "You already joined an event within this timeframe!";
 					Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 				}

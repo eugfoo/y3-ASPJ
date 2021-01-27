@@ -127,8 +127,10 @@ namespace FinalProj.BLL
 					}
 				}
 			}
-			if(!sameTime)
+            if (!sameTime) 
 				result = dao.InsertParticipant(userId, eventId, userName);
+			
+			
 			return result;
 		}
 
