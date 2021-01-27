@@ -21,6 +21,7 @@ namespace FinalProj.BLL
 		public string Note { get; set; }
 		public int AverageRating { get; set; }
 		public int User_id { get; set; }
+		public DateTime dt { get; set; }
 
 
 		public Events()
@@ -28,7 +29,7 @@ namespace FinalProj.BLL
 
 		}
 		// Define a constructor to initialize all the properties
-		public Events(int eventId, string eventTitle, string eventVenue, string eventDate, string eventStartTime, string eventEndTime, int eventMaxAttendees, string eventDesc, string eventPic, string eventNote, int avgRating, int user_id)
+		public Events(int eventId, string eventTitle, string eventVenue, string eventDate, string eventStartTime, string eventEndTime, int eventMaxAttendees, string eventDesc, string eventPic, string eventNote, int avgRating, int user_id, DateTime datetime)
 		{
 			EventId = eventId;
 			Title = eventTitle;
@@ -42,6 +43,7 @@ namespace FinalProj.BLL
 			Note = eventNote;
 			User_id = user_id;
 			AverageRating = avgRating;
+			dt = datetime;
 
 		}
 
@@ -62,6 +64,12 @@ namespace FinalProj.BLL
 		{
 			eventDao ev = new eventDao();
 			return ev.SelectAllByDate(date);
+		}
+		
+		public List<Events> GetAllEventsByUserID(int User_Id)
+		{
+			eventDao ev = new eventDao();
+			return ev.SelectAllByUserID(User_Id);
 		}
 
 		public string GetAllUserNameByUserId(int userId)

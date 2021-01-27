@@ -30,6 +30,9 @@ namespace FinalProj
                 for (int i = 0; i < algList.Count; i++)
                 {
                     Users us = new Users();
+                    string he = algList[i].userEmail;
+                    Users lol = us.GetUserByEmail(algList[i].userEmail);
+
                     picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
 
                 }

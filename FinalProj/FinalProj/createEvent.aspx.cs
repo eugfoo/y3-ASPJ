@@ -181,6 +181,25 @@ namespace FinalProj
                 else { 
                 }
             }
+            List<Events> evList;
+            Users user = (Users)Session["user"];
+            Events ev = new Events();
+            evList = ev.GetAllEventsByUserID(user.id);
+            TimeSpan interval = DateTime.Now.Subtract(evList[0].dt);
+            if (interval.Minutes < 5) {
+                errmsgTb.Text = errmsg;
+                PanelError.Visible = true;
+
+                string ipAddr = GetIPAddress();
+
+                string countryLogged = CityStateCountByIp(ipAddr);
+                DateTime dtLog = DateTime.Now;
+
+                CityStateCountByIp(ipAddr);
+                ActivityLog alg = new ActivityLog();
+                alg.AddActivityLog(dtLog, user.name, ipAddr, "Create Event Attempt: " + eventTitle.Text, "Spamming", user.email, countryLogged);
+
+            }
 
             if (errmsg != "")
             {
@@ -196,7 +215,7 @@ namespace FinalProj
                 }
                 else
                 {
-                    Users user = (Users)Session["user"];
+                   
                     HistoryOTP otp = new HistoryOTP();
                     Random rnd = new Random();
 
@@ -268,8 +287,9 @@ namespace FinalProj
                     }
 
                     int rating = 0;
+                    DateTime dt = DateTime.Now;
 
-                    ev = new Events(1, title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id);
+                    ev = new Events(1, title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id, dt);
                     int result = ev.AddEvent();
 
                     int createdEventId = ev.getMaxEventId();
@@ -338,8 +358,8 @@ namespace FinalProj
                             }
 
                             int rating = 0;
-
-                            ev = new Events(1, title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id);
+                            DateTime dt = DateTime.Now;
+                            ev = new Events(1, title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id, dt);
                             int result = ev.AddEvent();
 
                             int createdEventId = ev.getMaxEventId();

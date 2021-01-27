@@ -47,17 +47,66 @@ namespace FinalProj.DAL
                 string eventDesc = row["eventDesc"].ToString();
                 string eventPic = row["eventPic"].ToString();
                 string eventNote = row["eventNote"].ToString();
+                
 				int avgRating = int.Parse(row["avgRating"].ToString());
 				int user_id = int.Parse(row["user_id"].ToString());
+				DateTime dt = Convert.ToDateTime(row["DateTime"].ToString());
 
-				
 
-				Events obj = new Events(eventId, eventTitle, eventVenue, eventDate ,eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id);
+				Events obj = new Events(eventId, eventTitle, eventVenue, eventDate ,eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, dt);
                 evList.Add(obj);
             }
 
             return evList;
         }
+
+		public List<Events> SelectAllByUserID(int userId)
+		{
+			//Step 1 -  Define a connection to the database by getting
+			//          the connection string from web.config
+			string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+			SqlConnection myConn = new SqlConnection(DBConnect);
+
+			//Step 2 -  Create a DataAdapter to retrieve data from the database table
+			string sqlStmt = "Select * from tdEvent Where eventApproved = 1 AND user_id = @paraID Order By DateTime DESC";
+			SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+			da.SelectCommand.Parameters.AddWithValue("@paraID", userId);
+
+			//Step 3 -  Create a DataSet to store the data to be retrieved
+			DataSet ds = new DataSet();
+
+			//Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+			da.Fill(ds);
+
+			//Step 5 -  Read data from DataSet to List
+			List<Events> evList = new List<Events>();
+			int rec_cnt = ds.Tables[0].Rows.Count;
+			for (int i = 0; i < rec_cnt; i++)
+			{
+				DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
+				int eventId = int.Parse(row["eventId"].ToString());
+				string eventTitle = row["eventTitle"].ToString();
+				string eventVenue = row["eventVenue"].ToString();
+				string eventDate = row["eventDate"].ToString();
+				string eventStartTime = row["eventStartTime"].ToString();
+				string eventEndTime = row["eventEndTime"].ToString();
+				int eventMaxAttendees = int.Parse(row["eventMaxAttendees"].ToString());
+				string eventDesc = row["eventDesc"].ToString();
+				string eventPic = row["eventPic"].ToString();
+				string eventNote = row["eventNote"].ToString();
+
+				int avgRating = int.Parse(row["avgRating"].ToString());
+				int user_id = int.Parse(row["user_id"].ToString());
+				DateTime dt = Convert.ToDateTime(row["DateTime"].ToString());
+
+
+				Events obj = new Events(eventId, eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, dt);
+				evList.Add(obj);
+			}
+
+			return evList;
+		}
 
 		public Events getEventDetails(int eventId)
 		{
@@ -95,7 +144,9 @@ namespace FinalProj.DAL
 				string eventNote = row["eventNote"].ToString();
 				int avgRating = int.Parse(row["avgRating"].ToString());
 				int user_id = int.Parse(row["user_id"].ToString());
-				eventDetails = new Events(eventId, eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id);
+				DateTime dt = Convert.ToDateTime(row["DateTime"].ToString());
+
+				eventDetails = new Events(eventId, eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, dt);
 			}
 			else
 			{
@@ -117,8 +168,8 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO tdEvent(eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, eventApproved) " +
-				"VALUES (@eventTitle, @eventVenue, @eventDate, @eventStartTime, @eventEndTime,@eventMaxAttendees,  @eventDesc, @eventPic, @eventNote, @avgRating, @user_id, 1)";
+            string sqlStmt = "INSERT INTO tdEvent(eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, eventApproved, DateTime) " +
+				"VALUES (@eventTitle, @eventVenue, @eventDate, @eventStartTime, @eventEndTime,@eventMaxAttendees,  @eventDesc, @eventPic, @eventNote, @avgRating, @user_id, 1, @dt)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -133,6 +184,7 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@eventNote", ev.Note);
 			sqlCmd.Parameters.AddWithValue("@avgRating", ev.AverageRating);
 			sqlCmd.Parameters.AddWithValue("@user_id", ev.User_id);
+			sqlCmd.Parameters.AddWithValue("@dt", ev.dt);
 			
 
 
@@ -624,10 +676,10 @@ namespace FinalProj.DAL
 				string eventNote = row["eventNote"].ToString();
 				int avgRating = int.Parse(row["avgRating"].ToString());
 				int user_id = int.Parse(row["user_id"].ToString());
+				DateTime dt = Convert.ToDateTime(row["DateTime"].ToString());
 
 
-
-				Events obj = new Events(eventId, eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id);
+				Events obj = new Events(eventId, eventTitle, eventVenue, eventDate, eventStartTime, eventEndTime, eventMaxAttendees, eventDesc, eventPic, eventNote, avgRating, user_id, dt);
 				evList.Add(obj);
 			}
 

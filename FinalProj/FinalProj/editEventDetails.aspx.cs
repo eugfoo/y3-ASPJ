@@ -298,8 +298,8 @@ namespace FinalProj
                 }
 
 				int rating = 0;
-
-				ev = new Events(int.Parse(Request.QueryString["eventId"]), title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id);
+				DateTime dt = DateTime.Now;
+				ev = new Events(int.Parse(Request.QueryString["eventId"]), title, venue, date, eventStartTime, eventEndTime, maxAttendees, description, picture, note, rating, user_id, dt);
 				int result = ev.updateEvent();
 				Debug.WriteLine(result.ToString());
 				Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);

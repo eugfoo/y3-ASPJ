@@ -62,7 +62,13 @@
                 <td style="color: #8B0000;"><%= element.Action %></td>
 
             <%} %>
-            <td><%= element.ViolationType %></td>
+            <%if (element.ViolationType != "-")
+                    { %><td style="color: #8B0000;"><%= element.ViolationType %></td>
+                
+            <%}else
+                {%><td style="color:#006400;"><%= element.ViolationType %></td>
+            <%} %>
+
             <td><%= element.userEmail %></td>
             <td><%= element.userCountry %></td>
 
