@@ -1,7 +1,10 @@
 ﻿using FinalProj.BLL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -107,16 +110,33 @@ namespace FinalProj
 				userId = user.id;
                 string userName = user.name;
 				Events parti = new Events();
+				
 
 				var result = parti.AddParticipant(userId, int.Parse(Request.QueryString["eventId"]), userName);
 				if (result == 1)
 				{
+					Logs lg = new Logs();
+					Users us = new Users();
+					ActivityLog alg = new ActivityLog();
+					DateTime dtLog = DateTime.Now;
+
+					string ipAddr = GetIPAddress();
+					CityStateCountByIp(ipAddr);
+
+
+					string countryLogged = CityStateCountByIp(ipAddr);
+				
+					alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Joined: " + eventDetail.Title, "-", user.email, countryLogged);
+
 					Session["SessionSSM"] = "You have successfully joined the event!";
+
+					
 					Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 					
 				}
 				else if(result == -1)
 				{
+					
 					Session["SessionERM"] = "You already joined an event within this timeframe!";
 					Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 				}
@@ -136,6 +156,58 @@ namespace FinalProj
 			}
 		}
 
+		public static string CityStateCountByIp(string IP)
+		{
+			//var url = "http://freegeoip.net/json/" + IP;
+			//var url = "http://freegeoip.net/json/" + IP;
+			string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+			var request = System.Net.WebRequest.Create(url);
+			WebResponse myWebResponse = request.GetResponse();
+			Stream stream = myWebResponse.GetResponseStream();
+
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				string json = reader.ReadToEnd();
+				JObject objJson = JObject.Parse(json);
+				string Country = objJson["country_name"].ToString();
+				string Country_code = objJson["country_code"].ToString();
+				if (Country == "")
+				{
+					Country = "-";
+				}
+
+				else if (Country_code == "")
+				{
+					Country = Country;
+				}
+				else
+				{
+					Country = Country + " (" + Country_code + ")";
+				}
+				return Country;
+
+			}
+
+		}
+
+
+
+		protected string GetIPAddress()
+		{
+			System.Web.HttpContext context = System.Web.HttpContext.Current;
+			string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+			if (!string.IsNullOrEmpty(ipAddress))
+			{
+				string[] addresses = ipAddress.Split(',');
+				if (addresses.Length != 0)
+				{
+					return addresses[0];
+				}
+			}
+			return context.Request.ServerVariables["REMOTE_ADDR"];
+		}
+
 		protected void leaveEvent_Click(object sender, EventArgs e)
 		{
 
@@ -145,6 +217,19 @@ namespace FinalProj
 			int result = parti.RemoveParticipant(userId, int.Parse(Request.QueryString["eventId"]));
 			if (result == 1)
 			{
+
+				Logs lg = new Logs();
+				Users us = new Users();
+				ActivityLog alg = new ActivityLog();
+				DateTime dtLog = DateTime.Now;
+
+				string ipAddr = GetIPAddress();
+				CityStateCountByIp(ipAddr);
+
+
+				string countryLogged = CityStateCountByIp(ipAddr);
+
+				alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Left: " + eventDetail.Title, "-", user.email, countryLogged);
 				Session["SessionSSM"] = "You have successfully left the event!";
 				Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 			}
@@ -165,6 +250,19 @@ namespace FinalProj
 				int result = parti.findBookmark(userId, int.Parse(Request.QueryString["eventId"]));
 				if (result == 1)
 				{
+					Logs lg = new Logs();
+					Users us = new Users();
+					ActivityLog alg = new ActivityLog();
+					DateTime dtLog = DateTime.Now;
+
+					string ipAddr = GetIPAddress();
+					CityStateCountByIp(ipAddr);
+
+
+					string countryLogged = CityStateCountByIp(ipAddr);
+
+					alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Bookmarked: " + eventDetail.Title, "-", user.email, countryLogged);
+
 					Session["SessionSSM"] = "You have successfully bookmarked this event!";
 					Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 				}
@@ -190,6 +288,18 @@ namespace FinalProj
 			int result = parti.removeBookmark(userId, int.Parse(Request.QueryString["eventId"]));
 			if (result == 1)
 			{
+				Logs lg = new Logs();
+				Users us = new Users();
+				ActivityLog alg = new ActivityLog();
+				DateTime dtLog = DateTime.Now;
+
+				string ipAddr = GetIPAddress();
+				CityStateCountByIp(ipAddr);
+
+
+				string countryLogged = CityStateCountByIp(ipAddr);
+
+				alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Bookmark removed: " + eventDetail.Title, "-", user.email, countryLogged);
 				Session["SessionSSM"] = "You have successfully removed this bookmark!";
 				Response.Redirect("/eventDetails.aspx?eventId=" + Request.QueryString["eventId"]);
 			}

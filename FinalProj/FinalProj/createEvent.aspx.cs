@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Google.Authenticator;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using AvScan.WindowsDefender;
 
 namespace FinalProj
 {
@@ -166,6 +167,20 @@ namespace FinalProj
                     desc.BorderColor = System.Drawing.Color.Red;
                 }
             }
+            if (FileUploadControl.HasFile)
+            {
+                string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
+                var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
+                var scanner = new WindowsDefenderScanner(exeLocation);
+                var iresult = scanner.Scan(filename);
+                if (iresult.ToString() == "threatfound")
+                {
+                    Label1.Text = iresult.ToString();
+                    errmsg += iresult.ToString();
+                }
+                else { 
+                }
+            }
 
             if (errmsg != "")
             {
@@ -242,6 +257,7 @@ namespace FinalProj
                         string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
                         FileUploadControl.SaveAs(Server.MapPath("~/Img/" + filename));
                         // insert malware file checker
+                        
                         picture = filename;
                         picChosen.Text = filename;
                     }
@@ -262,6 +278,7 @@ namespace FinalProj
 
 
                     int resultThread = thread.createThreadForEvent();
+                    
 
                     string ipAddr = GetIPAddress();
                     string countryLogged = CityStateCountByIp(ipAddr);
@@ -311,7 +328,6 @@ namespace FinalProj
                             {
                                 string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
                                 FileUploadControl.SaveAs(Server.MapPath("~/Img/" + filename));
-                                // insert malware file checker
                                 picture = filename;
                                 picChosen.Text = filename;
                             }
@@ -332,6 +348,15 @@ namespace FinalProj
 
 
                             int resultThread = thread.createThreadForEvent();
+
+                            string ipAddr = GetIPAddress();
+
+                            string countryLogged = CityStateCountByIp(ipAddr);
+                            DateTime dtLog = DateTime.Now;
+
+                            CityStateCountByIp(ipAddr);
+                            ActivityLog alg = new ActivityLog();
+                            alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Created: " + title, "-", user.email, countryLogged);
                             Response.Redirect("/eventDetails.aspx");
                         }
                         else

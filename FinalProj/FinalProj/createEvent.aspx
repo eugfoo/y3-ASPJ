@@ -169,6 +169,7 @@
                     <div class="custom-file">
                         <asp:FileUpload ID="FileUploadControl" CssClass=" custom-file-input" runat="server" />
                         <asp:Label ID="picChosen" runat="server" Text="Choose File" CssClass="custom-file-label"></asp:Label>
+                        <asp:Label ID="Label1" runat="server" Text="Label">asdsada</asp:Label>
                     </div>
 
                     <script>
