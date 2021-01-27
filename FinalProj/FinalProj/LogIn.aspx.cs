@@ -48,6 +48,11 @@ namespace FinalProj
                     if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
                     {
                         Session["admin"] = true;
+                        string ipAddr = GetIPAddress();
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        DateTime dtLog = DateTime.Now;
+                        Logs lg = new Logs();
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
                     }
                 }
@@ -111,9 +116,15 @@ namespace FinalProj
 
                             ActivityLog alg = new ActivityLog();
                             Users us = new Users();
-                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                            if (us.GetUserByEmail(tbEmail.Text) != null) { 
+                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                            }
+                            else
+                            {
+                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                            }
                             otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
                             if (counter == 0)
                             {
@@ -160,15 +171,21 @@ namespace FinalProj
                                     
                                     ActivityLog alg = new ActivityLog();
                                     Users us = new Users();
-                                    string name = us.GetUserByEmail(tbEmail.Text).name;
-                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                    {
+                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                        alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                    }
+                                    else {
+                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");                                    }
                                     otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                     if (counter == 0)
                                     {
                                         EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                     }
-
+
                                     Response.Redirect("homepage.aspx");
                                 }
                             }
@@ -184,8 +201,16 @@ namespace FinalProj
                                 Logs lg = new Logs();
                                 ActivityLog alg = new ActivityLog();
                                 Users us = new Users();
-                                string name = us.GetUserByEmail(tbEmail.Text).name;
-                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                {
+                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                                }
+                                else
+                                {
+                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                }
                             }
                         }
                     }
@@ -200,8 +225,16 @@ namespace FinalProj
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();                        Users us = new Users();
                         ActivityLog alg = new ActivityLog();
-                        string name = us.GetUserByEmail(tbEmail.Text).name;
-                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                        if(us.GetUserByEmail(tbEmail.Text) != null)
+                        {
+                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                        }
+                        else
+                        {
+                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                        }
                     }
                 }
                 else
@@ -215,9 +248,18 @@ namespace FinalProj
                     DateTime dtLog = DateTime.Now;
                     Logs lg = new Logs();                    Users us = new Users();
                     ActivityLog alg = new ActivityLog();
-                    string name = us.GetUserByEmail(tbEmail.Text).name;
-                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);                    
-
+                    if (us.GetUserByEmail(tbEmail.Text) != null) { 
+                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);                    }
+                    else
+                    {
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                    }
+
+
+
+
                 }
             }
         }
@@ -238,7 +280,7 @@ namespace FinalProj
                 string Country_code = objJson["country_code"].ToString();
                 if (Country == "")
                 {
-                    Country = "NIL";
+                    Country = "-";
                 }
                 else if (Country_code == "") {
                     Country = Country;

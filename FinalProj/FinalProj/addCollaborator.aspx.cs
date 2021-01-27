@@ -23,20 +23,13 @@ namespace FinalProj
         {
             if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
-                Admins ad = new Admins();
-                adList = ad.GetAllAdmins();
+                
 
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }
             else
             {
                 // Whatever you want here.
-
-                string newIIP = GetIPAddress();
-                Label1.Text = newIIP.ToString();
-
-                //byte[] fileBytes = File.ReadAllBytes(path);
-                //string textAs = Encoding.UTF8.GetString(fileBytes);
                 Admins ad = new Admins();
                 adList = ad.GetAllAdmins();
                 Console.WriteLine(adList);

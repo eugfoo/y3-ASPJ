@@ -24,8 +24,8 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO Users(userEmail, userName, userPasswordHash, userIsOrg, userRegDate) " +
-                "VALUES (@userEmail, @userName, @userPasswordHash, @userIsOrg, @userRegDate)";
+            string sqlStmt = "INSERT INTO Users(userEmail, userName, userPasswordHash, userDPImage, userIsOrg, userRegDate) " +
+                "VALUES (@userEmail, @userName, @userPasswordHash, @userDPImage, @userIsOrg, @userRegDate)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -34,6 +34,7 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@userPasswordHash", user.passHash);
             sqlCmd.Parameters.AddWithValue("@userIsOrg", user.isOrg);
             sqlCmd.Parameters.AddWithValue("@userRegDate", user.regDate);
+            sqlCmd.Parameters.AddWithValue("@userDPImage", "/Img/defaultMan.jpg");
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();

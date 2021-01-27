@@ -14,9 +14,11 @@ namespace FinalProj
     public partial class WebForm2 : System.Web.UI.Page
     {
         protected List<Logs> lgList;
+        protected List<MainAdmins> maList;
         protected void Page_Load(object sender, EventArgs e)
-
         {
+            
+
             string em;
             if (Session["user"] != null)
             {
@@ -31,6 +33,13 @@ namespace FinalProj
                 var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
                 Label1.Text = result.ToString();
 
+            }
+            else if (Convert.ToBoolean(Session["admin"])) {
+                MainAdmins ma = new MainAdmins();
+                maList = ma.SelectAllMainAdmins();
+
+                Logs lg = new Logs();
+                lgList = lg.GetAllLogsOfUser(maList[0].MainadminEmail);
             }
             else {
 

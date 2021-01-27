@@ -43,14 +43,19 @@
                 { %>
         <tr>
             <td><%= Convert.ToDateTime(element.DateTime) %></td>
-            <td><img Style="border-radius: 100%; width: 60px; height: 60px; margin-right:5%;" src="<%=picList[algList.IndexOf(element)] %>"></img><%= element.Username %></td>
+            <td><img Style="border-radius: 100%; width: 40px; height: 40px; margin-right:5%;" src="<%=picList[algList.IndexOf(element)] %>"></img><%= element.Username %></td>
             <td><%= element.ipAddr %></td>
             <% if (element.Action == "Successful Login Attempt")
                 { %>
                 <td style="color: #006400;"><%= element.Action %></td>
             <%}
-               else if (element.Action == "Failed Login Attempt"){ %>
-                <td style="color: #8B0000;"><%= element.Action %></td>
+                else if (element.Action == "Failed Login Attempt")
+                { %>
+                    <td style="color: #8B0000;"><%= element.Action %></td>
+                <%}
+                else
+                { %>
+                    <td><%= element.Action %></td>
             <%} %>
             <td><%= element.ViolationType %></td>
             <td><%= element.userEmail %></td>

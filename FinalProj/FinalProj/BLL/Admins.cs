@@ -38,5 +38,7 @@ namespace FinalProj.BLL
 			int result = adDao.Insert(Name, Email);
 			return result;
 		}
+
+		
 	}
 }

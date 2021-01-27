@@ -149,6 +149,7 @@
     <Content Include="Img\Capture.PNG" />
     <Content Include="Img\clipboard.jpeg" />
     <Content Include="Img\Default.png" />
+    <Content Include="Img\defaultMan.jpg" />
     <Content Include="Img\defaultPic.jpg" />
     <Content Include="Img\defaultPic.png" />
     <Content Include="Img\earthDay.png" />

@@ -15,18 +15,26 @@ namespace FinalProj
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ActivityLog alg = new ActivityLog();
-            algList = alg.GetAllLogsOfActivities();
 
-            for (int i = 0; i < algList.Count; i++)
+            if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
-                Users us = new Users();
-                picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
-                
+                Response.Redirect("homepage.aspx"); // Adios Gladios
             }
+            else
+            {
+                // Whatever you want here.
 
+                ActivityLog alg = new ActivityLog();
+                algList = alg.GetAllLogsOfActivities();
 
-            
+                for (int i = 0; i < algList.Count; i++)
+                {
+                    Users us = new Users();
+                    picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
+
+                }
+            }
+           
         }
     }
 }

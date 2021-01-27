@@ -12,7 +12,8 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using Google.Authenticator;
-
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProj
 {
@@ -261,6 +262,13 @@ namespace FinalProj
 
 
                     int resultThread = thread.createThreadForEvent();
+
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Created: " + title, "-", user.email, countryLogged);
                     Response.Redirect("/eventDetails.aspx");
                 }
                 else
@@ -367,6 +375,51 @@ namespace FinalProj
             var htmlContent = "Your OTP is: " + otp;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
+        }
+
+        protected string GetIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+            return context.Request.ServerVariables["REMOTE_ADDR"];
+        }
+
+        public static string CityStateCountByIp(string IP)
+        {
+            //var url = "http://freegeoip.net/json/" + IP;
+            //var url = "http://freegeoip.net/json/" + IP;
+            string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+            var request = System.Net.WebRequest.Create(url);
+            WebResponse myWebResponse = request.GetResponse();
+            Stream stream = myWebResponse.GetResponseStream();
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                JObject objJson = JObject.Parse(json);
+                string Country = objJson["country_name"].ToString();
+                string Country_code = objJson["country_code"].ToString();
+                if (Country == "")
+                {
+                    Country = "-";
+                }
+                else if (Country_code == "")
+                {
+                    Country = Country;
+                }
+                else
+                {
+                    Country = Country + " (" + Country_code + ")";
+                }
+                return Country;
+            }
         }
     }
 }
