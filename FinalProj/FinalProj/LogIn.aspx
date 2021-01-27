@@ -64,14 +64,14 @@
                     </div>
                     <div class="align-bottom" style="text-align: right;">
                         <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect account information. Please try again.</asp:Label>
-                        <asp:Button ID="btnSignIn" runat="server" CssClass="btn btn-primary" Text="Sign In" OnClick="btnSignIn_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
                         <button id="btnForgotPwd" type="button" class="btn btn-hazard" onclick="pop()">Forgot Password</button>
+                        <asp:Button ID="btnSignIn" runat="server" CssClass="btn btn-primary" Text="Sign In" OnClick="btnSignIn_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
                         <br />
                         &nbsp;
                     </div>
                     <!-- this is the start of the popup-->
 
-                    <div id="box">
+                    <div id="box" runat="server">
                         <h5 class="card-title text-muted font-italic">Send One-Time Password</h5>
                         <asp:Label for="userEmail" runat="server" Style="float: left;">Your Email address:</asp:Label>
                         <p>
@@ -80,7 +80,8 @@
                             <p>
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
-                                        <asp:Button ID="submit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
+                                        <asp:Button ID="submit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" OnClientClick="pop()"/>
+                                        <asp:Label ID="lblOTP" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Green">OTP Sent! Check your email</asp:Label>
 
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -88,6 +89,7 @@
                                 <a id="closeBtn" class="btn btn-danger" onclick="pop()">Close</a>
                     </div>
                     <!-- this is the end of the popup-->
+
                 </div>
             </div>
         </div>

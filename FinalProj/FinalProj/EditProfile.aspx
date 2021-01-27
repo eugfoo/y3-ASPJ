@@ -16,76 +16,94 @@
                 $('[data-toggle="tooltip"]').tooltip()
             });
         });
+        var modal = null
+        function pop() {
+            if (modal === null) {
+                document.getElementById("box").style.display = "block";
+                modal = true
+            } else {
+                document.getElementById("box").style.display = "none";
+                modal = null
+            }
+        }
     </script>
     <style>
         .ttInfo:hover {
             cursor: pointer;
         }
-         /* The switch - the box around the slider */
-            .switch {
-              position: relative;
-              display: inline-block;
-              width: 60px;
-              height: 34px;
-            }
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
 
             /* Hide default HTML checkbox */
             .switch input {
-              opacity: 0;
-              width: 0;
-              height: 0;
+                opacity: 0;
+                width: 0;
+                height: 0;
             }
 
-            /* The slider */
-            .slider {
-              position: absolute;
-              cursor: pointer;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background-color: #ccc;
-              -webkit-transition: .4s;
-              transition: .4s;
-            }
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
 
             .slider:before {
-              position: absolute;
-              content: "";
-              height: 26px;
-              width: 26px;
-              left: 4px;
-              bottom: 4px;
-              background-color: white;
-              -webkit-transition: .4s;
-              transition: .4s;
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
             }
 
-            input:checked + .slider {
-              background-color: #2196F3;
-            }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
 
-            input:focus + .slider {
-              box-shadow: 0 0 1px #2196F3;
-            }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
 
-            input:checked + .slider:before {
-              -webkit-transform: translateX(26px);
-              -ms-transform: translateX(26px);
-              transform: translateX(26px);
-            }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
 
-            /* Rounded sliders */
-            .slider.round {
-              border-radius: 34px;
-            }
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
 
             .slider.round:before {
-              border-radius: 50%;
-            } 
+                border-radius: 50%;
+            }
+
+        #box {
+            display: none;
+            margin-top: 4%;
+            margin-bottom: 4%;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
     <% Users user = (Users)Session["user"];%>
 
     <div style="min-height: 90vh">
@@ -160,23 +178,46 @@
                         <asp:TextBox TextMode="MultiLine" Columns="50" Rows="3" type="text"
                             CssClass="form-control" ID="tbOtherDiet" runat="server" CausesValidation="True"></asp:TextBox>
                     </div>
+                    <!--change password-->
+                    <div class="form-group">
+                        <button id="btnChangePwd" type="button" class="btn btn-warning" onclick="pop()">Change Password</button><br />
+                        <div id="box" runat="server">
+                            <h5 class="card-title text-muted font-italic">Input New Passwords</h5>
+                            <asp:Label for="userPassword" runat="server" Style="float: left;">New Password:</asp:Label>
+                            <p>
+                                <asp:TextBox type="password" ID="userPassword" class="form-control" aria-describedby="passwordHelp" placeholder="New Password" runat="server"></asp:TextBox>
+                            <p>
+                                <asp:Label for="userPassword" runat="server" Style="float: left;">Confirm New Password:</asp:Label>
+                            <p>
+                                <asp:TextBox type="password" ID="userPassword1" class="form-control" aria-describedby="passwordHelp" placeholder="Confirm New Password" runat="server"></asp:TextBox>
+                            <p>
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:Button ID="btnSubmit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" OnClientClick="pop()" />
+                                        <asp:Label ID="lblSuccess" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Green">Changed Password!</asp:Label>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <br />
+                        </div>
+                    </div>
+                    <%-- End of change pwd --%>
                     <div class="form-group">
                         <label for="formGroup2FA">2 Factor Authentication</label>
-                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable 2 Factor Authentication to receive a verification code whenever you log in!"></i>
-                            <label class="switch">    
-                                <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" value="1" />  
-                                <span class="slider round"></span>
-                            </label>
+                        <label class="switch">
+                            <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" value="1" />
+                            <span class="slider round"></span>
+                        </label>
                     </div>
                     <div class="form-group">
                         <label for="formGroupGoogle">Google Authenticator</label>
-                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable Google Authenticator to create events instead of receiving OTPs!"></i>
-                            <label class="switch">    
-                                <asp:CheckBox ID="cbGoogle" runat="server" value="1" AutoPostBack="true" Checked="false" OnCheckedChanged="cbGoogle_CheckedChanged"/>  
-                                <span class="slider round"></span>
-                            </label>
+                        <label class="switch">
+                            <asp:CheckBox ID="cbGoogle" runat="server" OnCheckedChanged="cbGoogle_CheckedChanged" AutoPostBack="true"/>
+                            <span class="slider round"></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -189,6 +230,7 @@
         </div>
     </div>
     <br />
+
 </asp:Content>
 
 <%--<div style=" margin: auto; margin-top: 3rem;" class="p-0 card col-10 row">

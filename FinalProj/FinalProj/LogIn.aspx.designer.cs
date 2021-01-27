@@ -87,6 +87,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.Button btnSignIn;
 
         /// <summary>
+        /// box control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl box;
+
+        /// <summary>
         /// userEmail control.
         /// </summary>
         /// <remarks>
@@ -112,5 +121,14 @@ namespace FinalProj
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button submit;
+
+        /// <summary>
+        /// lblOTP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOTP;
     }
 }

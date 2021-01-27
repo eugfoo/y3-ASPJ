@@ -346,14 +346,16 @@ namespace FinalProj
                 {
                     result = "true";
                     otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
-                    EmailFxOTP(OTPEmail, OTPassword, userName);
+                    lblOTP.Visible = true;                    EmailFxOTP(OTPEmail, OTPassword, userName);
                 }
                 else
                 {
                     result = "true";
                     otp.AddHistoryOTP(OTPEmail, OTPassword);
+                    lblOTP.Visible = true;
                     EmailFxOTP(OTPEmail, OTPassword, userName);
-                }          }
+                }
+            }
            else
             {
                 lblError.Visible = true;
@@ -367,8 +369,8 @@ namespace FinalProj
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
             var subject = "OTP Login ClearView";
             var to = new EmailAddress(email, name);
-            var plainTextContent = "Your OTP is: ";
-            var htmlContent = "Your OTP is: " + otp;
+            var plainTextContent = "";
+            var htmlContent = "<strong><h2>Use this One-Time Password as your Account Password to Login.</h2></strong><h3>Your OTP is: " + otp + "</h3>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
@@ -379,7 +381,7 @@ namespace FinalProj
             var subject = "Is this you? Login ClearView";
             var to = new EmailAddress(email, name);
             var plainTextContent = "";
-            var htmlContent = "<strong><h2>We detected a new sign-in to your account</h2></strong><br/><p><strong>New sign-in detected from this IP-Address: </strong> " + ip + "</p><p> <strong>Country:</strong> " + country + "</p><strong><p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/ForgotPassword.aspx" + "</p></strong>";
+            var htmlContent = "<strong><h2>We detected a new sign-in to your account</h2></strong><br/><p><strong>New sign-in detected from this IP-Address: </strong> " + ip + "</p><p> <strong>Country:</strong> " + country + "</p><strong><p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }

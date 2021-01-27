@@ -28,7 +28,6 @@ namespace FinalProj
             }
         }
 
-
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
             Users user = (Users)Session["user"];
@@ -182,7 +181,7 @@ namespace FinalProj
                 }
             }
             if (!Page.IsPostBack)
-            {;
+            {
                 if (user.googleauth == 0)
                 {
                     cbGoogle.Checked = false;
@@ -204,8 +203,7 @@ namespace FinalProj
             {
                 Users usr = new Users();
                 Users user = (Users)Session["user"];
-
-                usr.UpdateGoogleAuthByID(user.id, "NULL", 0);
+                usr.UpdateGoogleAuthByID(user.id, "", 0);
             }
         }
 
@@ -223,6 +221,10 @@ namespace FinalProj
 
                 usr.UpdateTwoFactorByID(user.id, 0);
             }
+        }
+
+        protected void submit_Click(object sender, EventArgs e)
+        {
         }
     }
 }
