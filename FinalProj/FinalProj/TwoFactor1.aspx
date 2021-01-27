@@ -39,7 +39,7 @@
                         <asp:TextBox type="number" CssClass="form-control" ID="tbAuthenticator" runat="server"></asp:TextBox>
              </div>
             <div class="align-bottom" style="text-align: right;">
-                  <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect account information. Please try again.</asp:Label>
+                  <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect code. Please try again.</asp:Label>
                    <asp:Button ID="btnAuthenticate" runat="server" CssClass="btn btn-primary" Text="Authenticate" OnClick="btnAuthenticate_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
                     &nbsp;
            </div>

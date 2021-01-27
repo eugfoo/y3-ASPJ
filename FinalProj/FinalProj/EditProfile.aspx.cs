@@ -60,11 +60,7 @@ namespace FinalProj
             {
                 user.UpdateBPByID(user.id, Session["tempBP"].ToString());
             }
-            if (CB2FA.Checked == true)
-            {
-                var twofactor = 1;
-                user.UpdateTwoFactorByID(user.id, twofactor);
-            }
+            
             if (ddlDiet.SelectedItem.Value != user.diet)
             {
                 if (ddlDiet.SelectedItem.Value == "Others")
@@ -175,7 +171,7 @@ namespace FinalProj
                 }
             }
             if (!Page.IsPostBack)
-            {
+            {;   
                 if (user.twofactor == 0)
                 {
                     CB2FA.Checked = false;
@@ -212,5 +208,26 @@ namespace FinalProj
                 usr.UpdateGoogleAuthByID(user.id, "NULL", 0);
             }
         }
+
+        protected void CB2FA_CheckedChanged(object sender, EventArgs e)
+        {
+            Users usr = new Users();
+            Users user = (Users)Session["user"];
+            if (cbGoogle.Checked == true)
+            {
+                user.UpdateTwoFactorByID(user.id, 1);
+                Response.Redirect("Authenticator.aspx");
+            }
+            if (cbGoogle.Checked == false)
+            {
+
+                usr.UpdateTwoFactorByID(user.id, 0);
+            }
+        }
     }
 }
+/*if (CB2FA.Checked == true)
+{
+    var twofactor = 1;
+    user.UpdateTwoFactorByID(user.id, twofactor);
+}*/
