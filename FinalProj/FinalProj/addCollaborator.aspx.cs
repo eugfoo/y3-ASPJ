@@ -34,9 +34,6 @@ namespace FinalProj
                 adList = ad.GetAllAdmins();
                 Console.WriteLine(adList);
             }
-
-
-
         }
 
         protected void addCollabBtn_Click(object sender, EventArgs e)

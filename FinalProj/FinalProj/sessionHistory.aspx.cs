@@ -28,10 +28,7 @@ namespace FinalProj
 
                 lgList = lg.GetAllLogsOfUser(em);
 
-                var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
-                var scanner = new WindowsDefenderScanner(exeLocation);
-                var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
-                Label1.Text = result.ToString();
+                
 
             }
             else if (Convert.ToBoolean(Session["admin"])) {
