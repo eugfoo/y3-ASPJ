@@ -251,6 +251,8 @@
                                     <% if (Convert.ToBoolean(Session["admin"])){ %>
                                      <div class="dropdown-divider"></div>
                                     <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Add Collaborator</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
                                     <%  }%>
 
                                    

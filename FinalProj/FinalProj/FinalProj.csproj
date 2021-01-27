@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acknowledge.aspx" />
+    <Content Include="ActivityLogs.aspx" />
     <Content Include="AdminPage.aspx" />
     <Content Include="App_Data\myDB.mdf" />
     <Content Include="App_Data\myDB_log.ldf">
@@ -170,6 +171,7 @@
     <Content Include="AddVoucher.css" />
     <Content Include="StyleSheet\sweetalert.css" />
     <Content Include="threadCreaterOverview.aspx" />
+    <Content Include="TwoFactor1.aspx" />
     <Content Include="Voucher.css" />
     <Content Include="AddVoucher.aspx" />
     <Content Include="VoucherRedemption.aspx" />
@@ -184,6 +186,13 @@
     </Compile>
     <Compile Include="Acknowledge.aspx.designer.cs">
       <DependentUpon>Acknowledge.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityLogs.aspx.cs">
+      <DependentUpon>ActivityLogs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivityLogs.aspx.designer.cs">
+      <DependentUpon>ActivityLogs.aspx</DependentUpon>
     </Compile>
     <Compile Include="AdminPage.aspx.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
@@ -213,6 +222,7 @@
     <Compile Include="Authenticator.aspx.designer.cs">
       <DependentUpon>Authenticator.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BLL\ActivityLog.cs" />
     <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\EventStatus.cs" />
@@ -449,6 +459,13 @@
     </Compile>
     <Compile Include="threadCreaterOverview.aspx.designer.cs">
       <DependentUpon>threadCreaterOverview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TwoFactor1.aspx.cs">
+      <DependentUpon>TwoFactor1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TwoFactor1.aspx.designer.cs">
+      <DependentUpon>TwoFactor1.aspx</DependentUpon>
     </Compile>
     <Compile Include="VoucherRedemption.aspx.cs">
       <DependentUpon>VoucherRedemption.aspx</DependentUpon>

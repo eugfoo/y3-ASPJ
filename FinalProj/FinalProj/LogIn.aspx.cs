@@ -106,9 +106,12 @@ namespace FinalProj
                                 {
                                     counter++;
                                 }
-                            }
-
-                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                            }
+
+
+                            ActivityLog alg = new ActivityLog();
+                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                            alg.AddActivityLog(dtLog, "eugfoo", ipAddr, "Successful Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
                             otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
                             if (counter == 0)
                             {
@@ -137,8 +140,9 @@ namespace FinalProj
                                     CityStateCountByIp(ipAddr);
 
                                     DateTime dtLog = DateTime.Now;
-                                    Logs lg = new Logs();
+
 
+                                    Logs lg = new Logs();
                                     //Email function for new sign in
                                     lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
 
@@ -148,9 +152,12 @@ namespace FinalProj
                                         {
                                             counter++;
                                         }
-                                    }
-
-                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                    }
+
+
+                                    
+                                    ActivityLog alg = new ActivityLog();
+                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");                                    alg.AddActivityLog(dtLog, "eugfoo", ipAddr, "Successful Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
                                     otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                     if (counter == 0)
@@ -170,8 +177,9 @@ namespace FinalProj
                                 CityStateCountByIp(ipAddr);
 
                                 DateTime dtLog = DateTime.Now;
-                                Logs lg = new Logs();
-                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                Logs lg = new Logs();
+                                ActivityLog alg = new ActivityLog();
+                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                                alg.AddActivityLog(dtLog, "eugfoo", ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
                             }
                         }
                     }
@@ -185,7 +193,8 @@ namespace FinalProj
 
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
-                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                        ActivityLog alg = new ActivityLog();
+                        alg.AddActivityLog(dtLog, "eugfoo", ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
                     }
                 }
                 else
@@ -198,7 +207,7 @@ namespace FinalProj
 
                     DateTime dtLog = DateTime.Now;
                     Logs lg = new Logs();
-                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");                    ActivityLog alg = new ActivityLog();                    alg.AddActivityLog(dtLog, "eugfoo", ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);                    
 
                 }
             }
