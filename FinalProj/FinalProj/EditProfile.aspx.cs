@@ -233,12 +233,12 @@ namespace FinalProj
 
             if (tryingUser.passHash == passHash)
             {
-                lblError.Text += "This is an old password!";
+                lblError.Text = "This is an old password!";
                 lblError.Visible = true;
             }
             else if (userPassword.Text != userPassword1.Text)
             {
-                lblError.Text += "Passwords are not the same!";
+                lblError.Text = "Passwords are not the same!";
                 lblError.Visible = true;
             }
             else
@@ -255,12 +255,12 @@ namespace FinalProj
 
             if (tryingUser.passHash == passHash)
             {
-                lblError.Text += "This is an old password!";
+                lblError.Text = "This is an old password!";
                 lblError.Visible = true;
             }
             else if (userPassword.Text != userPassword1.Text)
             {
-                lblError.Text += "Passwords are not the same!";
+                lblError.Text = "Passwords are not the same!";
                 lblError.Visible = true;
             }
             else
