@@ -29,16 +29,25 @@
                 <th>DateTime</th>
                 <th>Ip Address</th>
                 <th>Country</th>
+                <th>Result</th>
+
  
             </tr>
         </thead>
         <tbody>
             <% foreach (var element in lgList)
-            { %>
+                { %>
         <tr>
             <td><%= Convert.ToDateTime(element.DateTime) %></td>
             <td><%= element.ipAddr %></td>
             <td><%= element.Country %></td>
+            <% if (element.result == "Successful Login Attempt")
+                { %>
+                <td style="color: #006400;"><%= element.result %></td>
+            <%}
+               else if (element.result == "Failed Login Attempt"){ %>
+                <td style="color: #8B0000;"><%= element.result %></td>
+            <%} %>
 
         </tr>        
         <%} %>

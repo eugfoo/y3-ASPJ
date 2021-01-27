@@ -91,7 +91,7 @@ namespace FinalProj
                                 }
                             }
 
-                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                             otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
                             if (counter == 0)
                             {
@@ -133,7 +133,7 @@ namespace FinalProj
                                         }
                                     }
 
-                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged);
+                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                     otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                     if (counter == 0)
@@ -147,17 +147,42 @@ namespace FinalProj
                             else
                             {
                                 lblError.Visible = true;
+
+                                string ipAddr = GetIPAddress();
+                                string countryLogged = CityStateCountByIp(ipAddr);
+                                CityStateCountByIp(ipAddr);
+
+                                DateTime dtLog = DateTime.Now;
+                                Logs lg = new Logs();
+                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                             }
                         }
                     }
                     else
                     {
                         lblError.Visible = true;
+
+                        string ipAddr = GetIPAddress();
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        CityStateCountByIp(ipAddr);
+
+                        DateTime dtLog = DateTime.Now;
+                        Logs lg = new Logs();
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
                 else
                 {
                     lblError.Visible = true;
+
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    CityStateCountByIp(ipAddr);
+
+                    DateTime dtLog = DateTime.Now;
+                    Logs lg = new Logs();
+                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+
                 }
             }
         }

@@ -15,14 +15,18 @@ namespace FinalProj.BLL
 		public string ipAddr { get; set; }
 		public string Country { get; set; }
 
+		public string result { get; set; }
+
+
 		public Logs() { }
-		public Logs(int Id, string email, DateTime dtime, string ip, string location)
+		public Logs(int Id, string email, DateTime dtime, string ip, string location, string lresult)
 		{
 			logId = Id;
 			userEmail = email;
 			DateTime = dtime;
 			ipAddr = ip;
 			Country = location;
+			result = lresult; 
 		}
 
 		public List<Logs> GetAllLogsOfUser(string email)
@@ -31,10 +35,10 @@ namespace FinalProj.BLL
 			return lg.SelectByEmail(email);
 		}
 
-		public int AddLog(string userEmail, DateTime DateTime, string ipAddr, string Country)
+		public int AddLog(string userEmail, DateTime DateTime, string ipAddr, string Country, string lresult)
 		{
 			LogsDAO lgDao = new LogsDAO();
-			int result = lgDao.Insert(userEmail,  DateTime,  ipAddr,  Country);
+			int result = lgDao.Insert(userEmail, DateTime, ipAddr, Country, lresult) ;
 			return result;
 		}
 	}

@@ -15,7 +15,7 @@ namespace FinalProj.DAL
 
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "Select * from logs where userEmail = @email ORDER BY DateTime DESC";
+            string sqlStmt = "Select * from sessionLogs where userEmail = @email ORDER BY DateTime DESC";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
             da.SelectCommand.Parameters.AddWithValue("@email", email);
             DataSet ds = new DataSet();
@@ -31,9 +31,11 @@ namespace FinalProj.DAL
                 DateTime lgdt = Convert.ToDateTime(row["DateTime"].ToString());
                 string lgIP = row["ipAddr"].ToString();
                 string lgCountry = row["Country"].ToString();
-                
+                string lgResult = row["Result"].ToString();
 
-                Logs lg = new Logs(lgId, lgUEmail, lgdt, lgIP, lgCountry);
+
+
+                Logs lg = new Logs(lgId, lgUEmail, lgdt, lgIP, lgCountry, lgResult);
                 lgList.Add(lg);
 
             }
@@ -41,7 +43,7 @@ namespace FinalProj.DAL
             return lgList;
         }
 
-        public int Insert(string userEmail, DateTime DateTime, string ipAddr, string Country)
+        public int Insert(string userEmail, DateTime DateTime, string ipAddr, string Country, string lresult)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -54,7 +56,7 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO logs(userEmail, DateTime, ipAddr, Country) " + "VALUES (@userEmail, @DateTime, @ipAddr, @Country)";
+            string sqlStmt = "INSERT INTO sessionLogs(userEmail, DateTime, ipAddr, Country, Result) " + "VALUES (@userEmail, @DateTime, @ipAddr, @Country, @result)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -62,6 +64,8 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@DateTime", DateTime);
             sqlCmd.Parameters.AddWithValue("@ipAddr", ipAddr);
             sqlCmd.Parameters.AddWithValue("@Country", Country);
+            sqlCmd.Parameters.AddWithValue("@result", lresult);
+
 
 
             // Step 4 Open connection the execute NonQuery of sql command   
