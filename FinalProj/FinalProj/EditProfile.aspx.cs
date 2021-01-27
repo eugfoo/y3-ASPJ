@@ -206,7 +206,10 @@ namespace FinalProj
             }
             if (cbGoogle.Checked == false)
             {
-                
+                Users usr = new Users();
+                Users user = (Users)Session["user"];
+
+                usr.UpdateGoogleAuthByID(user.id, null, 0);
             }
         }
     }

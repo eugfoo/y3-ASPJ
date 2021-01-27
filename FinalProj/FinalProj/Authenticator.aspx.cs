@@ -79,7 +79,7 @@ namespace FinalProj
                 Users usr = new Users();
                 Users user = (Users)Session["user"];
 
-                usr.UpdateGoogleAuthByID(user.id, lblManualSetupCode.Text, 1);
+                usr.UpdateGoogleAuthByID(user.id, AuthenticationCode, 1);
                 lblResult.Visible = true;
                 lblResult.Text = "Code Successfully Verified.";
 

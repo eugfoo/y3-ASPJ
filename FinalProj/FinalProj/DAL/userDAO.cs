@@ -78,11 +78,11 @@ namespace FinalProj.DAL
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
-
+                string UGoogleKey = row["userGoogleSecretKey"].ToString();
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc,
                     Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook,
-                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
+                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
             }
             else
             {
@@ -126,9 +126,11 @@ namespace FinalProj.DAL
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
+                string UGoogleKey = row["userGoogleSecretKey"].ToString();
+
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
             }
             else
             {
@@ -174,9 +176,10 @@ namespace FinalProj.DAL
                 string Udiet = row["userDiet"].ToString();
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
+                string UGoogleKey = row["userGoogleSecretKey"].ToString();
 
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
                 allUserList.Add(user);
             }
 
