@@ -38,11 +38,12 @@
             </tr>
         </thead>
         <tbody>
-            <% foreach (var element in algList)
+            <% 
+                foreach (var element in algList)
                 { %>
         <tr>
             <td><%= Convert.ToDateTime(element.DateTime) %></td>
-            <td><%= element.Username %></td>
+            <td><img Style="border-radius: 100%; width: 60px; height: 60px; margin-right:5%;" src="<%=picList[algList.IndexOf(element)] %>"></img><%= element.Username %></td>
             <td><%= element.ipAddr %></td>
             <% if (element.Action == "Successful Login Attempt")
                 { %>
