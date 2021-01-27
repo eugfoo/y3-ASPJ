@@ -189,11 +189,11 @@ namespace FinalProj
             {;
                 if (user.googleauth == 0)
                 {
-                    CB2FA.Checked = false;
+                    cbGoogle.Checked = false;
                 }
                 else
                 {
-                    CB2FA.Checked = true;
+                    cbGoogle.Checked = true;
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace FinalProj
                 Users usr = new Users();
                 Users user = (Users)Session["user"];
 
-                usr.UpdateGoogleAuthByID(user.id, null, 0);
+                usr.UpdateGoogleAuthByID(user.id, "NULL", 0);
             }
         }
     }

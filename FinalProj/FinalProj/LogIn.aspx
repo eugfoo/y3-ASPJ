@@ -65,14 +65,14 @@
                     <div class="align-bottom" style="text-align: right;">
                         <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect account information. Please try again.</asp:Label>
                         <asp:Button ID="btnSignIn" runat="server" CssClass="btn btn-primary" Text="Sign In" OnClick="btnSignIn_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
+                        <button id="btnForgotPwd" type="button" class="btn btn-hazard" onclick="pop()">Forgot Password</button>
+                        <br />
                         &nbsp;
                     </div>
                     <!-- this is the start of the popup-->
 
                     <div id="box">
-                        <asp:Label runat="server" Style="font-size: 28px;">Send One-Time Password</asp:Label>
-                        <br />
-
+                        <h5 class="card-title text-muted font-italic">Send One-Time Password</h5>
                         <asp:Label for="userEmail" runat="server" Style="float: left;">Your Email address:</asp:Label>
                         <p>
 
