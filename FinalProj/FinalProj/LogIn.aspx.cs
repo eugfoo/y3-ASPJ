@@ -160,14 +160,12 @@ namespace FinalProj
                                     Users us = new Users();
                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                     {
-                                        Session["user"] = true;
                                         string name = us.GetUserByEmail(tbEmail.Text).name;
                                         lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
                                     }
                                     else
                                     {
-                                        Session["user"] = true;
                                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
 
                                     }
@@ -184,14 +182,12 @@ namespace FinalProj
                                         // edit here
                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                         {
-                                            Session["user"] = true;
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
                                             alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", tbEmail.Text, countryLogged);
                                         }
                                         else
                                         {
-                                            Session["user"] = true;
                                             lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "New Device Detected");
 
                                         }
