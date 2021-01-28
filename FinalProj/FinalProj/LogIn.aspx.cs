@@ -54,7 +54,8 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
-                    }                    else {
+                    }                    else
+                    {
                         string ipAddr = GetIPAddress();
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
@@ -67,7 +68,6 @@ namespace FinalProj
                 Users user = new Users();
                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
 
-                //string passHash = tbPass.Text;
                 string passHash = ComputeSha256Hash(tbPass.Text);
                 if (tryingUser != null) // user exists
                 {
@@ -88,7 +88,7 @@ namespace FinalProj
                             {
                                 lblError.Text = "Failed Captcha please try again";
                             }
-                        }                       
+                        }
                 }
                 else
                 {
@@ -150,6 +150,10 @@ namespace FinalProj
                                 }
 
                                 Response.Redirect("homepage.aspx");
+                            }
+                            else
+                            {
+                                lblError.Text = "Failed Captcha please try again";
                             }
                         }
 
@@ -266,10 +270,11 @@ namespace FinalProj
                     }
                 }
 
-                }
             }
-        
-
+        }
+
+
+
         public static string CityStateCountByIp(string IP)
         {
             //var url = "http://freegeoip.net/json/" + IP;
@@ -277,9 +282,10 @@ namespace FinalProj
             string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
             var request = System.Net.WebRequest.Create(url);
             WebResponse myWebResponse = request.GetResponse();
-           Stream stream = myWebResponse.GetResponseStream();
-            using (StreamReader reader = new StreamReader(stream)){
-               string json = reader.ReadToEnd();
+            Stream stream = myWebResponse.GetResponseStream();
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
                 JObject objJson = JObject.Parse(json);
                 string Country = objJson["country_name"].ToString();
                 string Country_code = objJson["country_code"].ToString();
@@ -287,7 +293,8 @@ namespace FinalProj
                 {
                     Country = "-";
                 }
-                else if (Country_code == "") {
+                else if (Country_code == "")
+                {
                     Country = Country;
                 }
                 else
@@ -381,7 +388,7 @@ namespace FinalProj
                     EmailFxOTP(OTPEmail, OTPassword, userName);
                 }
             }
-           else
+            else
             {
                 lblError.Visible = true;
                 result = "false";

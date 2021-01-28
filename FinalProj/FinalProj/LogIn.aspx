@@ -109,7 +109,7 @@
         </script>
 
     </form>
-    <%--<script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
      <script type="text/javascript">
          var your_site_key = '6LdJqj4aAAAAADXys_74SixLJ13hcdCH3w-T3vQS';
          var renderRecaptcha = function () {
@@ -126,6 +126,6 @@
                  document.getElementById('lblMessage1').innerHTML = "";
              }
          };
-     </script>--%>
+     </script>
 </body>
 </html>
