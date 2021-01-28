@@ -178,7 +178,8 @@ namespace FinalProj
                     Label1.Text = iresult.ToString();
                     errmsg += iresult.ToString();
                 }
-                else { 
+                else
+                {
                 }
             }
             List<Events> evList;
@@ -186,7 +187,8 @@ namespace FinalProj
             Events ev = new Events();
             evList = ev.GetAllEventsByUserID(user.id);
             TimeSpan interval = DateTime.Now.Subtract(evList[0].dt);
-            if (interval.Minutes < 5) {
+            if (interval.Minutes < 5)
+            {
                 errmsgTb.Text = errmsg;
                 PanelError.Visible = true;
 
@@ -209,13 +211,8 @@ namespace FinalProj
             }
             else
             {
-                if (goog == 1)
+                if (goog != 1)
                 {
-
-                }
-                else
-                {
-                   
                     HistoryOTP otp = new HistoryOTP();
                     Random rnd = new Random();
 
@@ -276,7 +273,7 @@ namespace FinalProj
                         string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
                         FileUploadControl.SaveAs(Server.MapPath("~/Img/" + filename));
                         // insert malware file checker
-                        
+
                         picture = filename;
                         picChosen.Text = filename;
                     }
@@ -298,7 +295,7 @@ namespace FinalProj
 
 
                     int resultThread = thread.createThreadForEvent();
-                    
+
 
                     string ipAddr = GetIPAddress();
                     string countryLogged = CityStateCountByIp(ipAddr);
@@ -306,7 +303,7 @@ namespace FinalProj
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Created: " + title, "-", user.email, countryLogged);
-                    Response.Redirect("/eventDetails.aspx");
+                    Response.Redirect("/homepage.aspx");
                 }
                 else
                 {
@@ -377,7 +374,7 @@ namespace FinalProj
                             CityStateCountByIp(ipAddr);
                             ActivityLog alg = new ActivityLog();
                             alg.AddActivityLog(dtLog, user.name, ipAddr, "Event Created: " + title, "-", user.email, countryLogged);
-                            Response.Redirect("/eventDetails.aspx");
+                            Response.Redirect("/homepage.aspx");
                         }
                         else
                         {

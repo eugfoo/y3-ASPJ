@@ -6,8 +6,8 @@ using FinalProj.DAL;
 
 namespace FinalProj.BLL
 {
-    public class HistoryOTP
-    {
+	public class HistoryOTP
+	{
 		public int userID { get; set; }
 		public string userEmail { get; set; }
 		public string userOTP { get; set; }
@@ -44,10 +44,10 @@ namespace FinalProj.BLL
 		}
 
 		public HistoryOTP GetUserByEmailOTP(string email)
-        {
+		{
 			HistoryOTPDAO user = new HistoryOTPDAO();
 			return user.SelectByEmailOTP(email);
-        }
+		}
 
 		public int UpdateOTPByEmail(string email, string otp, int otpcheck)
 		{

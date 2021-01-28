@@ -35,7 +35,7 @@ namespace FinalProj
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
-            {
+            {
                 HistoryOTP otp = new HistoryOTP();
                 HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
@@ -54,20 +54,14 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
-                    }                    else
-                    {
-                        string ipAddr = GetIPAddress();
-                        string countryLogged = CityStateCountByIp(ipAddr);
-                        DateTime dtLog = DateTime.Now;
-                        Logs lg = new Logs();
-                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                    }
+                    }
                 }
 
 
                 Users user = new Users();
                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
 
+                //string passHash = tbPass.Text;
                 string passHash = ComputeSha256Hash(tbPass.Text);
                 if (tryingUser != null) // user exists
                 {
@@ -94,7 +88,6 @@ namespace FinalProj
                 {
                     lblError.Visible = true;
                 }
-
                 if (userTrying != null)
                 {
                     string otpSent = tbPass.Text;
@@ -133,7 +126,6 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-
                                     alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
                                 }
                                 else
@@ -150,10 +142,6 @@ namespace FinalProj
                                 }
 
                                 Response.Redirect("homepage.aspx");
-                            }
-                            else
-                            {
-                                lblError.Text = "Failed Captcha please try again";
                             }
                         }
 
@@ -241,6 +229,7 @@ namespace FinalProj
                                     }
                                 }
                             }
+
                             else
                             {
                                 lblError.Visible = true;
@@ -268,13 +257,11 @@ namespace FinalProj
 
                         }
                     }
-                }
 
+                }
             }
         }
-
-
-
+
         public static string CityStateCountByIp(string IP)
         {
             //var url = "http://freegeoip.net/json/" + IP;
@@ -417,5 +404,6 @@ namespace FinalProj
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
+
     }
 }
