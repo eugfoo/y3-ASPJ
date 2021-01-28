@@ -30,10 +30,10 @@ namespace FinalProj.BLL
 		}
 
 
-		public int AddHistoryOTP(string Email, string OTP)
+		public int AddHistoryOTP(string Email, string OTP, int OTPChecked)
 		{
 			HistoryOTPDAO adDao = new HistoryOTPDAO();
-			int result = adDao.Insert(Email, OTP);
+			int result = adDao.Insert(Email, OTP, OTPChecked);
 			return result;
 		}
 

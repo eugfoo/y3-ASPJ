@@ -48,7 +48,7 @@ namespace FinalProj.DAL
             return historyOTPList;
         }
 
-        public int Insert(string userEmail, string userOTP)
+        public int Insert(string userEmail, string userOTP, int userOTPCheck)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -61,13 +61,13 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO HistoryOTP(Email, OTP) " + "VALUES (@Email, @OTP)";
+            string sqlStmt = "INSERT INTO HistoryOTP(Email, OTP, OTPCheck) " + "VALUES (@Email, @OTP, @OTPCheck)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
             sqlCmd.Parameters.AddWithValue("@OTP", userOTP);
             sqlCmd.Parameters.AddWithValue("@Email", userEmail);
-
+            sqlCmd.Parameters.AddWithValue("@OTPCheck", userOTPCheck);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();

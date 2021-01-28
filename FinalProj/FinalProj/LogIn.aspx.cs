@@ -88,10 +88,10 @@ namespace FinalProj
                 {
                     lblError.Visible = true;
                 }
-                if (userTrying != null)
+                if (userTrying == null)
                 {
                     string otpSent = tbPass.Text;
-                    if (tryingUser != null) // user exists
+                    if (tryingUser == null) // user exists
                     {
                         if (tryingUser.passHash == passHash)
                         {
@@ -137,84 +137,44 @@ namespace FinalProj
                                 otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
                                 if (counter == 0)
-
                                 {
                                     EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                 }
 
-
-
                                 Response.Redirect("homepage.aspx");
-
                             }
                         }
 
                         else
-
                         {
-
                             if (userTrying.userOTPCheck == 1)
-
                             {
-
                                 if (userTrying.userOTP == otpSent)
-
                                 {
                                     if (IsReCaptchaValid())
                                     {
                                         int counter = 0;
-
                                         int OTPChecked = 0;
-
-
-
                                         Session["user"] = tryingUser;
-
                                         Session["id"] = tryingUser.id;
-
                                         Session["Name"] = tryingUser.name;
-
                                         Session["Pic"] = tryingUser.DPimage;
-
                                         Session["email"] = tryingUser.email;
 
-
-
                                         string ipAddr = GetIPAddress();
-
                                         string countryLogged = CityStateCountByIp(ipAddr);
-
                                         CityStateCountByIp(ipAddr);
 
-
-
                                         DateTime dtLog = DateTime.Now;
-
-
-
-
-
                                         Logs lg = new Logs();
                                         //Email function for new sign in
-
                                         lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
-
-
-
                                         foreach (var log in lgList)
-
                                         {
-
                                             if (log.ipAddr == ipAddr)
-
                                             {
-
                                                 counter++;
-
                                             }
-
-
-
 
                                             ActivityLog alg = new ActivityLog();
                                             Users us = new Users();
@@ -231,21 +191,13 @@ namespace FinalProj
 
                                             otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
 
-
-
                                             if (counter == 0)
-
                                             {
-
                                                 EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
-
                                             }
 
-
                                             Response.Redirect("homepage.aspx");
-
                                         }
-
                                     }
                                     else if (IsReCaptchaValid() == false)
                                     {
@@ -256,17 +208,9 @@ namespace FinalProj
                                     else
                                     {
                                         lblError.Visible = true;
-
-
-
                                         string ipAddr = GetIPAddress();
-
                                         string countryLogged = CityStateCountByIp(ipAddr);
-
                                         CityStateCountByIp(ipAddr);
-
-
-
                                         DateTime dtLog = DateTime.Now;
 
                                         Logs lg = new Logs();
@@ -287,21 +231,11 @@ namespace FinalProj
                             }
 
                             else
-
-                            {
-
+                            { 
                                 lblError.Visible = true;
-
-
-
                                 string ipAddr = GetIPAddress();
-
                                 string countryLogged = CityStateCountByIp(ipAddr);
-
                                 CityStateCountByIp(ipAddr);
-
-
-
                                 DateTime dtLog = DateTime.Now;
 
                                 Logs lg = new Logs();
@@ -435,7 +369,7 @@ namespace FinalProj
                 else
                 {
                     result = "true";
-                    otp.AddHistoryOTP(OTPEmail, OTPassword);
+                    otp.AddHistoryOTP(OTPEmail, OTPassword, OTPCheck);
                     lblOTP.Visible = true;
                     EmailFxOTP(OTPEmail, OTPassword, userName);
                 }

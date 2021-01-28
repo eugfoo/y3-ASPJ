@@ -234,7 +234,7 @@ namespace FinalProj
 
                     else
                     {
-                        otp.AddHistoryOTP(userEmail, OTPassword);
+                        otp.AddHistoryOTP(userEmail, OTPassword, OTPCheck);
                         Enable(userEmail, OTPassword, userName, title);
                     }
                 }

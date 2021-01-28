@@ -27,27 +27,29 @@ namespace FinalProj
                 Users checkEmail = new Users();
 
                 if (checkEmail.GetUserByEmail(tbEmail.Text) == null) // If the email is unused...
-                { 
+                {
                     if (tbPass.Text == tbCfmPass.Text)               // If the passwords match...
                     {
                         if (tbPass.Text.Length > 8)                  // If the password is longer than the amount of seconds I wish to live...
                         {
                             if (IsReCaptchaValid())
-                            { 
-                             //string passHash = ComputeSha256Hash(tbPass.Text);
-                            DateTime now = DateTime.Now;
-                            string DTNow = now.ToString("g");
+                            {
+                                //string passHash = ComputeSha256Hash(tbPass.Text);
+                                DateTime now = DateTime.Now;
+                                string DTNow = now.ToString("g");
 
-                            Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), tbPass.Text, DTNow);
-                            user.AddUser();
-                            Response.Redirect("LogIn.aspx");
+                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), tbPass.Text, DTNow);
+                                HistoryOTP otp = new HistoryOTP();
+                                otp.AddHistoryOTP(user.email, "", 0); ;
+                                user.AddUser();
+                                Response.Redirect("LogIn.aspx");
                             }
                             else
                             {
                                 lblError.Text = "Failed Captcha. Please try again.";
                                 lblError.Visible = true;
                             }
-                         }
+                        }
                         else
                         {
                             lblError.Text = "Password should be longer than 8 characters.";
