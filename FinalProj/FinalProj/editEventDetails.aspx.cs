@@ -221,7 +221,8 @@ namespace FinalProj
 					endTime.BorderColor = System.Drawing.Color.Red;
 				}
 			}
-			
+		
+
 			if (DateTime.Parse(eventDate.Text.ToString() + " " + startTimeEdit.Text.ToString()) <= DateTime.Now)
 			{
 				errmsg += "Please ensure that you entered a valid Start Time";

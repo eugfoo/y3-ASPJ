@@ -95,8 +95,8 @@ namespace FinalProj
                     {
                         if (tryingUser.passHash == passHash)
                         {
-                            if (IsReCaptchaValid())
-                            {
+                            //if (IsReCaptchaValid())
+                            //{
                                 int OTPChecked = 0;
                                 int counter = 0;
                                 Session["user"] = tryingUser;
@@ -126,6 +126,7 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                    
                                     alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
                                 }
                                 else
@@ -260,7 +261,7 @@ namespace FinalProj
 
                 }
             }
-        }
+        
 
         public static string CityStateCountByIp(string IP)
         {
@@ -270,8 +271,7 @@ namespace FinalProj
             var request = System.Net.WebRequest.Create(url);
             WebResponse myWebResponse = request.GetResponse();
            Stream stream = myWebResponse.GetResponseStream();
-            using (StreamReader reader = new StreamReader(stream))
-          {
+            using (StreamReader reader = new StreamReader(stream)){
                string json = reader.ReadToEnd();
                 JObject objJson = JObject.Parse(json);
                 string Country = objJson["country_name"].ToString();
@@ -402,6 +402,6 @@ namespace FinalProj
             var htmlContent = "<strong><h2>We detected a new sign-in to your account</h2></strong><br/><p><strong>New sign-in detected from this IP-Address: </strong> " + ip + "</p><p> <strong>Country:</strong> " + country + "</p><strong><p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
-        }
         }
+    }
 }

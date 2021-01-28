@@ -177,6 +177,7 @@
     <Content Include="Img\World-Toilet-Day.jpg" />
     <Content Include="JoinEventFromBookmark.aspx" />
     <Content Include="LogIn.aspx" />
+    <Content Include="NewDevice.aspx" />
     <Content Include="picture.JPG" />
     <Content Include="PPGallery.aspx" />
     <Content Include="PPPoints.aspx" />
@@ -415,6 +416,13 @@
     </Compile>
     <Compile Include="LogIn.aspx.designer.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevice.aspx.cs">
+      <DependentUpon>NewDevice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewDevice.aspx.designer.cs">
+      <DependentUpon>NewDevice.aspx</DependentUpon>
     </Compile>
     <Compile Include="PPGallery.aspx.cs">
       <DependentUpon>PPGallery.aspx</DependentUpon>
