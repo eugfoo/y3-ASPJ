@@ -184,24 +184,25 @@
                         <button id="btnChangePwd" type="button" class="btn btn-warning" onclick="pop()">Change Password</button><br />
                         <div id="box" runat="server">
                             <h5 class="card-title text-muted font-italic">Input New Passwords</h5>
-                            <asp:Label for="userPassword" runat="server" Style="float: left;">New Password:</asp:Label>
-                            <p>
-                                <asp:TextBox type="password" CssClass="form-control" ID="userPassword" placeholder="New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword_TextChanged" AutoPostBack="true"></asp:TextBox>
-                            <p>
-                                <asp:Label for="userPassword" runat="server" CssClass="fa-pull-left" Width="167px">Confirm New Password:</asp:Label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Red"></asp:Label>
-                            <p>
-                                <asp:TextBox type="password" CssClass="form-control" ID="userPassword1" placeholder="Confirm New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword1_TextChanged" AutoPostBack="true"></asp:TextBox>
-                            <p>
-                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                    <ContentTemplate>
-                                        <asp:Button ID="btnSubmit" input="button" runat="server" class="btn btn-success btn-md" Text="Confirm" OnClick="submit_Click"/>
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                                    <asp:Label for="userPassword" runat="server" Style="float: left;">New Password:</asp:Label>
+                                    <p>
+                                        <asp:TextBox type="password" CssClass="form-control" ID="userPassword" placeholder="New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                    <p>
+                                        <asp:Label for="userPassword" runat="server" CssClass="fa-pull-left" Width="167px">Confirm New Password:</asp:Label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <asp:Label ID="lblSuccess" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Green">Changed Password!</asp:Label>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-                                <br />
+                                        <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" ForeColor="Red"></asp:Label>
+                                    <p>
+                                        <asp:TextBox type="password" CssClass="form-control" ID="userPassword1" placeholder="Confirm New Password" runat="server" ValidationGroup="Credentials" OnTextChanged="userPassword1_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                    <p>
+
+                                        <asp:Button ID="btnSubmit" input="button" runat="server" class="btn btn-success btn-md" Text="Confirm" OnClick="submit_Click" />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblSuccess" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" ForeColor="Green">Changed Password!</asp:Label>
+                                        <br />
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </div>
                     <%-- End of change pwd --%>
@@ -211,7 +212,7 @@
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Enable 2 Factor Authentication to receive a verification code whenever you log in!"></i>
                         <label class="switch">
-                            <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" AutoPostBack="true" OnCheckedChanged="CB2FA_CheckedChanged"/>
+                            <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" AutoPostBack="true" OnCheckedChanged="CB2FA_CheckedChanged" />
                             <span class="slider round"></span>
                         </label>
                     </div>

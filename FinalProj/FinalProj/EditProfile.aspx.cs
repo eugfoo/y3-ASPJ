@@ -222,7 +222,27 @@ namespace FinalProj
 
         protected void submit_Click(object sender, EventArgs e)
         {
+            Users user = new Users();
+            Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
+            string passhash = ComputeSha256Hash(userPassword.Text);
 
+            if (tryingUser.passHash == passhash)
+            {
+                lblError.Text = "This is an old password!";
+                lblError.Visible = true;
+                lblSuccess.Visible = false;
+            }
+            else if (userPassword.Text != userPassword1.Text)
+            {
+                lblError.Text = "Passwords are not the same!";
+                lblError.Visible = true;
+                lblSuccess.Visible = false;
+            }
+            else
+            {
+                user.UpdatePassByID(tryingUser.id, passhash);
+                lblSuccess.Visible = true;
+            }
         }
 
         protected void userPassword_TextChanged(object sender, EventArgs e)
@@ -235,11 +255,13 @@ namespace FinalProj
             {
                 lblError.Text = "This is an old password!";
                 lblError.Visible = true;
+                lblSuccess.Visible = false;
             }
             else if (userPassword.Text != userPassword1.Text)
             {
                 lblError.Text = "Passwords are not the same!";
                 lblError.Visible = true;
+                lblSuccess.Visible = false;
             }
             else
             {
@@ -257,11 +279,13 @@ namespace FinalProj
             {
                 lblError.Text = "This is an old password!";
                 lblError.Visible = true;
+                lblSuccess.Visible = false;
             }
             else if (userPassword.Text != userPassword1.Text)
             {
                 lblError.Text = "Passwords are not the same!";
                 lblError.Visible = true;
+                lblSuccess.Visible = false;
             }
             else
             {

@@ -81,6 +81,7 @@ namespace FinalProj.BLL
 			return user.SelectByEmail(email);
 		}
 
+
         public Users GetUserById(int id)
         {
             userDAO user = new userDAO();
@@ -115,6 +116,12 @@ namespace FinalProj.BLL
 		{
 			userDAO user = new userDAO();
 			return user.UpdateName(id, name);
+		}
+
+		public int UpdatePassByID(int id, string passHash)
+		{
+			userDAO user = new userDAO();
+			return user.UpdatePass(id, passHash);
 		}
 
 		public int UpdateDescByID(int id, string desc)
