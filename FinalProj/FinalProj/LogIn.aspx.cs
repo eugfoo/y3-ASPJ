@@ -54,7 +54,7 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Session["admin"] = true;
-                        Response.Redirect("homepage.aspx", false);
+                        Response.Redirect("homepage.aspx");
                     }
                     else
                     {
@@ -63,7 +63,7 @@ namespace FinalProj
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                    }
+                    }
                 }
 
 
