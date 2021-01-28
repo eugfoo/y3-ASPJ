@@ -4,6 +4,7 @@ using System.Web.UI;
 using FinalProj.BLL;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 namespace FinalProj
 {
@@ -12,6 +13,7 @@ namespace FinalProj
         public string linkFB = "https://www.facebook.com/";
         public string linkInst = "https://www.instagram.com/";
         public string linkTwit = "https://www.twitter.com/";
+        protected List<PassHist> passList;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -222,16 +224,29 @@ namespace FinalProj
 
         protected void submit_Click(object sender, EventArgs e)
         {
+            string passHash = ComputeSha256Hash(userPassword.Text);
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
-            string passhash = ComputeSha256Hash(userPassword.Text);
+            PassHist pass = new PassHist();
+            passList = pass.getAllPassById(tryingUser.id);
 
-            if (tryingUser.passHash == passhash)
+            int counter = 0;
+
+            foreach (var passVar in passList)
+            {
+                Console.WriteLine(passVar);
+                if (passHash == passVar.passHashHist)
+                {
+                    counter++;
+                }
+            }
+            if (counter > 0)
             {
                 lblError.Text = "This is an old password!";
                 lblError.Visible = true;
                 lblSuccess.Visible = false;
             }
+
             else if (userPassword.Text != userPassword1.Text)
             {
                 lblError.Text = "Passwords are not the same!";
@@ -240,8 +255,12 @@ namespace FinalProj
             }
             else
             {
-                user.UpdatePassByID(tryingUser.id, passhash);
+                PassHist pass1 = new PassHist(tryingUser.id, passHash);
+                pass1.AddPass();
+                user.UpdatePassByID(tryingUser.id, passHash);
+
                 lblSuccess.Visible = true;
+                lblError.Text = "";
             }
         }
 
@@ -250,13 +269,25 @@ namespace FinalProj
             string passHash = ComputeSha256Hash(userPassword.Text);
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
+            PassHist pass = new PassHist();
+            passList = pass.getAllPassById(tryingUser.id);
 
-            if (tryingUser.passHash == passHash)
+            int counter = 0;
+
+            foreach (var passVar in passList)
+            {
+                if (passHash == passVar.passHashHist)
+                {
+                    counter++;
+                }
+            }
+            if (counter > 0)
             {
                 lblError.Text = "This is an old password!";
                 lblError.Visible = true;
                 lblSuccess.Visible = false;
             }
+
             else if (userPassword.Text != userPassword1.Text)
             {
                 lblError.Text = "Passwords are not the same!";
@@ -274,14 +305,26 @@ namespace FinalProj
             string passHash = ComputeSha256Hash(userPassword.Text);
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
+            PassHist pass = new PassHist();
+            passList = pass.getAllPassById(tryingUser.id);
 
-            if (tryingUser.passHash == passHash)
+            int counter = 0;
+
+            foreach (var passVar in passList)
+            {
+                if (passHash == passVar.passHashHist)
+                {
+                    counter++;
+                }
+            }
+            if (counter > 0)
             {
                 lblError.Text = "This is an old password!";
                 lblError.Visible = true;
                 lblSuccess.Visible = false;
             }
-            else if (userPassword.Text != userPassword1.Text)
+
+            if (userPassword.Text != userPassword1.Text)
             {
                 lblError.Text = "Passwords are not the same!";
                 lblError.Visible = true;
