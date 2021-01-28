@@ -25,6 +25,16 @@
         #btnOTP {
             margin: 2%;
         }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            visibility: hidden;
+            margin: 0; 
+        }
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
     </style>
 
 </head>
@@ -45,7 +55,7 @@
                             <label for="formGroupExampleInput">Input Google Authenticator code here.</label>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" CssClass="vError" runat="server" ControlToValidate="tbAuthenticator"
                             EnableClientScript="False" ErrorMessage="*" ValidationGroup="Credentials"></asp:RequiredFieldValidator>
-                        <asp:TextBox type="number" CssClass="form-control" ID="tbAuthenticator" runat="server" Width="20%" MaxLength="7"></asp:TextBox>
+                        <asp:TextBox type="number" CssClass="form-control" ID="tbAuthenticator" runat="server" Width="25%" MaxLength="7"></asp:TextBox>
                     </div>
                     <div class="align-bottom" style="text-align: left;">
                            <asp:Button ID="btnAuthenticate" runat="server" CssClass="btn btn-primary" Text="Authenticate" OnClick="btnAuthenticate_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />

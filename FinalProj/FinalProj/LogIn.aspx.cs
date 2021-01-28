@@ -55,7 +55,8 @@ namespace FinalProj
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
                     }
-                    else {
+                    else
+                    {
                         string ipAddr = GetIPAddress();
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
@@ -101,9 +102,9 @@ namespace FinalProj
 
                             }
                             else
-                                {
-                                    lblError.Visible = true;
-                                }
+                            {
+                                lblError.Visible = true;
+                            }
                         }
                     }
                 }
@@ -130,12 +131,14 @@ namespace FinalProj
                                 if (IsReCaptchaValid())
                                 {
                                     int OTPChecked = 0;
-                                    int counter = 0;
+                                    int counter = 0;
+
                                     Session["user"] = tryingUser;
                                     Session["id"] = tryingUser.id;
                                     Session["Name"] = tryingUser.name;
                                     Session["Pic"] = tryingUser.DPimage;
-                                    Session["email"] = tryingUser.email;
+                                    Session["email"] = tryingUser.email;
+
                                     string ipAddr = GetIPAddress();
                                     string countryLogged = CityStateCountByIp(ipAddr);
                                     DateTime dtLog = DateTime.Now;
@@ -152,17 +155,17 @@ namespace FinalProj
                                     }
 
 
-                                ActivityLog alg = new ActivityLog();
-                                Users us = new Users();
-                                if (us.GetUserByEmail(tbEmail.Text) != null)
-                                {
-                                    string name = us.GetUserByEmail(tbEmail.Text).name;
-                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
-                                }
-                                else
-                                {
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                    ActivityLog alg = new ActivityLog();
+                                    Users us = new Users();
+                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                    {
+                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                        alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                    }
+                                    else
+                                    {
+                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
 
                                     }
 
@@ -172,6 +175,18 @@ namespace FinalProj
                                     {
                                         EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                     }
+                                    HttpCookie cookie = Request.Cookies["SessionID"];
+                                    if (cookie == null)
+                                    {
+                                        EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                        //Creates new cookie session
+                                        Guid guid = Guid.NewGuid();
+                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 20);
+                                        HttpCookie cookie2 = new HttpCookie("SessionID");
+                                        cookie2["sid"] = uSid;
+                                        cookie2.Expires = DateTime.Now.AddYears(1);
+                                        Response.Cookies.Add(cookie2);
+                                    }
 
                                     Response.Redirect("homepage.aspx");
                                 }
@@ -179,6 +194,10 @@ namespace FinalProj
                                 {
                                     lblError.Text = "Failed Captcha please try again";
                                 }
+                            }
+                            else
+                            {
+                                lblError.Visible = true;
                             }
                         }
 
@@ -231,6 +250,18 @@ namespace FinalProj
                                             if (counter == 0)
                                             {
                                                 EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                            }
+                                            HttpCookie cookie = Request.Cookies["SessionID"];
+                                            if (cookie == null)
+                                            {
+                                                EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                //Creates new cookie session
+                                                Guid guid = Guid.NewGuid();
+                                                string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                HttpCookie cookie2 = new HttpCookie("SessionID");
+                                                cookie2["sid"] = uSid;
+                                                cookie2.Expires = DateTime.Now.AddYears(1);
+                                                Response.Cookies.Add(cookie2);
                                             }
 
                                             Response.Redirect("homepage.aspx");
@@ -438,6 +469,18 @@ namespace FinalProj
             var to = new EmailAddress(email, name);
             var plainTextContent = "";
             var htmlContent = "<strong><h2>We detected a new sign-in to your account</h2></strong><br/><p><strong>New sign-in detected from this IP-Address: </strong> " + ip + "</p><p> <strong>Country:</strong> " + country + "</p><strong><p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
+        public static async Task EmailNewDevice(string email, string name)
+        {
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
+            var subject = "New login from unknown device";
+            var to = new EmailAddress(email, name);
+            var plainTextContent = "";
+            var htmlContent = "<strong><h2>We detected a new sign-in to your account from an unknown device</h2></strong><br/>" +
+                "<p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
