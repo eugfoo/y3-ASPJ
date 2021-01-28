@@ -35,7 +35,7 @@ namespace FinalProj
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
-            {
+            {
                 HistoryOTP otp = new HistoryOTP();
                 HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
@@ -94,6 +94,7 @@ namespace FinalProj
                 {
                     lblError.Visible = true;
                 }
+
                 if (userTrying != null)
                 {
                     string otpSent = tbPass.Text;
@@ -101,8 +102,8 @@ namespace FinalProj
                     {
                         if (tryingUser.passHash == passHash)
                         {
-                            //if (IsReCaptchaValid())
-                            //{
+                            if (IsReCaptchaValid())
+                            {
                                 int OTPChecked = 0;
                                 int counter = 0;
                                 Session["user"] = tryingUser;
@@ -132,7 +133,7 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                    
+
                                     alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
                                 }
                                 else
@@ -234,11 +235,10 @@ namespace FinalProj
                                             lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                         }
                                     }
-                                }                                   
+                                }
                             }
-
                             else
-                            { 
+                            {
                                 lblError.Visible = true;
                                 string ipAddr = GetIPAddress();
                                 string countryLogged = CityStateCountByIp(ipAddr);
@@ -264,6 +264,7 @@ namespace FinalProj
 
                         }
                     }
+                }
 
                 }
             }
