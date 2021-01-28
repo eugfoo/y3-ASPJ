@@ -136,6 +136,7 @@
     <Content Include="forumPost.aspx" />
     <Content Include="forumPostEvent.aspx" />
     <Content Include="forumProjectClean.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="grabVoucher.JPG" />
     <Content Include="homepage.aspx" />
     <Content Include="eventDetails.aspx" />
@@ -188,7 +189,6 @@
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="SecurityCheckup.aspx" />
     <Content Include="StyleSheet\footer.css" />
-    <Content Include="Global.asax" />
     <Content Include="Img\together.jpeg" />
     <Content Include="Img\together.PNG" />
     <Content Include="createEvent.aspx" />
@@ -387,6 +387,9 @@
     <Compile Include="forumProjectClean.aspx.designer.cs">
       <DependentUpon>forumProjectClean.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="homepage.aspx.cs">
       <DependentUpon>homepage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -400,9 +403,6 @@
     </Compile>
     <Compile Include="eventDetails.aspx.designer.cs">
       <DependentUpon>eventDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="createEvent.aspx.cs">
       <DependentUpon>createEvent.aspx</DependentUpon>

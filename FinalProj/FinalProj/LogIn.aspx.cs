@@ -16,8 +16,8 @@ using System.IO;
 using System.Drawing;
 using System.Net;
 using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
-
+using System.Net.Http.Headers;using System.Web.SessionState;
+
 namespace FinalProj
 {
     public partial class LogIn : System.Web.UI.Page
@@ -30,6 +30,7 @@ namespace FinalProj
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Clear();
         }
 
         protected void btnSignIn_Click(object sender, EventArgs e)
@@ -47,12 +48,12 @@ namespace FinalProj
                 {
                     if (adminlogin.MainAdminPassword == adminPassHash) // hashed version of adminPass41111
                     {
-                        Session["admin"] = true;
                         string ipAddr = GetIPAddress();
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                        Session["admin"] = true;
                         Response.Redirect("homepage.aspx");
                     }
                     else
@@ -159,12 +160,14 @@ namespace FinalProj
                                     Users us = new Users();
                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                     {
+                                        Session["user"] = true;
                                         string name = us.GetUserByEmail(tbEmail.Text).name;
                                         lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
                                     }
                                     else
                                     {
+                                        Session["user"] = true;
                                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
 
                                     }
@@ -178,6 +181,20 @@ namespace FinalProj
                                     HttpCookie cookie = Request.Cookies["SessionID"];
                                     if (cookie == null)
                                     {
+                                        // edit here
+                                        if (us.GetUserByEmail(tbEmail.Text) != null)
+                                        {
+                                            Session["user"] = true;
+                                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", tbEmail.Text, countryLogged);
+                                        }
+                                        else
+                                        {
+                                            Session["user"] = true;
+                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "New Device Detected");
+
+                                        }
                                         EmailNewDevice(userTrying.userEmail, tryingUser.name);
                                         //Creates new cookie session
                                         Guid guid = Guid.NewGuid();
@@ -254,6 +271,18 @@ namespace FinalProj
                                             HttpCookie cookie = Request.Cookies["SessionID"];
                                             if (cookie == null)
                                             {
+                                                // edit here
+                                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                {
+                                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                    alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", tbEmail.Text, countryLogged);
+                                                }
+                                                else
+                                                {
+                                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "New Device Detected");
+
+                                                }
                                                 EmailNewDevice(userTrying.userEmail, tryingUser.name);
                                                 //Creates new cookie session
                                                 Guid guid = Guid.NewGuid();

@@ -210,8 +210,6 @@
                 <%--<a class="ml-2 navbar-brand text-center" href="/homepage.aspx">Clear View</a>--%>
 
 
-
-
                 <div class="collapse navbar-collapse justify-content-end" id="navbarnav">
                     <ul class="nav navbar-nav">
                         <li class="nav-item mr-3">

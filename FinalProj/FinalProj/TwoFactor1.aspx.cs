@@ -43,6 +43,7 @@ namespace FinalProj
                 HttpCookie cookie = Request.Cookies["SessionID"];
                 if (cookie == null)
                 {
+                    // edit here
                     Users usr = new Users();
                     Users user = (Users)Session["user"];
                     EmailNewDevice(user.email, user.name);
