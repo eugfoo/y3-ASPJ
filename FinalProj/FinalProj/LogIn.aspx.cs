@@ -88,10 +88,10 @@ namespace FinalProj
                 {
                     lblError.Visible = true;
                 }
-                if (userTrying == null)
+                if (userTrying != null)
                 {
                     string otpSent = tbPass.Text;
-                    if (tryingUser == null) // user exists
+                    if (tryingUser != null) // user exists
                     {
                         if (tryingUser.passHash == passHash)
                         {
