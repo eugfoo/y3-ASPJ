@@ -186,22 +186,27 @@ namespace FinalProj
             Users user = (Users)Session["user"];
             Events ev = new Events();
             evList = ev.GetAllEventsByUserID(user.id);
-            TimeSpan interval = DateTime.Now.Subtract(evList[0].dt);
-            if (interval.Minutes < 5)
+            if (evList.Count > 1)
             {
-                errmsgTb.Text = errmsg;
-                PanelError.Visible = true;
+                TimeSpan interval = DateTime.Now.Subtract(evList[0].dt);
+                TimeSpan intervalA = DateTime.Now.Subtract(evList[1].dt);
+                if (interval.Minutes < 5 && intervalA.Minutes < 5)
+                {
+                    errmsgTb.Text = errmsg;
+                    PanelError.Visible = true;
 
-                string ipAddr = GetIPAddress();
+                    string ipAddr = GetIPAddress();
 
-                string countryLogged = CityStateCountByIp(ipAddr);
-                DateTime dtLog = DateTime.Now;
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
 
-                CityStateCountByIp(ipAddr);
-                ActivityLog alg = new ActivityLog();
-                alg.AddActivityLog(dtLog, user.name, ipAddr, "Create Event Attempt: " + eventTitle.Text, "Spamming", user.email, countryLogged);
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Create Event Attempt: " + eventTitle.Text, "Spamming", user.email, countryLogged);
 
+                }
             }
+            
 
             if (errmsg != "")
             {

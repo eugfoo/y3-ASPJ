@@ -34,5 +34,11 @@ namespace FinalProj.BLL
             passHistDAO dao = new passHistDAO();
             return dao.getAllPassById(email);
         }
+
+        public PassHist getLastPassByEmail(string email)
+        {
+            passHistDAO dao = new passHistDAO();
+            return dao.GetLastPassById(email);
+        }
     }
 }

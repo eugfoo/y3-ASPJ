@@ -48,5 +48,11 @@ namespace FinalProj.BLL
 			int result = algDao.InsertActivity(dtime, username, ip, action, violation, email, country);
 			return result;
 		}
+
+		public ActivityLog getLastLogByEmail(string email)
+        {
+			LogsDAO log = new LogsDAO();
+			return log.GetLastLogByEmail(email);
+        }
 	}
 }

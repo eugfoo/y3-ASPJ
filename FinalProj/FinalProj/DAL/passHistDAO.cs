@@ -68,5 +68,35 @@ namespace FinalProj.DAL
 
             return allPassList;
         }
+
+        public PassHist GetLastPassById(string email)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "SELECT TOP 1 * FROM passHistory WHERE UserEmail = @email ORDER BY ID DESC";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@email", email);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            PassHist pass = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];
+                string UEmail = row["UserEmail"].ToString();
+                string UPassHist = row["UserPassHistory"].ToString();
+                string uDateTime = row["DateTime"].ToString();
+
+                pass = new PassHist(UEmail, UPassHist, uDateTime);
+            }
+            else
+            {
+                pass = null;
+            }
+
+            return pass;
+        }
+
     }
 }

@@ -152,5 +152,38 @@ namespace FinalProj.DAL
 
             return result;
         }
+
+        public ActivityLog GetLastLogByEmail(string email)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "SELECT TOP 1 * FROM activityLogs WHERE Email = @email ORDER BY Id DESC";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@email", email);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            ActivityLog pass = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];
+                DateTime activitylgdt = Convert.ToDateTime(row["DateTime"].ToString());
+                string activitylgUser = row["Username"].ToString();
+                string activitylgIP = row["IPAddress"].ToString();
+                string activitylgAction = row["Action"].ToString();
+                string activitylgViolation = row["ViolationType"].ToString();
+                string activitylgEmail = row["Email"].ToString();
+                string activitylgCountry = row["Country"].ToString();
+
+                pass = new ActivityLog(activitylgdt, activitylgUser, activitylgIP, activitylgAction, activitylgViolation, activitylgEmail, activitylgCountry);
+            }
+            else
+            {
+                pass = null;
+            }
+
+            return pass;
+        }
     }
 }
