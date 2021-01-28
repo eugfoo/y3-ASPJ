@@ -288,7 +288,7 @@ namespace FinalProj
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authenticaton", tbEmail.Text, countryLogged);
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
                                         }
                                         else
                                         {
@@ -313,7 +313,7 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authenticaton", tbEmail.Text, countryLogged);
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
                                 }
                                 else
                                 {
