@@ -54,7 +54,13 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
-                    }
+                    }                    else {
+                        string ipAddr = GetIPAddress();
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        DateTime dtLog = DateTime.Now;
+                        Logs lg = new Logs();
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                    }
                 }
 
 
