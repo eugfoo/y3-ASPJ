@@ -30,7 +30,7 @@ namespace FinalProj
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session.Clear();
+
         }
 
         protected void btnSignIn_Click(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Session["admin"] = true;
-                        Response.Redirect("homepage.aspx");
+                        Response.Redirect("homepage.aspx", false);
                     }
                     else
                     {
