@@ -15,6 +15,8 @@ namespace FinalProj
 {
     public partial class Register : System.Web.UI.Page
     {
+        static string finalHash;
+        static string salt;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -27,31 +29,42 @@ namespace FinalProj
                 Users checkEmail = new Users();
 
                 if (checkEmail.GetUserByEmail(tbEmail.Text) == null) // If the email is unused...
-                {
+                {
                     if (tbPass.Text == tbCfmPass.Text)               // If the passwords match...
                     {
                         if (tbPass.Text.Length > 8)                  // If the password is longer than the amount of seconds I wish to live...
                         {
                             if (IsReCaptchaValid())
-                            {
-                                string passHash = ComputeSha256Hash(tbPass.Text);
-                                DateTime now = DateTime.Now;
-                                string DTNow = now.ToString("g");
-
-                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), passHash, DTNow);
-                                HistoryOTP otp = new HistoryOTP();
-                                otp.AddHistoryOTP(user.email, "", 0); ;
-                                user.AddUser();
-
-                                PassHist pass = new PassHist(user.email, passHash);
-                                pass.AddPass();
+                            {                                string pwd = tbPass.Text.ToString().Trim();
+                                //string passHash = ComputeSha256Hash(tbPass.Text);
+                                //Generate random "salt"
+                                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                                byte[] saltByte = new byte[8];
+                                //Fills array of bytes with a cryptographically strong sequence of random values.
+                                rng.GetBytes(saltByte);
+                                salt = Convert.ToBase64String(saltByte);
+                                SHA256Managed hashing = new SHA256Managed();
+                                string pwdWithSalt = pwd + salt;
+                                byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
+                                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                                finalHash = Convert.ToBase64String(hashWithSalt);
+                                DateTime now = DateTime.Now;
+                                string DTNow = now.ToString("g");
+
+                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), finalHash ,DTNow,salt);
+                                HistoryOTP otp = new HistoryOTP();
+                                otp.AddHistoryOTP(user.email, "", 0); ;
+                                user.AddUser();
+
+                                PassHist pass = new PassHist(user.email, finalHash);
+                                pass.AddPass();
                                 Response.Redirect("LogIn.aspx");
                             }
                             else
                             {
                                 lblError.Text = "Failed Captcha. Please try again.";
                                 lblError.Visible = true;
-                            }
+                            }
                         }
                         else
                         {

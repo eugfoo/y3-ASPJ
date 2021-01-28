@@ -28,23 +28,24 @@ namespace FinalProj.BLL
 		public int twofactor { get; set; }
 		public int googleauth { get; set; }
 		public string googleKey { get; set; }
-
+		public string passSalt { get; set; }
 
 
 		public Users() { }
 
-		public Users(string uEmail, string uName, string uIsOrg, string uPassHash, string uRegDate)
+		public Users(string uEmail, string uName, string uIsOrg, string uPassHash, string uRegDate, string uPassSalt)
 		{
 			name = uName;
 			email = uEmail;
 			isOrg = uIsOrg;
 			passHash = uPassHash;
 			regDate = uRegDate;
+			passSalt = uPassSalt;
 		}
 
 		public Users(int uId, string uEmail, string uPassHash, string uName, string uDPImage, string uBPImage,
 			string uDesc, int uRating, string uIsOrg, double uPoints, string uParticipate, int uVerified, string uRegDate,
-			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor, int googleAut, string googleKe)
+			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor, int googleAut, string googleKe, string uPassSalt)
 		{
 			id = uId;
 			email = uEmail;
@@ -66,6 +67,7 @@ namespace FinalProj.BLL
 			twofactor = uTwoFactor;
 			googleauth = googleAut;
 			googleKey = googleKe;
+			passSalt = uPassSalt;
 		}
 
 		public int AddUser()

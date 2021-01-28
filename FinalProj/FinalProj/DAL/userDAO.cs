@@ -24,8 +24,8 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO Users(userEmail, userName, userPasswordHash, userDPImage, userIsOrg, userRegDate) " +
-                "VALUES (@userEmail, @userName, @userPasswordHash, @userDPImage, @userIsOrg, @userRegDate)";
+            string sqlStmt = "INSERT INTO Users(userEmail, userName, userPasswordHash, userDPImage, userIsOrg, userRegDate, userSalt) " +
+                "VALUES (@userEmail, @userName, @userPasswordHash, @userDPImage, @userIsOrg, @userRegDate, @userSalt)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -35,6 +35,7 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@userIsOrg", user.isOrg);
             sqlCmd.Parameters.AddWithValue("@userRegDate", user.regDate);
             sqlCmd.Parameters.AddWithValue("@userDPImage", "/Img/defaultMan.jpg");
+            sqlCmd.Parameters.AddWithValue("@userSalt", user.passSalt);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -80,10 +81,11 @@ namespace FinalProj.DAL
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
+                string UpassSalt = row["userSalt"].ToString();
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc,
                     Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook,
-                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
+                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
             }
             else
             {
@@ -128,10 +130,11 @@ namespace FinalProj.DAL
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
+                string UpassSalt = row["userGoogleSecretKey"].ToString();
 
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
             }
             else
             {
@@ -178,9 +181,10 @@ namespace FinalProj.DAL
                 int Utwofactor = Convert.ToInt32(row["user2FA"]);
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
+                string UpassSalt = row["userGoogleSecretKey"].ToString();
 
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
                 allUserList.Add(user);
             }
 

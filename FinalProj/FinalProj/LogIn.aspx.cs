@@ -25,7 +25,7 @@ namespace FinalProj
         public string result = "";
         public string OTPEmail = "";
         public string OTPassword = "";
-        public string userName = "";
+        public string userName = "";        public string code = "";
         protected List<Logs> lgList;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -62,27 +62,43 @@ namespace FinalProj
                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
 
                 //string passHash = tbPass.Text;
-                string passHash = ComputeSha256Hash(tbPass.Text);
+                string passHash = tbPass.Text.ToString().Trim();
                 if (tryingUser != null) // user exists
                 {
-                    if (tryingUser.passHash == passHash)
-                        if (tryingUser.twofactor == 1)
+                    string dbHash = tryingUser.passHash;
+                    string dbSalt = tryingUser.passSalt;
+                    SHA256Managed hashing = new SHA256Managed();
+                    if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
+                    {
+                        string pwdWithSalt = passHash + dbSalt;
+                        byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                        string userHash = Convert.ToBase64String(hashWithSalt);
+                        if (userHash.Equals(dbHash))
                         {
-                            if (IsReCaptchaValid())
+                            if (tryingUser.twofactor == 1)
                             {
-                                Session["user"] = tryingUser;
-                                Session["id"] = tryingUser.id;
-                                Session["Name"] = tryingUser.name;
-                                Session["Pic"] = tryingUser.DPimage;
-                                Session["email"] = tryingUser.email;
+                                if (IsReCaptchaValid())
+                                {
+                                    Session["user"] = tryingUser;
+                                    Session["id"] = tryingUser.id;
+                                    Session["Name"] = tryingUser.name;
+                                    Session["Pic"] = tryingUser.DPimage;
+                                    Session["email"] = tryingUser.email;
 
-                                Response.Redirect("TwoFactor1.aspx");
+                                    Response.Redirect("TwoFactor1.aspx");
+                                }
+                                else
+                                {
+                                    lblError.Text = "Failed Captcha please try again";
+                                }
+
                             }
                             else
-                            {
-                                lblError.Text = "Failed Captcha please try again";
-                            }
+                                {
+                                    lblError.Visible = true;
+                                }
                         }
+                    }
                 }
                 else
                 {
@@ -90,34 +106,43 @@ namespace FinalProj
                 }
                 if (userTrying != null)
                 {
-                    string otpSent = tbPass.Text;
+                    string otpSent = tbPass.Text;
+
                     if (tryingUser != null) // user exists
                     {
-                        if (tryingUser.passHash == passHash)
+                        string dbHash = tryingUser.passHash;
+                        string dbSalt = tryingUser.passSalt;
+                        SHA256Managed hashing = new SHA256Managed();
+                        if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                         {
-                            if (IsReCaptchaValid())
+                            string pwdWithSalt = passHash + dbSalt;
+                            byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                            string userHash = Convert.ToBase64String(hashWithSalt);
+                            if (userHash.Equals(dbHash))
                             {
-                                int OTPChecked = 0;
-                                int counter = 0;
-                                Session["user"] = tryingUser;
-                                Session["id"] = tryingUser.id;
-                                Session["Name"] = tryingUser.name;
-                                Session["Pic"] = tryingUser.DPimage;
-                                Session["email"] = tryingUser.email;
-                                string ipAddr = GetIPAddress();
-                                string countryLogged = CityStateCountByIp(ipAddr);
-                                DateTime dtLog = DateTime.Now;
-                                Logs lg = new Logs();
-
-                                //Email function for new sign in
-                                lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
-                                foreach (var log in lgList)
+                                if (IsReCaptchaValid())
                                 {
-                                    if (log.ipAddr == ipAddr)
+                                    int OTPChecked = 0;
+                                    int counter = 0;
+                                    Session["user"] = tryingUser;
+                                    Session["id"] = tryingUser.id;
+                                    Session["Name"] = tryingUser.name;
+                                    Session["Pic"] = tryingUser.DPimage;
+                                    Session["email"] = tryingUser.email;
+                                    string ipAddr = GetIPAddress();
+                                    string countryLogged = CityStateCountByIp(ipAddr);
+                                    DateTime dtLog = DateTime.Now;
+                                    Logs lg = new Logs();
+
+                                    //Email function for new sign in
+                                    lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                    foreach (var log in lgList)
                                     {
-                                        counter++;
+                                        if (log.ipAddr == ipAddr)
+                                        {
+                                            counter++;
+                                        }
                                     }
-                                }
 
 
                                 ActivityLog alg = new ActivityLog();
@@ -132,16 +157,21 @@ namespace FinalProj
                                 {
                                     lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
 
+                                    }
+
+                                    otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+
+                                    if (counter == 0)
+                                    {
+                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                    }
+
+                                    Response.Redirect("homepage.aspx");
                                 }
-
-                                otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
-
-                                if (counter == 0)
+                                else
                                 {
-                                    EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                    lblError.Text = "Failed Captcha please try again";
                                 }
-
-                                Response.Redirect("homepage.aspx");
                             }
                         }
 
