@@ -8,14 +8,14 @@ namespace FinalProj.BLL
 {
     public class PassHist
     {
-        public int userID { get; set; }
+        public string userEmail { get; set; }
         public string passHashHist { get; set; }
 
         public PassHist() { }
 
-        public PassHist(int uID, string passHash)
+        public PassHist(string email, string passHash)
         {
-            userID = uID;
+            userEmail = email;
             passHashHist = passHash;
         }
 
@@ -26,10 +26,10 @@ namespace FinalProj.BLL
             return result;
         }
 
-        public List<PassHist> getAllPassById(int id)
+        public List<PassHist> getAllPassById(string email)
         {
             passHistDAO dao = new passHistDAO();
-            return dao.getAllPassById(id);
+            return dao.getAllPassById(email);
         }
     }
 }

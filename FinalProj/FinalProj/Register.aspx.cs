@@ -43,7 +43,7 @@ namespace FinalProj
                                 otp.AddHistoryOTP(user.email, "", 0); ;
                                 user.AddUser();
 
-                                PassHist pass = new PassHist(user.id, passHash);
+                                PassHist pass = new PassHist(user.email, passHash);
                                 pass.AddPass();
                                 Response.Redirect("LogIn.aspx");
                             }

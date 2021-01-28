@@ -228,7 +228,7 @@ namespace FinalProj
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();
-            passList = pass.getAllPassById(tryingUser.id);
+            passList = pass.getAllPassById(tryingUser.email);
 
             int counter = 0;
 
@@ -255,7 +255,7 @@ namespace FinalProj
             }
             else
             {
-                PassHist pass1 = new PassHist(tryingUser.id, passHash);
+                PassHist pass1 = new PassHist(tryingUser.email, passHash);
                 pass1.AddPass();
                 user.UpdatePassByID(tryingUser.id, passHash);
 
@@ -270,7 +270,7 @@ namespace FinalProj
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();
-            passList = pass.getAllPassById(tryingUser.id);
+            passList = pass.getAllPassById(tryingUser.email);
 
             int counter = 0;
 
@@ -306,7 +306,7 @@ namespace FinalProj
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();
-            passList = pass.getAllPassById(tryingUser.id);
+            passList = pass.getAllPassById(tryingUser.email);
 
             int counter = 0;
 

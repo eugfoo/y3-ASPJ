@@ -24,12 +24,12 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO passHistory (UserID, UserPassHistory) " +
-                "VALUES (@userID, @userPassHist)";
+            string sqlStmt = "INSERT INTO passHistory (UserEmail, UserPassHistory) " +
+                "VALUES (@userEmail, @userPassHist)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
-            sqlCmd.Parameters.AddWithValue("@userID", pass.userID);
+            sqlCmd.Parameters.AddWithValue("@userEmail", pass.userEmail);
             sqlCmd.Parameters.AddWithValue("@userPassHist", pass.passHashHist);
 
             // Step 4 Open connection the execute NonQuery of sql command   
@@ -41,14 +41,14 @@ namespace FinalProj.DAL
             return result;
         }
 
-        public List<PassHist> getAllPassById(int id)
+        public List<PassHist> getAllPassById(string email)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "SELECT * FROM passHistory WHERE UserID = @id";
+            string sqlStmt = "SELECT * FROM passHistory WHERE UserEmail = @email";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
-            da.SelectCommand.Parameters.AddWithValue("@id", id);
+            da.SelectCommand.Parameters.AddWithValue("@email", email);
             DataSet ds = new DataSet();
             da.Fill(ds);
 
@@ -57,10 +57,10 @@ namespace FinalProj.DAL
             for (int i = 0; i < rec_cnt; i++)
             {
                 DataRow row = ds.Tables[0].Rows[i];
-                int uID = Convert.ToInt32(row["UserID"]);
+                string uEmail = row["UserEmail"].ToString();
                 string uPassHist = row["UserPassHistory"].ToString();
 
-                PassHist pass = new PassHist(uID, uPassHist);
+                PassHist pass = new PassHist(uEmail, uPassHist);
                 allPassList.Add(pass);
             }
 
