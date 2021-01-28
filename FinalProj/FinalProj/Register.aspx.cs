@@ -27,28 +27,28 @@ namespace FinalProj
                 Users checkEmail = new Users();
 
                 if (checkEmail.GetUserByEmail(tbEmail.Text) == null) // If the email is unused...
-                {
+                {
                     if (tbPass.Text == tbCfmPass.Text)               // If the passwords match...
                     {
                         if (tbPass.Text.Length > 8)                  // If the password is longer than the amount of seconds I wish to live...
                         {
                             if (IsReCaptchaValid())
-                            {
-                                //string passHash = ComputeSha256Hash(tbPass.Text);
-                                DateTime now = DateTime.Now;
-                                string DTNow = now.ToString("g");
-
-                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), tbPass.Text, DTNow);
-                                HistoryOTP otp = new HistoryOTP();
-                                otp.AddHistoryOTP(user.email, "", 0); ;
-                                user.AddUser();
+                            {
+                                string passHash = ComputeSha256Hash(tbPass.Text);
+                                DateTime now = DateTime.Now;
+                                string DTNow = now.ToString("g");
+
+                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), passHash, DTNow);
+                                HistoryOTP otp = new HistoryOTP();
+                                otp.AddHistoryOTP(user.email, "", 0); ;
+                                user.AddUser();
                                 Response.Redirect("LogIn.aspx");
                             }
                             else
                             {
                                 lblError.Text = "Failed Captcha. Please try again.";
                                 lblError.Visible = true;
-                            }
+                            }
                         }
                         else
                         {
@@ -70,7 +70,7 @@ namespace FinalProj
             }
         }
 
-        /*public string ComputeSha256Hash(string data)
+        public string ComputeSha256Hash(string data)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
@@ -83,7 +83,7 @@ namespace FinalProj
                 }
                 return builder.ToString();
             }
-        }*/
+        }
         public bool IsReCaptchaValid()
         {
             var result = false;
