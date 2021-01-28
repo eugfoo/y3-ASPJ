@@ -10,13 +10,16 @@ namespace FinalProj.BLL
     {
         public string userEmail { get; set; }
         public string passHashHist { get; set; }
+        public string userRegDate { get; set; }
+
 
         public PassHist() { }
 
-        public PassHist(string email, string passHash)
+        public PassHist(string email, string passHash, string dateTime)
         {
             userEmail = email;
             passHashHist = passHash;
+            userRegDate = dateTime;
         }
 
         public int AddPass()

@@ -187,6 +187,7 @@
     <Content Include="RemoveBookmark.aspx" />
     <Content Include="RemoveEventFromBookmark.aspx" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="SecurityCheckup.aspx" />
     <Content Include="StyleSheet\footer.css" />
     <Content Include="Global.asax" />
     <Content Include="Img\together.jpeg" />
@@ -481,6 +482,13 @@
     </Compile>
     <Compile Include="RemoveEventFromBookmark.aspx.designer.cs">
       <DependentUpon>RemoveEventFromBookmark.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityCheckup.aspx.cs">
+      <DependentUpon>SecurityCheckup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SecurityCheckup.aspx.designer.cs">
+      <DependentUpon>SecurityCheckup.aspx</DependentUpon>
     </Compile>
     <Compile Include="SiteBootstrap.Master.cs">
       <DependentUpon>SiteBootstrap.Master</DependentUpon>

@@ -255,7 +255,10 @@ namespace FinalProj
             }
             else
             {
-                PassHist pass1 = new PassHist(tryingUser.email, passHash);
+                DateTime now = DateTime.Now;
+                string DTNow = now.ToString("g")
+                    ;
+                PassHist pass1 = new PassHist(tryingUser.email, passHash, DTNow);
                 pass1.AddPass();
                 user.UpdatePassByID(tryingUser.id, passHash);
 

@@ -24,13 +24,14 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO passHistory (UserEmail, UserPassHistory) " +
-                "VALUES (@userEmail, @userPassHist)";
+            string sqlStmt = "INSERT INTO passHistory (UserEmail, UserPassHistory, DateTime) " +
+                "VALUES (@userEmail, @userPassHist, @userDateTime)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
             sqlCmd.Parameters.AddWithValue("@userEmail", pass.userEmail);
             sqlCmd.Parameters.AddWithValue("@userPassHist", pass.passHashHist);
+            sqlCmd.Parameters.AddWithValue("@userDateTime", pass.userRegDate);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -59,8 +60,9 @@ namespace FinalProj.DAL
                 DataRow row = ds.Tables[0].Rows[i];
                 string uEmail = row["UserEmail"].ToString();
                 string uPassHist = row["UserPassHistory"].ToString();
+                string uDateTime = row["DateTime"].ToString();
 
-                PassHist pass = new PassHist(uEmail, uPassHist);
+                PassHist pass = new PassHist(uEmail, uPassHist, uDateTime);
                 allPassList.Add(pass);
             }
 

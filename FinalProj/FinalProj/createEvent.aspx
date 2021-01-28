@@ -216,7 +216,7 @@
 
                         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                             <ContentTemplate>
-                                <asp:Button ID="submit" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Create Event" OnClick="OTPbtn_click" />
+                                <asp:Button ID="submitting" input="button" runat="server" class="btn btn-success btn-md btn-block" Text="Create Event" OnClick="OTPbtn_click" />
                                 <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small" ForeColor="Red">Incorrect OTP. Please try again.</asp:Label>
 
                             </ContentTemplate>
