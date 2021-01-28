@@ -305,7 +305,7 @@ namespace FinalProj
 
                 thread = new Thread(DdlPrefix.Text, BadgeColorIdentifier(), tbTitle.Text, HFDate.Value,
                     firstImage, secondImage, thirdImage, fourthImage,
-                    tbContent.Text, "1", "Gundy");
+                    tbContent.Text, 1, "Gundy");
 
                 int result = thread.CreateThread();
 

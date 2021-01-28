@@ -122,6 +122,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="EAK.txt" />
     <Content Include="editForumPost.aspx" />
+    <Content Include="editforumThread.aspx" />
     <Content Include="EditProfile.aspx" />
     <Content Include="editEventDetails.aspx" />
     <Content Include="error\errorPage.aspx" />
@@ -294,6 +295,13 @@
     </Compile>
     <Compile Include="editForumPost.aspx.designer.cs">
       <DependentUpon>editForumPost.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="editforumThread.aspx.cs">
+      <DependentUpon>editforumThread.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="editforumThread.aspx.designer.cs">
+      <DependentUpon>editforumThread.aspx</DependentUpon>
     </Compile>
     <Compile Include="EditProfile.aspx.cs">
       <DependentUpon>EditProfile.aspx</DependentUpon>

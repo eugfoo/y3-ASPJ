@@ -54,6 +54,13 @@ namespace FinalProj
                         Logs lg = new Logs();
                         lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                         Response.Redirect("homepage.aspx");
+                    }
+                    else {
+                        string ipAddr = GetIPAddress();
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        DateTime dtLog = DateTime.Now;
+                        Logs lg = new Logs();
+                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
 
@@ -250,7 +257,7 @@ namespace FinalProj
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authenticaton", tbEmail.Text, countryLogged);
                                         }
                                         else
                                         {
@@ -275,7 +282,7 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Authenticaton", tbEmail.Text, countryLogged);
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authenticaton", tbEmail.Text, countryLogged);
                                 }
                                 else
                                 {

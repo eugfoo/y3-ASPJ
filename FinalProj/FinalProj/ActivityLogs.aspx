@@ -23,6 +23,15 @@
             ],           
         });
         </script>
+
+    <asp:DropDownList id="violationType" AutoPostBack="True" runat="server">
+
+        <asp:ListItem Selected="True" Value="All"> All </asp:ListItem>
+        <asp:ListItem Value="FailedAuthentication"> FailedAuthentication </asp:ListItem>
+        <asp:ListItem Value="Malware"> Malware </asp:ListItem>
+        <asp:ListItem Value="Spamming"> Spamming </asp:ListItem>
+    </asp:DropDownList>
+
     <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
             <tr>
