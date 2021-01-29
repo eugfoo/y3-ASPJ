@@ -13,6 +13,7 @@ namespace FinalProj
         public string linkFB = "https://www.facebook.com/";
         public string linkInst = "https://www.instagram.com/";
         public string linkTwit = "https://www.twitter.com/";
+        static string finalHash;
         protected List<PassHist> passList;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -224,6 +225,7 @@ namespace FinalProj
 
         protected void submit_Click(object sender, EventArgs e)
         {
+            string passString = userPassword.Text.ToString().Trim();
             string passHash = ComputeSha256Hash(userPassword.Text);
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
@@ -255,15 +257,24 @@ namespace FinalProj
             }
             else
             {
-                DateTime now = DateTime.Now;
-                string DTNow = now.ToString("g")
-                    ;
-                PassHist pass1 = new PassHist(tryingUser.email, passHash, DTNow);
-                pass1.AddPass();
-                user.UpdatePassByID(tryingUser.id, passHash);
+                string dbSalt = tryingUser.passSalt;
+                SHA256Managed hashing = new SHA256Managed();
+                if (dbSalt != null && dbSalt.Length > 0 )
+                {
+                    string pwdWithSalt = passString + dbSalt;
+                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                    string userHash = Convert.ToBase64String(hashWithSalt);
+                    finalHash = Convert.ToBase64String(hashWithSalt);
+                    DateTime now = DateTime.Now;
+                    string DTNow = now.ToString("g")
+                        ;
+                    PassHist pass1 = new PassHist(tryingUser.email, finalHash, DTNow);
+                    pass1.AddPass();
+                    user.UpdatePassByID(tryingUser.id, finalHash);
 
-                lblSuccess.Visible = true;
-                lblError.Text = "";
+                    lblSuccess.Visible = true;
+                    lblError.Text = "";
+                }
             }
         }
 
