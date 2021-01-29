@@ -36,7 +36,7 @@ namespace FinalProj
                         {
                             if (IsReCaptchaValid())
                             {                                string pwd = tbPass.Text.ToString().Trim();
-                                //string passHash = ComputeSha256Hash(tbPass.Text);
+                                string passHash = ComputeSha256Hash(tbPass.Text);
                                 //Generate random "salt"
                                 RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                                 byte[] saltByte = new byte[8];
@@ -56,7 +56,7 @@ namespace FinalProj
                                 otp.AddHistoryOTP(user.email, "", 0); ;
                                 user.AddUser();
 
-                                PassHist pass = new PassHist(user.email, finalHash, DTNow);
+                                PassHist pass = new PassHist(user.email, passHash, DTNow);
                                 pass.AddPass();
                                 Response.Redirect("LogIn.aspx");
                             }

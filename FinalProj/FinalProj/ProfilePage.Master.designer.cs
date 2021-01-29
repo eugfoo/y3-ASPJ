@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FinalProj {
-    
-    
-    public partial class ProfilePage {
-        
+namespace FinalProj
+{
+
+
+    public partial class ProfilePage
+    {
+
         /// <summary>
         /// ContentPlaceHolder2 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder2;
-        
+
         /// <summary>
         /// lblBookmark control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink lblBookmark;
-        
+
         /// <summary>
         /// lblProfile control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink lblProfile;
-        
+
         /// <summary>
         /// ddCaret control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ddCaret;
-        
+
         /// <summary>
         /// ddMenu control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ddMenu;
-        
+
         /// <summary>
         /// openModal control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton openModal;
-        
+
         /// <summary>
         /// norgItems control.
         /// </summary>
@@ -74,7 +76,16 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl norgItems;
-        
+
+        /// <summary>
+        /// Div2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
+
         /// <summary>
         /// liLogOut control.
         /// </summary>
@@ -83,7 +94,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLogOut;
-        
+
         /// <summary>
         /// lbLogOut control.
         /// </summary>
@@ -92,7 +103,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbLogOut;
-        
+
         /// <summary>
         /// imgBP control.
         /// </summary>
@@ -101,7 +112,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgBP;
-        
+
         /// <summary>
         /// imgDP control.
         /// </summary>
@@ -110,7 +121,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgDP;
-        
+
         /// <summary>
         /// hlFacebook control.
         /// </summary>
@@ -119,7 +130,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlFacebook;
-        
+
         /// <summary>
         /// HyperLink1 control.
         /// </summary>
@@ -128,7 +139,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
-        
+
         /// <summary>
         /// hlInstagram control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlInstagram;
-        
+
         /// <summary>
         /// HyperLink2 control.
         /// </summary>
@@ -146,7 +157,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLink2;
-        
+
         /// <summary>
         /// hlTwitter control.
         /// </summary>
@@ -155,7 +166,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlTwitter;
-        
+
         /// <summary>
         /// HyperLink3 control.
         /// </summary>
@@ -164,7 +175,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLink3;
-        
+
         /// <summary>
         /// lblUserName control.
         /// </summary>
@@ -173,7 +184,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUserName;
-        
+
         /// <summary>
         /// bluetick control.
         /// </summary>
@@ -182,7 +193,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl bluetick;
-        
+
         /// <summary>
         /// lblRating control.
         /// </summary>
@@ -191,7 +202,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRating;
-        
+
         /// <summary>
         /// lblEventCount control.
         /// </summary>
@@ -200,7 +211,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEventCount;
-        
+
         /// <summary>
         /// lblDesc control.
         /// </summary>
@@ -209,7 +220,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDesc;
-        
+
         /// <summary>
         /// linkPPPoints control.
         /// </summary>
@@ -218,7 +229,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl linkPPPoints;
-        
+
         /// <summary>
         /// li1 control.
         /// </summary>
@@ -227,7 +238,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl li1;
-        
+
         /// <summary>
         /// ContentPlaceHolder3 control.
         /// </summary>
@@ -236,7 +247,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder3;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -245,7 +256,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// tbNameOrg control.
         /// </summary>
@@ -254,7 +265,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbNameOrg;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -263,7 +274,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// tbDescOrg control.
         /// </summary>
@@ -272,7 +283,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbDescOrg;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -281,7 +292,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// fuProof control.
         /// </summary>
@@ -290,7 +301,7 @@ namespace FinalProj {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuProof;
-        
+
         /// <summary>
         /// btnSend control.
         /// </summary>

@@ -95,7 +95,7 @@
             }
 
         #box {
-            display: block;
+            display: none;
             margin-top: 4%;
             margin-bottom: 4%;
         }

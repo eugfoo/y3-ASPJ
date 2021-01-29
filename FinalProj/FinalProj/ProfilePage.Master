@@ -132,13 +132,12 @@
             }
 
             #navbarnav ul li {
-                text-align:right;
+                text-align: right;
             }
 
             #hmpage-link {
                 margin-left: 1rem !important;
             }
-            
         }
 
         @media screen and (max-width: 575px) {
@@ -164,8 +163,6 @@
             .fdback-head:nth-of-type(2n) {
                 text-align: left;
             }
-
-            
         }
 
         /* Set CSS for drop down list */
@@ -181,7 +178,7 @@
             position: absolute;
             background-color: #f1f1f1;
             min-width: 300px;
-            min-height:70px;
+            min-height: 70px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 3px;
@@ -198,11 +195,11 @@
                     background-color: #ddd;
                 }
 
-                .dropdown-content p {
-                    font-weight: bold;
-                    color: dodgerblue;
-                    display: inline;
-                }
+            .dropdown-content p {
+                font-weight: bold;
+                color: dodgerblue;
+                display: inline;
+            }
 
         .dropdown:hover .dropdown-content {
             display: block;
@@ -231,7 +228,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-	
+
 
     <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
     </asp:ContentPlaceHolder>
@@ -240,40 +237,44 @@
     <form runat="server">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <% Users userG = (Users)Session["user"];
-                    if (userG != null)
-                    {%>
-                        <div class="dropdown">
-                        <div id="hexagon" class="hexagon">
-                            <% if (Session["id"] != null)
+                if (userG != null)
+                {%>
+            <div class="dropdown">
+                <div id="hexagon" class="hexagon">
+                    <% if (Session["id"] != null)
+                        { %>
+                    <div class="dropdown-content">
+                        <br />
+                        <% if (notiList.Count == 0)
+                            { %>
+                        <p id="link">You have no notifications</p>
+                        <% }
+                            else
+                            { %>
+                        <% for (int i = 0; i < notiList.Count; i++)
+                            {
+                                if (notiList[i].User_id.ToString() == Session["id"].ToString())
                                 { %>
-                            <div class="dropdown-content">
-                                <br />
-                                <% if (notiList.Count == 0)
-                                    { %>
-                                    <p id="link">You have no notifications</p>
-                                   <% }
-                                    else
-                                    { %>
-                                    <% for (int i = 0; i < notiList.Count; i++)
-                                            {
-                                            if (notiList[i].User_id.ToString() == Session["id"].ToString())
-                                            { %>
-                                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link"><p id="eventName"><%= notiList[i].EventName %></p> has ended! <br /> Please click here to complete feedback to get points! </a>
-                                            <% }
-                                        } %>
-                                <% } %>
-                            </div>
-                            <% } %>
-
-                        <span></span>
+                        <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
+                            <p id="eventName"><%= notiList[i].EventName %></p>
+                            has ended!
+                            <br />
+                            Please click here to complete feedback to get points! </a>
+                        <% }
+                            } %>
+                        <% } %>
                     </div>
+                    <% } %>
+
+                    <span></span>
                 </div>
-                  <%}%>
-                <a id="hmpage-link" style="" class="navbar-brand text-center" href="/homepage.aspx">Clear View</a>
-                <button style="padding:0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav"
-                    aria-controls="navbarnav" aria-expanded="false" aria-label="toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            </div>
+            <%}%>
+            <a id="hmpage-link" style="" class="navbar-brand text-center" href="/homepage.aspx">Clear View</a>
+            <button style="padding: 0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav"
+                aria-controls="navbarnav" aria-expanded="false" aria-label="toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarnav">
                 <ul class="navbar-nav">
                     <li class="nav-item mr-3">
@@ -300,6 +301,11 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
                                     <%--<a class="dropdown-item" href="#">Request Recommendation</a>--%>
+                                </div>
+                                <div id="Div2" runat="server">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/SecurityCheckup.aspx">Security Checkup</a>
+                                    <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                 </div>
                             </div>
                         </div>
@@ -348,7 +354,7 @@
                             <img style="" class="img " src="https://image.flaticon.com/icons/svg/2111/2111463.svg" alt="i icon" />
                                         </asp:HyperLink>
                                         <% }
-                                            else 
+                                            else
                                             { %>
                                         <asp:HyperLink ID="HyperLink2" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
                             <img style="box-shadow:none;" class="img " src="https://image.flaticon.com/icons/svg/2111/2111463.svg" alt="i icon" />
@@ -364,13 +370,12 @@
                             <img style="" class="img " src="https://image.flaticon.com/icons/svg/124/124021.svg" alt="t icon" />
                                         </asp:HyperLink>
                                         <% }
-                                            else 
+                                            else
                                             { %>
                                         <asp:HyperLink ID="HyperLink3" Style="text-decoration: none;" class="stretched-link text-dark" NavigateUrl="" runat="server">
                             <img style="box-shadow:none;" class="img " src="https://image.flaticon.com/icons/svg/124/124021.svg" alt="t icon" />
                                         </asp:HyperLink>
                                         <%}%>
-
                                     </div>
                                 </li>
                             </ul>
@@ -491,17 +496,17 @@
         </footer>
     </form>
 </body>
-    <script>
-        var count = <%= count %>;
-        var color = ['#DC143C', 'white'];
-        var index = 0;
+<script>
+    var count = <%= count %>;
+    var color = ['#DC143C', 'white'];
+    var index = 0;
 
-        if (count > 0) {
-            setInterval(function () {
-                document.getElementById("hexagon").style.backgroundColor = color[index];
-                index = (index + 1) % 2;
-            }, 1000);
-        }
+    if (count > 0) {
+        setInterval(function () {
+            document.getElementById("hexagon").style.backgroundColor = color[index];
+            index = (index + 1) % 2;
+        }, 1000);
+    }
     </script>
 </html>
 

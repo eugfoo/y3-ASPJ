@@ -266,9 +266,8 @@ namespace FinalProj
                     string userHash = Convert.ToBase64String(hashWithSalt);
                     finalHash = Convert.ToBase64String(hashWithSalt);
                     DateTime now = DateTime.Now;
-                    string DTNow = now.ToString("g")
-                        ;
-                    PassHist pass1 = new PassHist(tryingUser.email, finalHash, DTNow);
+                    string DTNow = now.ToString("g");
+                    PassHist pass1 = new PassHist(tryingUser.email, passHash, DTNow);
                     pass1.AddPass();
                     user.UpdatePassByID(tryingUser.id, finalHash);
 
