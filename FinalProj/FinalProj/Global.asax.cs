@@ -14,13 +14,47 @@ namespace FinalProj
     public class Global : System.Web.HttpApplication
     {
         List<Logs> lgList;
-
-        protected void Application_Start(object sender, EventArgs e)
+        void Application_Error(object sender, EventArgs e)
         {
+            Exception ex = Server.GetLastError();
+
+            if (ex is HttpRequestValidationException)
+            {
+                Users user = (Users)Session["user"];
+                Logs lg = new Logs();
+                if (user.GetUserByEmail(user.email) != null)
+                {
+                    lgList = lg.GetAllLogsOfUser(user.email);
+                    string ipAddr = lgList[0].ipAddr;
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
+
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Suspicious HTML Entry", "XSS", user.email, countryLogged);
+                    Response.Clear();
+                    Response.StatusCode = 200;
+                    Response.Write(@"
+                    <html><head><title>HTML Not Allowed</title>
+                    <script language='JavaScript'><!--
+                    function back() { history.go(-1); } //--></script></head>
+                    <body style='font-family: Arial, Sans-serif;'>
+                    <h1>Oops!</h1>
+                    <p>I'm sorry, but HTML entry is not allowed on that page.</p>
+                    <p>Please make sure that your entries do not contain 
+                    any angle brackets like &lt; or &gt;.</p>
+                    <p><a href='javascript:back()'>Go back</a></p>
+                    </body></html>
+                    ");
+                    Response.End();
+                }
+                else
+                {
+                }
+            }
+            
         }
-        //protected void Application_AuthenticateRequest(object sender, EventArgs e) { 
-        //    context = System.Web.HttpContext.Current;
-        //}
         protected void Session_End(object sender, EventArgs e)
         {
 
@@ -36,7 +70,13 @@ namespace FinalProj
                 CityStateCountByIp(ipAddr);
                 ActivityLog alg = new ActivityLog();
                 alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
+                Session.Clear();
             }
+            else {
+                Session.Clear();
+            }
+
+
         }
 
         //protected string GetIPAddress()
