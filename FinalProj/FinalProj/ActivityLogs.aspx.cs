@@ -72,6 +72,26 @@ namespace FinalProj
                             }
                         }
                     }
+                    else if (violationType.SelectedValue == "XSS")
+                    {
+                        foreach (var elmt in algList)
+                        {
+                            if (elmt.ViolationType == "XSS")
+                            {
+                                aalgList.Add(elmt);
+                            }
+                        }
+                    }
+                    else if (violationType.SelectedValue == "Malware")
+                    {
+                        foreach (var elmt in algList)
+                        {
+                            if (elmt.ViolationType == "Malware")
+                            {
+                                aalgList.Add(elmt);
+                            }
+                        }
+                    }
 
                     foreach (var lement in aalgList)
                     {
@@ -84,24 +104,24 @@ namespace FinalProj
 
         }
 
-        protected void violationType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ActivityLog alg = new ActivityLog();
+        //protected void violationType_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    ActivityLog alg = new ActivityLog();
 
-            algList = alg.GetAllLogsOfActivities();
-            if (violationType.SelectedValue == "Malware")
-            {
-                int ss = algList.Count();
-                for (int i = 0; i < algList.Count; i++)
-                {
-                    if (algList[i].ViolationType == "Malware")
-                    {
-                        aalgList.Add(algList[i]);
+        //    algList = alg.GetAllLogsOfActivities();
+        //    if (violationType.SelectedValue == "Malware")
+        //    {
+        //        int ss = algList.Count();
+        //        for (int i = 0; i < algList.Count; i++)
+        //        {
+        //            if (algList[i].ViolationType == "Malware")
+        //            {
+        //                aalgList.Add(algList[i]);
                         
-                    }
+        //            }
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
     }
 }

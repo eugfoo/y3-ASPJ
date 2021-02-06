@@ -31,12 +31,13 @@
     <div style="margin-top:2%; margin-bottom:2%; margin-left:2%; margin-right:2%;">
     Filter Violations: 
         
-    <asp:DropDownList ID="violationType" AutoPostBack="True" runat="server" OnSelectedIndexChanged="violationType_SelectedIndexChanged">
+    <asp:DropDownList ID="violationType" AutoPostBack="True" runat="server">
 
         <asp:ListItem Selected="True" Value="All"> All </asp:ListItem>
         <asp:ListItem Value="FailedAuthentication">Failed Authentication </asp:ListItem>
         <asp:ListItem Value="Malware">Malware </asp:ListItem>
         <asp:ListItem Value="Spamming">Spamming </asp:ListItem>
+        <asp:ListItem>XSS</asp:ListItem>
     </asp:DropDownList>
     </div>
     <table id="dtBasicExample"  class="table table-striped table-bordered table-sm" cellspacing="0">
