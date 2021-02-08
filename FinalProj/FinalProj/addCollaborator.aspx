@@ -68,7 +68,6 @@
             <%if (element.adminRole != "Main Admin")
                 {%>
             <td>
-                <button id="tempRemBtn" value=<%=index %> onclick="myFunction()">sss</button>
                 <asp:Button ID="remoteBtn" runat="server" class="btn btn-danger" Text="Remove" OnClick="remoteBtn_Click" />
             </td>
             <%} index++;%>
@@ -119,10 +118,7 @@
         }
 
 
-        function myFunction() {
-            document.getElementById("remoteBtn").innerText = document.getElementById("tempRemBtn").value
-            document.getElementById("remoteBtn").click();
-        }
+
 
        
     </script>
