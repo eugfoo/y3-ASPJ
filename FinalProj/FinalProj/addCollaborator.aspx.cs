@@ -16,7 +16,10 @@ namespace FinalProj
     public partial class WebForm1 : System.Web.UI.Page
     {
         public string result ="";
+        public string errmsg = "";
+
         protected List<Admins> adList;
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,7 +27,6 @@ namespace FinalProj
             if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
                 
-
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }
             else
@@ -32,7 +34,6 @@ namespace FinalProj
                 // Whatever you want here.
                 Admins ad = new Admins();
                 adList = ad.GetAllAdmins();
-                Console.WriteLine(adList);
             }
         }
 
@@ -43,19 +44,31 @@ namespace FinalProj
 
         protected void submit_Click(object sender, EventArgs e)
         {
-
             Users user = new Users();
+            Admins ad = new Admins();
+
             Users findCollaborator = user.GetUserByEmail(collabEmail.Text);
+            for (int i = 0; i < adList.Count; i++) {
+                if (collabEmail.Text == adList[i].adminEmail) {
+                    errmsg = "Invitation already Sent!";
+                }
+            }
+            
             if (findCollaborator != null)
             { // user exists
-                result = "true";
-                Execute();
+                if (errmsg == "")
+                {
+                    result = "true";
+                    Users us = new Users();
+                    Users subAdmin = us.GetUserByEmail(collabEmail.Text);
+                    Execute(collabEmail.Text, subAdmin.name);
 
-                Users us = new Users();
-                Users subAdmin = us.GetUserByEmail(collabEmail.Text);
-                Admins ad = new Admins();
-                ad.AddAdmin(subAdmin.name, collabEmail.Text);
-                Response.Redirect("addCollaborator.aspx");
+                    ad.AddAdmin(subAdmin.name, collabEmail.Text);
+                    Response.Redirect("addCollaborator.aspx");
+                }
+                else {
+                    result = "false";
+                }
             }
             else {
                 result = "false";
@@ -63,17 +76,27 @@ namespace FinalProj
             } 
         }
 
-        static async Task Execute()
+
+        static async Task Execute(string useremail, string username)
         {
+            
+            Random rnd = new Random();
+            string OTPassword = "";
+            OTPassword = rnd.Next(100000, 999999).ToString();
+            collabOTP cbOTP = new collabOTP();
+            cbOTP.AddCollabOTP(useremail, username, OTPassword, 0);
             var client = new SendGridClient("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");
             var from = new EmailAddress("184707d@mymail.nyp.edu.sg", "ASPJ");
             var subject = "Verify your Sub-admin Account";
             var to = new EmailAddress("eugenefoo9@gmail.com", "Eugene Foo");
-            var plainTextContent = "Click here to accept sub admin role: http://localhost:60329/homepage.aspx";
-            var htmlContent = "Click here to accept sub admin role: <br/> http://localhost:60329/homepage.aspx";
+            var plainTextContent = "Please login at http://localhost:60329/homepage.aspx & use this OTP to verify your account:" + OTPassword;
+            var htmlContent = "Please login at http://localhost:60329/homepage.aspx & use this OTP to verify your account:<br/>" + OTPassword;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
+
+            
         }
+
 
 
         // Get IP Address of user
@@ -94,6 +117,11 @@ namespace FinalProj
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-
+        protected void remoteBtn_Click(object sender, EventArgs e)
+        {
+            string asd = remoteBtn.Text;
+            
+            //ad.DeleteByEmail();
+        }
     }
 }

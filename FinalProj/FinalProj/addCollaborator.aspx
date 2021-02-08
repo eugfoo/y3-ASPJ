@@ -19,8 +19,11 @@
     td:first-child, th:first-child {
          border-left: none;
     }
+        #adCont {
+            margin:2%;
+        }
     </style>
-
+    <div id="adCont">
     
     <% if (result == "true")
         { %>
@@ -28,16 +31,18 @@
           Collaborator Invited!
         </div>
     <%}
-    else if (result == "false")
+    else if (result == "false" && errmsg != "")
     {%>
     <div class="alert alert-danger" role="alert">
-        Collaborator does not exist!
+        Collaborator already invited!
     </div>
     <%}
-    else
-    { %><%} %>
+    else if (result == "false")
+    { %>
+        Collaborator does not exist!
+    <%} %>
     <div style="text-align: center;">
-        <asp:Label ID="Label1" style="font-size:50px;  margin-top:3%;" runat="server" Text="Manage Access"></asp:Label>
+        <asp:Label ID="Label1" style="font-size:50px;" runat="server" Text="Manage Access"></asp:Label>
     </div>
 
         <p></p>
@@ -52,12 +57,22 @@
             <th style="width:20%;">Status</th>
 
         </tr>
-        <% foreach (var element in adList)
+        <% 
+            int index = 0;
+            foreach (var element in adList)
             { %>
         <tr>
             <td><%= element.adminName %></td>
             <td><%= element.adminRole %></td>
             <td><%= element.adminStatus %></td>
+            <%if (element.adminRole != "Main Admin")
+                {%>
+            <td>
+                <button id="tempRemBtn" value=<%=index %> onclick="myFunction()">sss</button>
+                <asp:Button ID="remoteBtn" runat="server" class="btn btn-danger" Text="Remove" OnClick="remoteBtn_Click" />
+            </td>
+            <%} index++;%>
+
 
         </tr>
         <%} %>
@@ -96,10 +111,17 @@
         </div>
     </div>
 </div>
+        </div>
 
     <script type="text/javascript">
     function ShowPopup(title, body) {
         $("#MyPopup").modal("show");
+        }
+
+
+        function myFunction() {
+            document.getElementById("remoteBtn").innerText = document.getElementById("tempRemBtn").value
+            document.getElementById("remoteBtn").click();
         }
 
        

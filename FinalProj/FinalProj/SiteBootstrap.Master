@@ -27,7 +27,7 @@
 
     <link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- JQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <%--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--%>
 
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
@@ -125,22 +125,22 @@
             border-radius: 3px;
         }
 
-            .dropdown-content a {
-                text-decoration: none;
-                color: black;
-                display: block;
-                padding: 14px 12px;
-            }
+        .dropdown-content a {
+            text-decoration: none;
+            color: black;
+            display: block;
+            padding: 14px 12px;
+        }
 
-                .dropdown-content a:hover {
-                    background-color: #ddd;
-                }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
 
-            .dropdown-content p {
-                font-weight: bold;
-                color: dodgerblue;
-                display: inline;
-            }
+        .dropdown-content p {
+            font-weight: bold;
+            color: dodgerblue;
+            display: inline;
+        }
 
         .dropdown:hover .dropdown-content {
             display: block;
@@ -176,27 +176,33 @@
                 <div class="dropdown">
                     <div class="hexagon" id="hexagon">
                         <% if (Session["id"] != null)
-                            { %>
+                           { %>
                         <div class="dropdown-content">
-                            <br />
-                            <% if (notiList.Count == 0)
-                                { %>
-                            <p id="link">You have no notifications</p>
-                            <% }
-                                else
-                                { %>
-                            <% for (int i = 0; i < notiList.Count; i++)
-                                {
+                           <br />
+                           <% if (adList.Count == 0 && notiList.Count == 0) 
+                               { %>
+                                <p ">You have no notifications</p>
+                            <%}else
+                              {
+                                for (int j = 0; j < adList.Count; j++){
+                                    if (adList[j].adminEmail.ToString() == Session["email"].ToString())
+                                    { %>
+                                        <a href="/accVerify.aspx"><p>You have been invited to be a sub-admin</p>
+                                            <br />
+                                            Please click here to verify! </a>
+                                    <%}
+                                }
+                                for (int i = 0; i < notiList.Count; i++){
                                     if (notiList[i].User_id.ToString() == Session["id"].ToString())
                                     { %>
-                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
-                                <p id="eventName"><%= notiList[i].EventName %></p>
-                                has ended!
-                                <br />
-                                Please click here to complete feedback to get points! </a>
-                            <% }
-                                } %>
-                            <% } %>
+                                    <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
+                                        <p id="eventName"><%= notiList[i].EventName %></p>
+                                        has ended!
+                                        <br />
+                                        Please click here to complete feedback to get points! </a>
+                                    <%}
+                                }%>
+                              <%}%>
                         </div>
                         <% } %>
                         <span></span>
@@ -251,7 +257,7 @@
                                     <% if (Convert.ToBoolean(Session["admin"]))
                                         { %>
                                     <div class="dropdown-divider"></div>
-                                    <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Add Collaborator</a>
+                                    <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
                                     <div class="dropdown-divider"></div>
                                     <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
                                     <%  }%>
@@ -326,10 +332,11 @@
 </body>
 <script type="text/javascript">
     var count = <%= count %>;
+    var adcounter = <%= adcounter %>;
     var color = ['#DC143C', 'white'];
     var index = 0;
 
-    if (count > 0) {
+    if (count > 0 || adcounter > 0) {
         setInterval(function () {
             document.getElementById("hexagon").style.backgroundColor = color[index];
             index = (index + 1) % 2;

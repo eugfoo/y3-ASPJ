@@ -39,6 +39,20 @@ namespace FinalProj.BLL
 			return result;
 		}
 
-		
+		public int UpdateStatusByEmail(string email, string status)
+		{
+			AdminDAO adDao = new AdminDAO();
+			return adDao.UpdateStatus(email, status);
+		}
+
+		public int DeleteByEmail(string email, string status)
+		{
+			AdminDAO adDao = new AdminDAO();
+			return adDao.DeleteAdmins(email, status);
+		}
+
+
+
+
 	}
 }

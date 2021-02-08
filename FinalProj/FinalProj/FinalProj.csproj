@@ -62,6 +62,9 @@
       <HintPath>..\packages\IpData.2.0.1\lib\netstandard2.0\IpData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Nerdicus.VirusTotal.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nerdicus.VirusTotal.NET.1.0.0\lib\netstandard2.0\Nerdicus.VirusTotal.NET.dll</HintPath>
     </Reference>
@@ -90,6 +93,21 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -205,6 +223,7 @@
     <Content Include="Web.config" />
     <Content Include="addCollaborator.aspx" />
     <Content Include="sessionHistory.aspx" />
+    <Content Include="accVerify.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acknowledge.aspx.cs">
@@ -252,6 +271,7 @@
     <Compile Include="BLL\ActivityLog.cs" />
     <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
+    <Compile Include="BLL\collabOTP.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
     <Compile Include="BLL\Feedback.cs" />
@@ -275,6 +295,7 @@
     </Compile>
     <Compile Include="DAL\AdminDAO.cs" />
     <Compile Include="DAL\AttendanceDAO.cs" />
+    <Compile Include="DAL\collablOTPDAO.cs" />
     <Compile Include="DAL\HistoryOTPDAO.cs" />
     <Compile Include="DAL\LogsDAO.cs" />
     <Compile Include="DAL\eventStatusDAO.cs" />
@@ -530,6 +551,13 @@
     </Compile>
     <Compile Include="sessionHistory.aspx.designer.cs">
       <DependentUpon>sessionHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="accVerify.aspx.cs">
+      <DependentUpon>accVerify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="accVerify.aspx.designer.cs">
+      <DependentUpon>accVerify.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

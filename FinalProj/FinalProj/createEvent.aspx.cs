@@ -15,6 +15,7 @@ using Google.Authenticator;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using AvScan.WindowsDefender;
+using System.Web.Helpers;
 
 namespace FinalProj
 {
@@ -33,7 +34,26 @@ namespace FinalProj
             {
                 Users usr = new Users();
                 Users user = (Users)Session["user"];
+                //AntiForgery.GetHtml().ToString();
+                var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
+                var scanner = new WindowsDefenderScanner(exeLocation);
+                var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
+                if (result.ToString() == "ThreatFound")
+                {
+                    string ipAddr = GetIPAddress();
 
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
+
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Suspicious Event Photo", "Malware", user.email, countryLogged);
+                }
+                else { 
+                
+                }
+
+                
                 goog = usr.GetUserById(user.id).googleauth;
 
                 if (goog == 1)
@@ -65,7 +85,7 @@ namespace FinalProj
         protected void createBtn_Click(object sender, EventArgs e)
         {
             changetoDefaultBorder();
-
+            AntiForgery.Validate();
             string errmsg = "";
             PanelError.Visible = false;
 
@@ -170,17 +190,7 @@ namespace FinalProj
             if (FileUploadControl.HasFile)
             {
                 string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
-                var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
-                var scanner = new WindowsDefenderScanner(exeLocation);
-                var iresult = scanner.Scan(filename);
-                if (iresult.ToString() == "threatfound")
-                {
-                    Label1.Text = iresult.ToString();
-                    errmsg += iresult.ToString();
-                }
-                else
-                {
-                }
+                
             }
             List<Events> evList;
             Users user = (Users)Session["user"];

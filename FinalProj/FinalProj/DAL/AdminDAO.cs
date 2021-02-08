@@ -82,5 +82,51 @@ namespace FinalProj.DAL
             return result;
         }
 
+        public int UpdateStatus(string email, string Status)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Admins SET Status = @Status WHERE Email = @email";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@email", email);
+            sqlCmd.Parameters.AddWithValue("@Status", Status);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
+        public int DeleteAdmins(string email, string name)
+        {
+            // Execute NonQuery return an integer value
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand();
+
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            // Step 2 - Instantiate SqlCommand instance to add record 
+            //          with DELETE statement
+            string sqlStmt = "DELETE from Admins Where Email = @paraEmail AND Name = @paraName";
+            sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            // Step 3 : Add each parameterised variable with value
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+        }
+
     }
 }

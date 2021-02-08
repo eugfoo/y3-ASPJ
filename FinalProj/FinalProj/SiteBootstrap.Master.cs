@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +15,12 @@ namespace FinalProj
     public partial class SiteBootstrap : System.Web.UI.MasterPage
     {
         protected List<Notifications> notiListTemp;
+        protected List<Admins> adListTemp;
         protected List<Notifications> notiList = new List<Notifications>();
+        protected List<Admins> adList = new List<Admins>();
         List<MainAdmins> maList;
         protected int count = 0;
+        protected int adcounter = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -41,7 +44,18 @@ namespace FinalProj
                     lblBookmark.Visible = true;
 
                     notiListTemp = noti.GetEventsEnded();
+                    Admins ad = new Admins();
+                    adListTemp = ad.GetAllAdmins();
                     System.Diagnostics.Debug.WriteLine("This is notiListTemp: " + notiListTemp);
+                    for (int j = 0; j < adListTemp.Count; j++)
+                    {
+                        if (adListTemp[j].adminEmail == user.email.ToString() && adListTemp[j].adminStatus == "Pending")
+                        {
+                            adcounter += 1;
+                            adList.Add(adListTemp[j]);
+                            //System.Diagnostics.Debug.WriteLine("This is notiList" + notiList[i]);
+                        }
+                    }
 
                     for (int i = 0; i < notiListTemp.Count; i++)
                     {
