@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteBootstrap.Master" AutoEventWireup="true" CodeBehind="editEventDetails.aspx.cs" Inherits="FinalProj.editEventDetails" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteBootstrap.Master" AutoEventWireup="true" CodeBehind="editEventDetails.aspx.cs" Inherits="FinalProj.editEventDetails"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 

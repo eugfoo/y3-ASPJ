@@ -85,7 +85,6 @@ namespace FinalProj
         protected void createBtn_Click(object sender, EventArgs e)
         {
             changetoDefaultBorder();
-            AntiForgery.Validate();
             string errmsg = "";
             PanelError.Visible = false;
 

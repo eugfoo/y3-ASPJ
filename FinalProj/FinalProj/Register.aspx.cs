@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Web.Security.AntiXss;
 
 namespace FinalProj
 {
@@ -35,8 +36,8 @@ namespace FinalProj
                         if (tbPass.Text.Length > 8)                  // If the password is longer than the amount of seconds I wish to live...
                         {
                             if (IsReCaptchaValid())
-                            {                                string pwd = tbPass.Text.ToString().Trim();
-                                string passHash = ComputeSha256Hash(tbPass.Text);
+                            {                                string pwd = AntiXssEncoder.HtmlEncode(tbPass.Text.ToString().Trim(), true);
+                                string passHash = ComputeSha256Hash(AntiXssEncoder.HtmlEncode(tbPass.Text, true));
                                 //Generate random "salt"
                                 RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                                 byte[] saltByte = new byte[8];
@@ -51,7 +52,7 @@ namespace FinalProj
                                 DateTime now = DateTime.Now;
                                 string DTNow = now.ToString("g");
 
-                                Users user = new Users(tbEmail.Text, tbName.Text, cbIsOrg.Checked.ToString(), finalHash ,DTNow,salt);
+                                Users user = new Users(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), AntiXssEncoder.HtmlEncode(tbName.Text, true), cbIsOrg.Checked.ToString(), finalHash ,DTNow,salt);
                                 HistoryOTP otp = new HistoryOTP();
                                 otp.AddHistoryOTP(user.email, "", 0); ;
                                 user.AddUser();

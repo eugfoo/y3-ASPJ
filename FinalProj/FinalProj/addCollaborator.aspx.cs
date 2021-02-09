@@ -10,6 +10,7 @@ using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text;
+using System.Web.Security.AntiXss;
 
 namespace FinalProj
 {
@@ -53,8 +54,7 @@ namespace FinalProj
         {
             Users user = new Users();
             Admins ad = new Admins();
-
-            Users findCollaborator = user.GetUserByEmail(collabEmail.Text);
+           Users findCollaborator = user.GetUserByEmail(collabEmail.Text);
             for (int i = 0; i < adList.Count; i++) {
                 if (collabEmail.Text == adList[i].adminEmail) {
                     errmsg = "Invitation already Sent!";
@@ -67,10 +67,11 @@ namespace FinalProj
                 {
                     result = "true";
                     Users us = new Users();
-                    Users subAdmin = us.GetUserByEmail(collabEmail.Text);
-                    Execute(collabEmail.Text, subAdmin.name);
 
-                    ad.AddAdmin(subAdmin.name, collabEmail.Text);
+                    Users subAdmin = us.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text,true));
+                    Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
+
+                    ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true));
                     Response.Redirect("addCollaborator.aspx");
                 }
                 else {

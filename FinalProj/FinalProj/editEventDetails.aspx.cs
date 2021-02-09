@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Security.AntiXss;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -54,13 +55,13 @@ namespace FinalProj
 					Session["SessionERM"] = null;
 				}
 
-				desc.Text = eventDetail.Desc.ToString();
-				eventAddress.Text = eventDetail.Venue.ToString();
-				startTimeEdit.Text = eventDetail.StartTime.ToString();
-				endTime.Text = eventDetail.EndTime.ToString();
-				eventTitle.Text = eventDetail.Title.ToString();
-				noteText.Text = eventDetail.Note.ToString();
-				maxAttend.Text = eventDetail.MaxAttendees.ToString();
+				desc.Text = AntiXssEncoder.HtmlEncode(eventDetail.Desc.ToString(), true);
+				eventAddress.Text = AntiXssEncoder.HtmlEncode(eventDetail.Venue.ToString(), true);
+				startTimeEdit.Text = AntiXssEncoder.HtmlEncode(eventDetail.StartTime.ToString(), true);
+				endTime.Text = AntiXssEncoder.HtmlEncode(eventDetail.EndTime.ToString(), true);
+				eventTitle.Text = AntiXssEncoder.HtmlEncode(eventDetail.Title.ToString(), true);
+				noteText.Text = AntiXssEncoder.HtmlEncode(eventDetail.Note.ToString(), true);
+				maxAttend.Text = AntiXssEncoder.HtmlEncode(eventDetail.MaxAttendees.ToString(), true);
 				eventPic.ImageUrl = "Img/" + eventDetail.Pic.ToString();
 
 				string dateOnly = eventDetail.Date.Substring(0, eventDetail.Date.IndexOf(" "));
@@ -198,12 +199,12 @@ namespace FinalProj
             {
                 string startTimeNumber = "";
                 string endTimeNumber = "";
-                string eventStartTime = startTimeEdit.Text.ToString();
-                string eventEndTime = endTime.Text.ToString();
-                string startFrontdigits = eventStartTime.Substring(0, 2);
-                string endFrontdigits = eventEndTime.Substring(0, 2);
-                string startBackdigits = eventStartTime.Substring(3, 2);
-                string endBackdigits = eventEndTime.Substring(3, 2);
+                string eventStartTime = AntiXssEncoder.HtmlEncode(startTimeEdit.Text.ToString(), true);
+                string eventEndTime = AntiXssEncoder.HtmlEncode(endTime.Text.ToString(), true);
+                string startFrontdigits = AntiXssEncoder.HtmlEncode(eventStartTime.Substring(0, 2), true);
+                string endFrontdigits = AntiXssEncoder.HtmlEncode(eventEndTime.Substring(0, 2), true);
+                string startBackdigits = AntiXssEncoder.HtmlEncode(eventStartTime.Substring(3, 2), true);
+                string endBackdigits = AntiXssEncoder.HtmlEncode(eventEndTime.Substring(3, 2), true);
                 startTimeNumber = startFrontdigits + startBackdigits;
                 endTimeNumber = endFrontdigits + endBackdigits;
 
@@ -271,15 +272,15 @@ namespace FinalProj
             else
             {
 				Users user = (Users)Session["user"];
-				string eventStartTime = startTimeEdit.Text.ToString();
-                string eventEndTime = endTime.Text.ToString();
-                string title = eventTitle.Text.ToString();
-                string venue = eventAddress.Text.ToString();
-                string date = eventDate.Text.ToString();
-                int maxAttendees = int.Parse(maxAttend.Text.ToString());
-                string description = desc.Text.ToString();
+				string eventStartTime = AntiXssEncoder.HtmlEncode(startTimeEdit.Text.ToString(), true);
+                string eventEndTime = AntiXssEncoder.HtmlEncode(endTime.Text.ToString(), true);
+                string title = AntiXssEncoder.HtmlEncode(eventTitle.Text.ToString(), true);
+                string venue = AntiXssEncoder.HtmlEncode(eventAddress.Text.ToString(), true);
+                string date = AntiXssEncoder.HtmlEncode(eventDate.Text.ToString(), true);
+                int maxAttendees = int.Parse(AntiXssEncoder.HtmlEncode(maxAttend.Text.ToString(), true));
+                string description = AntiXssEncoder.HtmlEncode(desc.Text.ToString(), true);
                 string picture = "";
-                string note = noteText.Text.ToString();
+                string note = AntiXssEncoder.HtmlEncode(noteText.Text.ToString(), true);
 				int user_id = user.id;
 				
 
