@@ -39,12 +39,14 @@
     <%}
     else if (result == "false")
     { %>
+        <div class="alert alert-danger" role="alert">
         Collaborator does not exist!
+            </div>
     <%} %>
     <div style="text-align: center;">
         <asp:Label ID="Label1" style="font-size:50px;" runat="server" Text="Manage Access"></asp:Label>
     </div>
-
+        
         <p></p>
        <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: left;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
         
@@ -99,7 +101,11 @@
 
                     <asp:TextBox type="email" ID="collabEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
                     <p>
-                    <asp:Button ID="submit" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
+                    <asp:Label for="roleChoice" runat="server" style="float:left;">Role:</asp:Label>
+                    <asp:DropDownList ID="roleChoice" style="float:left; margin-left:2%; margin-bottom:3%;" class="btn btn-primary dropdown-toggle" runat="server" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Roles] FROM [rolesTable]" ></asp:SqlDataSource>
+                    <asp:Button ID="submit" style="margin-top:3%;" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
 
                 </div>
             </div>

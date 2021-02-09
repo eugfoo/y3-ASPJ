@@ -19,6 +19,7 @@ namespace FinalProj
         public string errmsg = "";
 
         protected List<Admins> adList;
+        protected List<roles> rlList;
 
 
 
@@ -34,6 +35,12 @@ namespace FinalProj
                 // Whatever you want here.
                 Admins ad = new Admins();
                 adList = ad.GetAllAdmins();
+
+                roles rl = new roles();
+                rlList = rl.GetAllRoles();
+
+               
+
             }
         }
 
