@@ -103,7 +103,7 @@
           Collaborator Invited!
         </div>
     <%}
-    else if (collabEmail.Text == "")
+    else if (result == "false" && collabEmail.Text == "")
     { %>
         <div class="alert alert-danger" role="alert">
             Please enter an email!
