@@ -123,15 +123,17 @@
     <%} %>
 
         <div class="card">
-            <h5 class="card-header">Manage Roles</h5>
             <div class="card-body">
-                <b class="lead">Roles:</b>
-                <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
-                </asp:DropDownList>
+                <h5 class="card-header">Manage Roles</h5>
+                <div class="row">
+                 <div style="margin-top:1%;" class="col-6">
+                    <h5 class="card-title">Role Creation and Updates</h5>
 
-                <asp:Button ID="addRole" CssClass="btn btn-primary" runat="server" Text="Add Role" OnClick="addRole_Click" />
+                     <b class="lead">Roles:</b>
+                    <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
+                    </asp:DropDownList>
 
-                 <div class="col-12 col-sm-5 col-md-5">
+                    <asp:Button ID="addRole" CssClass="btn btn-primary" runat="server" Text="Add Role" OnClick="addRole_Click" />
                      <div class="form-group">
                         <label for="formGroupExampleInput2">Name:</label>
                         <asp:TextBox type="text" CssClass="form-control" ID="tbName" runat="server" CausesValidation="True"></asp:TextBox>
@@ -178,7 +180,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div style="margin-top:1%;" class="col-6">
+                    <h5 class="card-title">Role Assignment</h5>
+
+                    <b class="lead">Roles:</b>
+                    <asp:DropDownList ID="DropDownList1" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
+                    </asp:DropDownList>
+                </div>
+               </div>
             </div>
+        </div>
         </div>
         <p></p>
         <div class="card">
