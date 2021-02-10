@@ -5,6 +5,7 @@ using FinalProj.BLL;
 using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
+using System.Web.Security.AntiXss;
 
 namespace FinalProj
 {
@@ -33,23 +34,23 @@ namespace FinalProj
             Users user = (Users)Session["user"];
             if (tbName.Text != "")
             {
-                user.UpdateNameByID(user.id, tbName.Text);
+                user.UpdateNameByID(user.id, AntiXssEncoder.HtmlEncode(tbName.Text, true));
             }
             if (tbDesc.Text != "")
             {
-                user.UpdateDescByID(user.id, tbDesc.Text);
+                user.UpdateDescByID(user.id, AntiXssEncoder.HtmlEncode(tbDesc.Text, true));
             }
             if (tbFacebook.Text != "")
             {
-                user.UpdateFacebookByID(user.id, linkFB + tbFacebook.Text);
+                user.UpdateFacebookByID(user.id, linkFB + AntiXssEncoder.HtmlEncode(tbFacebook.Text, true));
             }
             if (tbInstagram.Text != "")
             {
-                user.UpdateInstagramByID(user.id, linkInst + tbInstagram.Text);
+                user.UpdateInstagramByID(user.id, linkInst + AntiXssEncoder.HtmlEncode(tbInstagram.Text, true));
             }
             if (tbTwitter.Text != "")
             {
-                user.UpdateTwitterByID(user.id, linkTwit + tbTwitter.Text);
+                user.UpdateTwitterByID(user.id, linkTwit + AntiXssEncoder.HtmlEncode(tbTwitter.Text, true));
             }
             if (Session["tempDP"] != null)
             {
@@ -64,7 +65,7 @@ namespace FinalProj
             {
                 if (ddlDiet.SelectedItem.Value == "Others")
                 {
-                    user.UpdateDietByID(user.id, tbOtherDiet.Text);
+                    user.UpdateDietByID(user.id, AntiXssEncoder.HtmlEncode(tbOtherDiet.Text, true));
                 }
                 else
                 {
@@ -170,7 +171,7 @@ namespace FinalProj
                 }
             }
             if (!Page.IsPostBack)
-            {;   
+            {   
                 if (user.twofactor == 0)
                 {
                     CB2FA.Checked = false;
@@ -225,8 +226,8 @@ namespace FinalProj
 
         protected void submit_Click(object sender, EventArgs e)
         {
-            string passString = userPassword.Text.ToString().Trim();
-            string passHash = ComputeSha256Hash(userPassword.Text);
+            string passString = AntiXssEncoder.HtmlEncode(userPassword.Text.ToString().Trim(), true);
+            string passHash = ComputeSha256Hash(AntiXssEncoder.HtmlEncode(userPassword.Text, true));
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();
@@ -279,7 +280,7 @@ namespace FinalProj
 
         protected void userPassword_TextChanged(object sender, EventArgs e)
         {
-            string passHash = ComputeSha256Hash(userPassword.Text);
+            string passHash = ComputeSha256Hash(AntiXssEncoder.HtmlEncode(userPassword.Text, true));
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();
@@ -315,7 +316,7 @@ namespace FinalProj
 
         protected void userPassword1_TextChanged(object sender, EventArgs e)
         {
-            string passHash = ComputeSha256Hash(userPassword.Text);
+            string passHash = ComputeSha256Hash(AntiXssEncoder.HtmlEncode(userPassword.Text, true));
             Users user = new Users();
             Users tryingUser = user.GetUserByEmail(Session["email"].ToString());
             PassHist pass = new PassHist();

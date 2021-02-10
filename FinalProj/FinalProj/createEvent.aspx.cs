@@ -16,6 +16,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using AvScan.WindowsDefender;
 using System.Web.Helpers;
+using System.Web.Security.AntiXss;
 
 namespace FinalProj
 {
@@ -234,7 +235,7 @@ namespace FinalProj
                     string userEmail = user.email;
                     OTPassword = rnd.Next(100000, 999999).ToString();
                     string userName = user.name;
-                    string title = eventTitle.Text.ToString();
+                    string title = AntiXssEncoder.HtmlEncode(eventTitle.Text.ToString(), true);
                     int OTPCheck = 1;
 
                     if (findEmail)
@@ -267,15 +268,15 @@ namespace FinalProj
                 if (status)
                 {
                     //Create event
-                    string eventStartTime = startTime.Text.ToString();
-                    string eventEndTime = endTime.Text.ToString();
-                    string title = eventTitle.Text.ToString();
-                    string venue = eventAddress.Text.ToString();
-                    string date = eventDate.Text.ToString();
-                    int maxAttendees = int.Parse(maxAttend.Text.ToString());
-                    string description = desc.Text.ToString();
+                    string eventStartTime = AntiXssEncoder.HtmlEncode(startTime.Text.ToString(), true);
+                    string eventEndTime = AntiXssEncoder.HtmlEncode(endTime.Text.ToString(), true);
+                    string title = AntiXssEncoder.HtmlEncode(eventTitle.Text.ToString(), true);
+                    string venue = AntiXssEncoder.HtmlEncode(eventAddress.Text.ToString(), true);
+                    string date = AntiXssEncoder.HtmlEncode(eventDate.Text.ToString(), true);
+                    int maxAttendees = int.Parse(AntiXssEncoder.HtmlEncode(maxAttend.Text.ToString(),true));
+                    string description = AntiXssEncoder.HtmlEncode(desc.Text.ToString(), true);
                     string picture = "";
-                    string note = noteText.Text.ToString();
+                    string note = AntiXssEncoder.HtmlEncode(noteText.Text.ToString(), true);
                     int user_id = user.id;
 
                     Thread thread = new Thread();

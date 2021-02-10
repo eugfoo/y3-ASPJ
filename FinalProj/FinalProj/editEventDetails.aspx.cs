@@ -175,7 +175,7 @@ namespace FinalProj
             }
             if (eventDate.Text.ToString() != "")
             {
-                string date = eventDate.Text.ToString();
+                string date = AntiXssEncoder.HtmlEncode(eventDate.Text.ToString(),true);
                 DateTime dt = Convert.ToDateTime(date);
                
                 if (dt < DateTime.Now.Date)
