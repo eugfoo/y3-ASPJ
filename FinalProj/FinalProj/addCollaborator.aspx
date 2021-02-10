@@ -135,27 +135,38 @@
                 <asp:TextBox type="text" CssClass="form-control" ID="tbName" runat="server" CausesValidation="True"></asp:TextBox>
             </div>
             <div class="form-group">
-                <label for="formGroup2FA">2 Factor Authentication</label>
+                <label>View Application Logs: </label>
                 <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                    title="Enable 2 Factor Authentication to receive a verification code whenever you log in!"></i>
+                    title="Allow users under this role to view application activity logs"></i>
                 <label class="switch">
-                    <asp:CheckBox ID="CB2FA" runat="server" CausesValidation="false" AutoPostBack="true" />
+                    <asp:CheckBox ID="aaLogs" runat="server" CausesValidation="false" AutoPostBack="true" />
                     <span class="slider round"></span>
                 </label>
             </div>
             <div class="form-group">
-                <label for="formGroupGoogle">Google Authenticator</label>
+                    <label>Manage Collaborators</label>
+                    <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                        title="Allow users under this role to manage collaborators and assign specific roles"></i>
+                    <label class="switch">
+                        <asp:CheckBox ID="mgCollab" runat="server"  AutoPostBack="true" />
+                        <span class="slider round"></span>
+                    </label>
+            </div>
+            <div class="form-group">
+                <label>Manage Vouchers</label>
                 <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                    title="Enable Google Authenticator to create events instead of receiving OTPs!"></i>
+                    title="Allow users under this role to manage vouchers"></i>
                 <label class="switch">
-                    <asp:CheckBox ID="cbGoogle" runat="server"  AutoPostBack="true" />
+                    <asp:CheckBox ID="mgVouch" runat="server"  AutoPostBack="true" />
                     <span class="slider round"></span>
                 </label>
             </div>
-            <div class="mt-2 align-bottom" style="text-align: right;">
-                <span class="text-muted font-italic mr-3">Fields left empty will <b>not</b> be updated</span>
-                <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" />
-                <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-Success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" />
+            <div class="form-group">
+                <div class="mt-2 align-bottom" style="text-align: right;">
+                    <span class="text-muted font-italic mr-3">Fields left empty will <b>not</b> be updated</span>
+                    <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" />
+                    <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" />
+                </div>
             </div>
         </div>
 

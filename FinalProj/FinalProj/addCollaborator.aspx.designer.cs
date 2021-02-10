@@ -51,22 +51,31 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox tbName;
 
         /// <summary>
-        /// CB2FA control.
+        /// aaLogs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CB2FA;
+        protected global::System.Web.UI.WebControls.CheckBox aaLogs;
 
         /// <summary>
-        /// cbGoogle control.
+        /// mgCollab control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbGoogle;
+        protected global::System.Web.UI.WebControls.CheckBox mgCollab;
+
+        /// <summary>
+        /// mgVouch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox mgVouch;
 
         /// <summary>
         /// btnCancel control.
