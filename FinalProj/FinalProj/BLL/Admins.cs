@@ -32,10 +32,10 @@ namespace FinalProj.BLL
 		}
 
 
-		public int AddAdmin(string Name, string Email)
+		public int AddAdmin(string Name, string Email, string Role)
 		{
 			AdminDAO adDao = new AdminDAO();
-			int result = adDao.Insert(Name, Email);
+			int result = adDao.Insert(Name, Email, Role);
 			return result;
 		}
 

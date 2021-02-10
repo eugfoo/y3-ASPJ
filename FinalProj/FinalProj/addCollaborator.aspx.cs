@@ -21,7 +21,7 @@ namespace FinalProj
 
         protected List<Admins> adList;
         protected List<roles> rlList;
-
+        protected string currentSelected;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -33,17 +33,30 @@ namespace FinalProj
             }
             else
             {
-                // Whatever you want here.
-                Admins ad = new Admins();
-                adList = ad.GetAllAdmins();
+                if (!IsPostBack)
+                {
+                    // Whatever you want here.
+                    Admins ad = new Admins();
+                    adList = ad.GetAllAdmins();
 
-                roles rl = new roles();
-                rlList = rl.GetAllRoles();
+                    roles rl = new roles();
+                    rlList = rl.GetAllRoles();
+                }
+                else
+                {
+                    
+                    Admins ad = new Admins();
+                    adList = ad.GetAllAdmins();
 
-               
+                    // show configurations for role
+                    
+                    string selectedIT = roleDDL.SelectedItem.Text;
+                    tbName.Text = selectedIT;
+                }
 
             }
         }
+
 
         protected void addCollabBtn_Click(object sender, EventArgs e)
         {
@@ -57,10 +70,15 @@ namespace FinalProj
            Users findCollaborator = user.GetUserByEmail(collabEmail.Text);
             for (int i = 0; i < adList.Count; i++) {
                 if (collabEmail.Text == adList[i].adminEmail) {
-                    errmsg = "Invitation already Sent!";
+                    errmsg += "Invitation already Sent!<br>";
                 }
             }
-            
+
+            if (collabEmail.Text == "") {
+                errmsg += "Please enter an email!<br>";
+
+            }
+
             if (findCollaborator != null)
             { // user exists
                 if (errmsg == "")
@@ -71,7 +89,7 @@ namespace FinalProj
                     Users subAdmin = us.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text,true));
                     Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
 
-                    ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true));
+                    ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true), roleChoice.SelectedValue);
                     Response.Redirect("addCollaborator.aspx");
                 }
                 else {
@@ -125,11 +143,14 @@ namespace FinalProj
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
+        // yet to do
         protected void remoteBtn_Click(object sender, EventArgs e)
         {
             string asd = remoteBtn.Text;
             
             //ad.DeleteByEmail();
         }
+
+
     }
 }

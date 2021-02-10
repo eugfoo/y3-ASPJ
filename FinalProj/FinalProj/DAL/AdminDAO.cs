@@ -49,7 +49,7 @@ namespace FinalProj.DAL
             return adminList;
         }
 
-        public int Insert(string adminName, string adminEmail)
+        public int Insert(string adminName, string adminEmail, string role)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -67,7 +67,7 @@ namespace FinalProj.DAL
 
             // Step 3 : Add each parameterised variable with value
             sqlCmd.Parameters.AddWithValue("@Name", adminName);
-            sqlCmd.Parameters.AddWithValue("@Role", "sub admin");
+            sqlCmd.Parameters.AddWithValue("@Role", role);
             sqlCmd.Parameters.AddWithValue("@Status", "Pending");
             sqlCmd.Parameters.AddWithValue("@Email", adminEmail);
 
