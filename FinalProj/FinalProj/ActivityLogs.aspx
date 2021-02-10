@@ -26,12 +26,15 @@
     </script>
 
     <style>
-
+        #adCont {
+            margin:1%;
+        }
     </style>
-    <div style="margin-top:2%; margin-bottom:2%; margin-left:2%; margin-right:2%;">
+    <div id="adCont">
+    <div style="margin-bottom:1%;">
     Filter Violations: 
         
-    <asp:DropDownList ID="violationType" AutoPostBack="True" runat="server">
+    <asp:DropDownList ID="violationType" class="btn btn-primary dropdown-toggle" AutoPostBack="True" runat="server">
 
         <asp:ListItem Selected="True" Value="All"> All </asp:ListItem>
         <asp:ListItem Value="FailedAuthentication">Failed Authentication </asp:ListItem>
@@ -142,4 +145,5 @@
         </tbody>
 
     </table>
+    </div>
 </asp:Content>

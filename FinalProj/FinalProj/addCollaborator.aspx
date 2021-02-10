@@ -34,12 +34,12 @@
             height: 34px;
         }
 
-            /* Hide default HTML checkbox */
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
         /* The slider */
         .slider {
@@ -191,12 +191,11 @@
                </div>
             </div>
         </div>
-        </div>
         <p></p>
         <div class="card">
           <h5 class="card-header">Manage Access</h5>
           <div class="card-body">
-              <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: left;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
+              <asp:Button ID="addCollabBtn"  runat="server" class="btn btn-success" style="float: left; margin-bottom:1%;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
 
             <table id="myTable" class="table table-bordered">
                 <tr class="header">
@@ -228,7 +227,8 @@
           </div>
         </div>
    
-        
+    </div>
+
         <p></p>
        
 
@@ -267,7 +267,7 @@
         </div>
     </div>
 </div>
-        </div>
+        
 
     <script type="text/javascript">
     function ShowPopup(title, body) {
