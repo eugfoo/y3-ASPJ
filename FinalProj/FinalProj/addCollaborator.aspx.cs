@@ -114,7 +114,7 @@ namespace FinalProj
             var client = new SendGridClient("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");
             var from = new EmailAddress("184707d@mymail.nyp.edu.sg", "ASPJ");
             var subject = "Verify your Sub-admin Account";
-            var to = new EmailAddress("eugenefoo9@gmail.com", "Eugene Foo");
+            var to = new EmailAddress(useremail, username);
             var plainTextContent = "Please login at http://localhost:60329/homepage.aspx & use this OTP to verify your account:" + OTPassword;
             var htmlContent = "Please login at http://localhost:60329/homepage.aspx & use this OTP to verify your account:<br/>" + OTPassword;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);

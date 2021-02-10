@@ -33,23 +33,21 @@
 
         <h2 id="no" runat="server" visible="false">Currently there are no vouchers available :( <br /> Come back and check again soon!</h2>
 
-        <%foreach (var element in vcherList)
-            { %>
+        <%foreach (var element in vcherList){ %>
         <table id="voucherTable">
 
-            <tr id="voucherRow">
-                <td>
-                    <img id="voucherImg" src="/Img/<%=element.VoucherPic %>" />
-                </td>
-                <td id="tdRepeat">
-                    <p id="voucherName"><%=element.VoucherName %></p>
-                    <p id="amountP">Amount: </p>
-                    <p id="voucherAmount">$<%=element.VoucherAmount %></p>
-                    <a id="btnRedeem" href="/VoucherRedemption.aspx?voucherId=<%=element.VoucherId %>" class="btn btn-primary"><%= element.VoucherPoints %> Points&rarr;</a>
-                </td>
-            </tr>
+           <tr id="voucherRow">
+            <td>
+                <img id="voucherImg" src="/Img/<%=element.VoucherPic %>" />
+            </td>
+            <td id="tdRepeat">
+                <p id="voucherName"><%=element.VoucherName %></p>
+                <p id="amountP">Amount: </p>
+                <p id="voucherAmount">$<%=element.VoucherAmount %></p>
+                <a id="btnRedeem" href="/VoucherRedemption.aspx?voucherId=<%=element.VoucherId %>" class="btn btn-primary"><%= element.VoucherPoints %> Points&rarr;</a>
+            </td>
+           </tr>
         </table>
         <% } %>
-
     </div>
 </asp:Content>

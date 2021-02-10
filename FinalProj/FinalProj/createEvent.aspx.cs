@@ -81,7 +81,6 @@ namespace FinalProj
             maxAttend.BorderColor = System.Drawing.Color.LightGray;
             FileUploadControl.BackColor = System.Drawing.Color.White;
             desc.BorderColor = System.Drawing.Color.LightGray;
-
         }
         protected void createBtn_Click(object sender, EventArgs e)
         {
@@ -213,7 +212,6 @@ namespace FinalProj
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Create Event Attempt: " + eventTitle.Text, "Spamming", user.email, countryLogged);
-
                 }
             }
             
@@ -238,14 +236,10 @@ namespace FinalProj
                     string title = AntiXssEncoder.HtmlEncode(eventTitle.Text.ToString(), true);
                     int OTPCheck = 1;
 
-                    if (findEmail)
-                    {
+                    if (findEmail){
                         otp.UpdateOTPByEmail(userEmail, OTPassword, OTPCheck);
                         Enable(userEmail, OTPassword, userName, title);
-                    }
-
-                    else
-                    {
+                    }else{
                         otp.AddHistoryOTP(userEmail, OTPassword, OTPCheck);
                         Enable(userEmail, OTPassword, userName, title);
                     }
