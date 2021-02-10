@@ -23,7 +23,7 @@
             margin:2%;
         }
 
-.ttInfo:hover {
+        .ttInfo:hover {
             cursor: pointer;
         }
         /* The switch - the box around the slider */
@@ -54,17 +54,17 @@
             transition: .4s;
         }
 
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
 
         input:checked + .slider {
             background-color: #2196F3;
@@ -85,9 +85,9 @@
             border-radius: 34px;
         }
 
-            .slider.round:before {
-                border-radius: 50%;
-            }
+        .slider.round:before {
+            border-radius: 50%;
+        }
 
         #box {
             display: none;
@@ -121,94 +121,100 @@
         Collaborator does not exist!
             </div>
     <%} %>
-    <div style="text-align: center;">
-        <asp:Label ID="label2" style="font-size:50px;" runat="server" Text="Manage Roles"></asp:Label>
-    </div>
-        <b class="lead">Roles:</b>
-        <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" >
-        </asp:DropDownList>
 
-        <asp:Button ID="addRole" CssClass="btn btn-primary" runat="server" Text="Add Role" />
-         <div class="col-12 col-sm-5 col-md-5">
-             <div class="form-group">
-                <label for="formGroupExampleInput2">Name:</label>
-                <asp:TextBox type="text" CssClass="form-control" ID="tbName" runat="server" CausesValidation="True"></asp:TextBox>
-            </div>
-            <div class="form-group">
-                <label>View Application Logs: </label>
-                <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                    title="Allow users under this role to view application activity logs"></i>
-                <label class="switch">
-                    <asp:CheckBox ID="aaLogs" runat="server" CausesValidation="false" AutoPostBack="true" />
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <div class="form-group">
-                    <label>Manage Collaborators</label>
-                    <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                        title="Allow users under this role to manage collaborators and assign specific roles"></i>
-                    <label class="switch">
-                        <asp:CheckBox ID="mgCollab" runat="server"  AutoPostBack="true" />
-                        <span class="slider round"></span>
-                    </label>
-            </div>
-            <div class="form-group">
-                <label>Manage Vouchers</label>
-                <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                    title="Allow users under this role to manage vouchers"></i>
-                <label class="switch">
-                    <asp:CheckBox ID="mgVouch" runat="server"  AutoPostBack="true" />
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <div class="form-group">
-                <div class="mt-2 align-bottom" style="text-align: right;">
-                    <span class="text-muted font-italic mr-3">Fields left empty will <b>not</b> be updated</span>
-                    <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" />
-                    <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" />
+        <div class="card">
+            <h5 class="card-header">Manage Roles</h5>
+            <div class="card-body">
+                <b class="lead">Roles:</b>
+                <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
+                </asp:DropDownList>
+
+                <asp:Button ID="addRole" CssClass="btn btn-primary" runat="server" Text="Add Role" OnClick="addRole_Click" />
+
+                 <div class="col-12 col-sm-5 col-md-5">
+                     <div class="form-group">
+                        <label for="formGroupExampleInput2">Name:</label>
+                        <asp:TextBox type="text" CssClass="form-control" ID="tbName" runat="server" CausesValidation="True"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a Role Name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
+                    </div>
+                    <div class="form-group">
+                        <label>View Application Logs: </label>
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                            title="Allow users under this role to view application activity logs"></i>
+                        <label class="switch">
+                            <asp:CheckBox ID="aaLogs" runat="server" AutoPostBack="true" OnCheckedChanged="aaLogs_CheckedChanged"/>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                            <label>Manage Collaborators</label>
+                            <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                                title="Allow users under this role to manage collaborators and assign specific roles"></i>
+                            <label class="switch">
+                                <asp:CheckBox ID="mgCollab" runat="server" OnCheckedChanged="mgCollab_CheckedChanged" />
+                                <span class="slider round"></span>
+                            </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Manage Vouchers</label>
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                            title="Allow users under this role to manage vouchers"></i>
+                        <label class="switch">
+                            <asp:CheckBox ID="mgVouch" runat="server" OnCheckedChanged="mgVouch_CheckedChanged"/>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="mt-2 align-bottom" style="text-align: right;">
+                            <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False"/>
+                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-success" Text="Update" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnUpdate_Click1" />
+
+                            <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnCancel_Click" />
+                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" Visible="False" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <p></p>
+        <div class="card">
+          <h5 class="card-header">Manage Access</h5>
+          <div class="card-body">
+              <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: left;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
 
-    <div style="text-align: center;">
-    
-        <asp:Label ID="Label1" style="font-size:50px;" runat="server" Text="Manage Access"></asp:Label>
-        
-    </div>
+            <table id="myTable" class="table table-bordered">
+                <tr class="header">
+                    <th style="width:50%;">Name</th>
+                    <th style="width:30%;">Role</th>
+                    <th style="width:20%;">Status</th>
+
+                </tr>
+                <% 
+                    int index = 0;
+                    foreach (var element in adList)
+                    { %>
+                <tr>
+                    <td><%= element.adminName %></td>
+                    <td><%= element.adminRole %></td>
+                    <td><%= element.adminStatus %></td>
+                    <%if (element.adminRole != "Main Admin")
+                        {%>
+                    <td>
+                        <asp:Button ID="remoteBtn" runat="server" class="btn btn-danger" Text="Remove" OnClick="remoteBtn_Click" />
+                    </td>
+                    <%} index++;%>
+
+
+                </tr>
+                <%} %>
+            </table>
+
+          </div>
+        </div>
+   
         
         <p></p>
-       <asp:Button ID="addCollabBtn" runat="server" class="btn btn-success" style="float: left;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
-        
-        <p></p>
-
-    <table id="myTable" class="table table-bordered">
-        <tr class="header">
-            <th style="width:50%;">Name</th>
-            <th style="width:30%;">Role</th>
-            <th style="width:20%;">Status</th>
-
-        </tr>
-        <% 
-            int index = 0;
-            foreach (var element in adList)
-            { %>
-        <tr>
-            <td><%= element.adminName %></td>
-            <td><%= element.adminRole %></td>
-            <td><%= element.adminStatus %></td>
-            <%if (element.adminRole != "Main Admin")
-                {%>
-            <td>
-                <asp:Button ID="remoteBtn" runat="server" class="btn btn-danger" Text="Remove" OnClick="remoteBtn_Click" />
-            </td>
-            <%} index++;%>
-
-
-        </tr>
-        <%} %>
-    </table>
-
-    <br />
+       
 
     <div id="MyPopup" class="modal fade" role="dialog">
     <div class="modal-dialog">

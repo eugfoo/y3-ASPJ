@@ -36,13 +36,50 @@ namespace FinalProj.DAL
                 DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
                 
                 string role = row["Roles"].ToString();
+                int appLogs = int.Parse(row["viewApplicationLogs"].ToString());
+                int mgCollab = int.Parse(row["manageCollaborators"].ToString());
+                int mgVouch = int.Parse(row["manageVouchers"].ToString());
 
 
-                roles obj = new roles(role);
+                roles obj = new roles(role, appLogs, mgCollab, mgVouch);
                 roleList.Add(obj);
             };
 
             return roleList;
+        }
+
+        public int UpdatePerms(string role, int applogs, int mgcollab, int mgvouch)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE rolesTable SET viewApplicationLogs = @applogs, manageCollaborators = @mgcollab, manageVouchers = @mgvouch WHERE Roles = @role";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@applogs", applogs);
+            sqlCmd.Parameters.AddWithValue("@mgcollab", mgcollab);
+            sqlCmd.Parameters.AddWithValue("@mgvouch", mgvouch);
+            sqlCmd.Parameters.AddWithValue("@role", role);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
+        public int UpdateRoleName(string OldRoleName, string newRoleName)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE rolesTable SET Roles = @newRole WHERE Roles = @oldRole";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@oldRole", OldRoleName);
+            sqlCmd.Parameters.AddWithValue("@newRole", newRoleName);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
         }
     }
 }

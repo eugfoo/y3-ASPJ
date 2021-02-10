@@ -22,6 +22,7 @@ namespace FinalProj
         protected List<Admins> adList;
         protected List<roles> rlList;
         protected string currentSelected;
+        string OldText = string.Empty;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -41,17 +42,19 @@ namespace FinalProj
 
                     roles rl = new roles();
                     rlList = rl.GetAllRoles();
+                    tbName.Text = rlList[0].Roles;
+                    aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
+                    mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
+                    mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
                 }
                 else
                 {
-                    
+
                     Admins ad = new Admins();
                     adList = ad.GetAllAdmins();
-
+                    roles rl = new roles();
+                    rlList = rl.GetAllRoles();
                     // show configurations for role
-                    
-                    string selectedIT = roleDDL.SelectedItem.Text;
-                    tbName.Text = selectedIT;
                 }
 
             }
@@ -151,6 +154,102 @@ namespace FinalProj
             //ad.DeleteByEmail();
         }
 
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            roles rls = new roles();
+            rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
+        }
 
+        protected void aaLogs_CheckedChanged(object sender, EventArgs e)
+        {
+            roles rls = new roles();
+
+            if (aaLogs.Checked == true)
+            {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), 1, Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
+            }
+            else {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), 0, Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
+
+            }
+        }
+
+
+        protected void roleDDL_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedIT = roleDDL.SelectedItem.Text;
+            tbName.Text = selectedIT;
+            OldText = tbName.Text;
+            foreach (var role in rlList)
+            {
+                if (role.Roles == selectedIT)
+                {
+                    aaLogs.Checked = Convert.ToBoolean(role.viewAppLogs);
+                    mgCollab.Checked = Convert.ToBoolean(role.mgCollab);
+                    mgVouch.Checked = Convert.ToBoolean(role.mgVouch);
+                }
+            }
+        }
+
+        protected void mgCollab_CheckedChanged(object sender, EventArgs e)
+        {
+            roles rls = new roles();
+
+            if (aaLogs.Checked == true)
+            {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), 1 , Convert.ToInt32(mgVouch.Checked));
+            }
+            else
+            {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), 0, Convert.ToInt32(mgVouch.Checked));
+
+            }
+        }
+
+        protected void mgVouch_CheckedChanged(object sender, EventArgs e)
+        {
+            roles rls = new roles();
+
+            if (aaLogs.Checked == true)
+            {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), 1);
+            }
+            else
+            {
+                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), 0);
+            }
+        }
+
+        protected void addRole_Click(object sender, EventArgs e)
+        {
+            tbName.Text = "";
+            aaLogs.Checked = false;
+            mgCollab.Checked = false;
+            mgVouch.Checked = false;
+            btnUpdate.Visible = false;
+            btnDelete.Visible = false;
+            btnCancel.Visible = true;
+            btnSave.Visible = true;
+
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/addCollaborator.aspx");
+        }
+
+
+
+        protected void btnUpdate_Click1(object sender, EventArgs e)
+        {
+            if (tbName.Text == "") { 
+                
+            }
+            roles rl = new roles();
+            rlList = rl.GetAllRoles();
+            OldText = rlList[0].Roles;
+            rl.UpdateRoleName(OldText, AntiXssEncoder.HtmlEncode(tbName.Text, true));
+            Response.Redirect("addCollaborator.aspx");
+        }
     }
 }
