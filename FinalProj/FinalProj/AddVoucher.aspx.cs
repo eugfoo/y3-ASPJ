@@ -20,11 +20,8 @@ namespace FinalProj
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (Session["admin"] == null)
-            {
-                Response.Redirect("homepage.aspx");
-            }
-            else
+            
+            if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
                 Voucher vcher = new Voucher();
                 vcherList = vcher.GetAllVouchersByName();
@@ -44,6 +41,9 @@ namespace FinalProj
                         no.Visible = true;
                     }
                 }
+            } else if (Session["admin"] == null)
+            {
+                Response.Redirect("homepage.aspx");
             }
         }
 

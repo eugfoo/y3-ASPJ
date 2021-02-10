@@ -17,6 +17,7 @@ using System.Drawing;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;using System.Web.SessionState;
+using System.Web.Security.AntiXss;
 
 namespace FinalProj
 {
@@ -41,7 +42,10 @@ namespace FinalProj
                 HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
                 MainAdmins mainadmin = new MainAdmins();
-                MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+                MainAdmins adminlogin = mainadmin.GetAdminByEmail(tbEmail.Text);
+
+                Admins subadmin = new Admins();
+                Admins subadminlogin = subadmin.GetAllAdminWithEmail(tbEmail.Text);
                 string adminPassHash = ComputeSha256Hash(tbPass.Text);
 
                 if (adminlogin != null) //user exists
@@ -52,8 +56,9 @@ namespace FinalProj
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
-                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                        //lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
                         Session["admin"] = true;
+                        Session["adminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
                         Response.Redirect("homepage.aspx");
                     }
                     else
@@ -62,9 +67,18 @@ namespace FinalProj
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
-                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
+                else if (subadminlogin != null) {
+                    if (tbPass.Text == "123") { 
+                        Session["subadmin"] = true;
+                        Session["subadminEmail"] = tbEmail.Text;
+                        Response.Redirect("homepage.aspx");
+                    }
+                }
+
+
 
 
                 Users user = new Users();
@@ -112,7 +126,7 @@ namespace FinalProj
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         }
                                         Response.Redirect("TwoFactor1.aspx");
                                     }
@@ -130,12 +144,12 @@ namespace FinalProj
                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text,true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                         }
                                     }
 
@@ -163,11 +177,11 @@ namespace FinalProj
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         }
                                         Response.Redirect("Homepage.aspx");
                                     }
@@ -186,12 +200,12 @@ namespace FinalProj
                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text,true), countryLogged);
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                         }
                                     }
                                 }
@@ -210,12 +224,12 @@ namespace FinalProj
                                 if (us.GetUserByEmail(tbEmail.Text) != null)
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                 }
                                 else
                                 {
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                 }
                             }
                         }
@@ -233,12 +247,12 @@ namespace FinalProj
                             if (us.GetUserByEmail(tbEmail.Text) != null)
                             {
                                 string name = us.GetUserByEmail(tbEmail.Text).name;
-                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                             }
                             else
                             {
-                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                             }
                         }
                     }
@@ -256,12 +270,12 @@ namespace FinalProj
                         if (us.GetUserByEmail(tbEmail.Text) != null)
                         {
                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                         }
                         else
                         {
-                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                         }
                     }
                 }
@@ -316,11 +330,11 @@ namespace FinalProj
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                 }
                                 else
                                 {
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                 }
                                 Response.Redirect("Homepage.aspx");
                             }
@@ -359,11 +373,11 @@ namespace FinalProj
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         }
 
                                         otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
@@ -380,11 +394,11 @@ namespace FinalProj
                                             {
                                                 string name = us.GetUserByEmail(tbEmail.Text).name;
                                                 lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", tbEmail.Text, countryLogged);
+                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                             }
                                             else
                                             {
-                                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
 
                                             }
                                             EmailNewDevice(userTrying.userEmail, tryingUser.name);
@@ -419,8 +433,8 @@ namespace FinalProj
                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                         }
                                         else
                                         {
@@ -443,12 +457,12 @@ namespace FinalProj
                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                     {
                                         string name = us.GetUserByEmail(tbEmail.Text).name;
-                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                     }
                                     else
                                     {
-                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                     }
 
                                 }
@@ -489,11 +503,11 @@ namespace FinalProj
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
                                             lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                         }
                                         else
                                         {
-                                            lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                         }
 
                                         otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
@@ -510,11 +524,11 @@ namespace FinalProj
                                             {
                                                 string name = us.GetUserByEmail(tbEmail.Text).name;
                                                 lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", tbEmail.Text, countryLogged);
+                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                             }
                                             else
                                             {
-                                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
 
                                             }
                                             EmailNewDevice(userTrying.userEmail, tryingUser.name);
@@ -549,12 +563,12 @@ namespace FinalProj
                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                     {
                                         string name = us.GetUserByEmail(tbEmail.Text).name;
-                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                     }
                                     else
                                     {
-                                        lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                     }
                                 }
                             }
@@ -573,12 +587,12 @@ namespace FinalProj
                                 if (us.GetUserByEmail(tbEmail.Text) != null)
                                 {
                                     string name = us.GetUserByEmail(tbEmail.Text).name;
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", tbEmail.Text, countryLogged);
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                 }
                                 else
                                 {
-                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                 }
 
                             }

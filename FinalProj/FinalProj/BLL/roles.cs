@@ -10,6 +10,7 @@ namespace FinalProj.BLL
     {
 
 		public string Roles { get; set; }
+		public int RoleId { get; set; }
 		public int viewAppLogs { get; set; }
 		public int mgCollab { get; set; }
 		public int mgVouch { get; set; }
@@ -17,8 +18,9 @@ namespace FinalProj.BLL
 
 
 		public roles() { }
-		public roles(string roles, int appLogs, int mgCollaborators, int mgVouchers)
+		public roles(int id, string roles, int appLogs, int mgCollaborators, int mgVouchers)
 		{
+			RoleId = id;
 			Roles = roles;
 			viewAppLogs = appLogs;
 			mgCollab = mgCollaborators;
@@ -30,16 +32,22 @@ namespace FinalProj.BLL
 			RolesDAO rl = new RolesDAO();
 			return rl.SelectAllRoles();
 		}
+
+		public roles GetRole(string name)
+		{
+			RolesDAO rl = new RolesDAO();
+			return rl.SelectRole(name);
+		}
 		public int UpdatePermsByRole(string roles, int appLogs, int mgCollaborators, int mgVouchers)
 		{
 			RolesDAO rl = new RolesDAO();
 			return rl.UpdatePerms(roles, appLogs, mgCollaborators, mgVouchers);
 		}
 
-		public int UpdateRoleName(string oldRoleName, string newRoleName)
+		public int UpdateRole(int id, string newRoleName, int appLogs, int mgCollaborators, int mgVouchers)
 		{
 			RolesDAO rl = new RolesDAO();
-			return rl.UpdateRoleName(oldRoleName, newRoleName);
+			return rl.UpdateRole(id, newRoleName, appLogs, mgCollaborators, mgVouchers);
 		}
 
 		public int InsertRole(string roles, int appLogs, int mgCollab, int mgVouch) {

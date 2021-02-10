@@ -15,11 +15,13 @@ namespace FinalProj
     {
         protected List<Logs> lgList;
         protected List<MainAdmins> maList;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            
 
-            string em;
+
+        string em;
             if (Session["user"] != null)
             {
                 Users user = (Users)Session["user"];
@@ -28,26 +30,35 @@ namespace FinalProj
 
                 lgList = lg.GetAllLogsOfUser(em);
 
-                
+
 
             }
-            else if (Convert.ToBoolean(Session["admin"])) {
+            else if (Convert.ToBoolean(Session["subadmin"])) {
+                Users user = (Users)Session["user"];
+                em = user.email;
+                Logs lg = new Logs();
+
+                lgList = lg.GetAllLogsOfUser(em);
+
+
+
+            }
+
+            else if (Convert.ToBoolean(Session["admin"]))
+            {
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();
 
                 Logs lg = new Logs();
                 lgList = lg.GetAllLogsOfUser(maList[0].MainadminEmail);
             }
-            else {
+            else
+            {
 
                 Response.Redirect("homepage.aspx");
             }
 
         }
 
-
-
-        
-        
     }
 }

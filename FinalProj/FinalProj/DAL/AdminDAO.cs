@@ -49,6 +49,48 @@ namespace FinalProj.DAL
             return adminList;
         }
 
+        public Admins SelectAdmin(string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter to retrieve data from the database table
+            string sqlStmt = "Select * from Admins where Email = @paraAdminEmail";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            da.SelectCommand.Parameters.AddWithValue("@paraAdminEmail", email);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet.
+            Admins adminDetail = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record\
+                int adminId = int.Parse(row["Id"].ToString());
+                string adminName = row["Name"].ToString();
+                string adminRole = row["Role"].ToString();
+                string adminStatus = row["Status"].ToString();
+                string adminEmail = row["Email"].ToString();
+
+
+                adminDetail = new Admins(adminId, adminName, adminRole, adminStatus, adminEmail);
+            }
+            else
+            {
+                adminDetail = null;
+            }
+
+            return adminDetail;
+        }
+
         public int Insert(string adminName, string adminEmail, string role)
         {
             // Execute NonQuery return an integer value

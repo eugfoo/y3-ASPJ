@@ -16,6 +16,8 @@ namespace FinalProj
     {
         protected List<Notifications> notiListTemp;
         protected List<Admins> adListTemp;
+                protected Admins adDeets;
+        protected roles rlDeets;
         protected List<Notifications> notiList = new List<Notifications>();
         protected List<Admins> adList = new List<Admins>();
         List<MainAdmins> maList;
@@ -26,9 +28,16 @@ namespace FinalProj
         {
             Notifications noti = new Notifications();
 
-            if (Convert.ToBoolean(Session["admin"])) // An admin has signed in
+            if (Convert.ToBoolean(Session["subadmin"])) // An admin has signed in
             {
                 liAdmin.Visible = true;
+                Admins ad = new Admins();
+                adDeets = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+                roles rl = new roles();
+                rlDeets = rl.GetRole(adDeets.adminRole);
+            } else if (Convert.ToBoolean(Session["admin"])) {
+                liAdmin.Visible = true;
+
             }
             else
             {
@@ -66,7 +75,7 @@ namespace FinalProj
                             //System.Diagnostics.Debug.WriteLine("This is notiList" + notiList[i]);
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -84,15 +93,30 @@ namespace FinalProj
         {
             if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
-                Users user = (Users)Session["user"];
-                Session.Clear();
-                string ipAddr = GetIPAddress();
-                string countryLogged = CityStateCountByIp(ipAddr);
-                DateTime dtLog = DateTime.Now;
-                CityStateCountByIp(ipAddr);
-                ActivityLog alg = new ActivityLog();
-                alg.AddActivityLog(dtLog, user.name, ipAddr, "Successful Log out Attempt ", "-", user.email, countryLogged);
-                Response.Redirect("/homepage.aspx");
+                if (!Convert.ToBoolean(Session["subadmin"]))
+                {
+                    Users user = (Users)Session["user"];
+                    Session.Clear();
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Successful Log out Attempt ", "-", user.email, countryLogged);
+                    Response.Redirect("/homepage.aspx");
+                }
+                else {
+                    Admins adUser = new Admins();
+                    Admins ad = adUser.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+                    Session.Clear();
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, ad.adminName, ipAddr, "Successful Log out Attempt ", "-", ad.adminEmail, countryLogged);
+                    Response.Redirect("/homepage.aspx");
+                }
             }
             else {
                 Session.Clear();
@@ -103,7 +127,7 @@ namespace FinalProj
                 ActivityLog alg = new ActivityLog();
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();
-                //alg.AddActivityLog(dtLog, maList[0].MainadminName, ipAddr, "Successful Log out Attempt ", "-", maList[0].MainadminEmail, countryLogged);
+                alg.AddActivityLog(dtLog, maList[0].MainadminName, ipAddr, "Successful Log out Attempt ", "-", maList[0].MainadminEmail, countryLogged);
                 Response.Redirect("/homepage.aspx");
             }
         

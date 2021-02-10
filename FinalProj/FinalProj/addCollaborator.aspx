@@ -145,7 +145,7 @@
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Allow users under this role to view application activity logs"></i>
                         <label class="switch">
-                            <asp:CheckBox ID="aaLogs" runat="server" AutoPostBack="true" OnCheckedChanged="aaLogs_CheckedChanged"/>
+                            <asp:CheckBox ID="aaLogs" runat="server" />
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -154,7 +154,7 @@
                             <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                                 title="Allow users under this role to manage collaborators and assign specific roles"></i>
                             <label class="switch">
-                                <asp:CheckBox ID="mgCollab" runat="server" OnCheckedChanged="mgCollab_CheckedChanged" />
+                                <asp:CheckBox ID="mgCollab" runat="server" />
                                 <span class="slider round"></span>
                             </label>
                     </div>
@@ -163,10 +163,11 @@
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Allow users under this role to manage vouchers"></i>
                         <label class="switch">
-                            <asp:CheckBox ID="mgVouch" runat="server" OnCheckedChanged="mgVouch_CheckedChanged"/>
+                            <asp:CheckBox ID="mgVouch" runat="server" />
                             <span class="slider round"></span>
                         </label>
                     </div>
+                     <asp:Label ID="roleUsed" runat="server" Text="The role is currently being used" ForeColor="#CC0000" Visible="False"></asp:Label>
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">
                             <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnDelete_Click"/>

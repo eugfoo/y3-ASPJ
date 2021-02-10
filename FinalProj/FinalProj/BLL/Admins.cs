@@ -31,6 +31,13 @@ namespace FinalProj.BLL
 			return ad.SelectAllAdmins();
 		}
 
+		public Admins GetAllAdminWithEmail(string adminEmail)
+		{
+			AdminDAO ad = new AdminDAO();
+			return ad.SelectAdmin(adminEmail);
+		}
+
+
 
 		public int AddAdmin(string Name, string Email, string Role)
 		{

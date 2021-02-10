@@ -34,14 +34,14 @@ namespace FinalProj.DAL
             for (int i = 0; i < rec_cnt; i++)
             {
                 DataRow row = ds.Tables[0].Rows[i];  // Sql command returns only one record
-                
+                int roleId = int.Parse(row["Id"].ToString());
                 string role = row["Roles"].ToString();
                 int appLogs = int.Parse(row["viewApplicationLogs"].ToString());
                 int mgCollab = int.Parse(row["manageCollaborators"].ToString());
                 int mgVouch = int.Parse(row["manageVouchers"].ToString());
 
 
-                roles obj = new roles(role, appLogs, mgCollab, mgVouch);
+                roles obj = new roles(roleId, role, appLogs, mgCollab, mgVouch);
                 roleList.Add(obj);
             };
 
@@ -66,16 +66,19 @@ namespace FinalProj.DAL
             return result;
         }
 
-        public int UpdateRoleName(string OldRoleName, string newRoleName)
+        public int UpdateRole(int roleId, string newRoleName, int app ,int collab, int vouch)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE rolesTable SET Roles = @newRole WHERE Roles = @oldRole";
+            string sqlStmt = "UPDATE rolesTable SET Roles = @newRole, viewApplicationLogs = @vapplogs, manageCollaborators = @mgCollab, manageVouchers = @mgVouch  WHERE Id = @roleId";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
-            sqlCmd.Parameters.AddWithValue("@oldRole", OldRoleName);
+            sqlCmd.Parameters.AddWithValue("@roleId", roleId);
             sqlCmd.Parameters.AddWithValue("@newRole", newRoleName);
+            sqlCmd.Parameters.AddWithValue("@vapplogs", app);
+            sqlCmd.Parameters.AddWithValue("@mgCollab", collab);
+            sqlCmd.Parameters.AddWithValue("@mgVouch", vouch);
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();
@@ -143,6 +146,48 @@ namespace FinalProj.DAL
             myConn.Close();
 
             return result;
+        }
+
+        public roles SelectRole(string roleName)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter to retrieve data from the database table
+            string sqlStmt = "Select * from rolesTable Where Roles = @paraRole ";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            da.SelectCommand.Parameters.AddWithValue("@paraRole", roleName);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet.
+            roles roleDetail;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record\
+                int roleId = int.Parse(row["Id"].ToString());
+                string roleNames = row["Roles"].ToString();
+                int appLogs = int.Parse(row["viewApplicationLogs"].ToString());
+                int mgCollab = int.Parse(row["manageCollaborators"].ToString());
+                int mgCouch = int.Parse(row["manageVouchers"].ToString());
+
+
+                roleDetail = new roles(roleId, roleNames, appLogs, mgCollab, mgCouch);
+            }
+            else
+            {
+                roleDetail = null;
+            }
+
+            return roleDetail;
         }
 
     }

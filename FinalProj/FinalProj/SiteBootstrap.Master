@@ -237,15 +237,14 @@
                                     <a class="dropdown-item" href="/EditProfile.aspx">Edit Profile</a>
 
                                     <% Users user = (Users)Session["user"];
-                                        if (!Convert.ToBoolean(Session["admin"]))
-                                            if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
-                                            { %>
+                                    if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
+                                    { %>
                                     <div class="dropdown-divider"></div>
                                     <button id="openModal" runat="server" type="button" class="btn dropdown-item" data-toggle="modal" data-target="#reqVer">Request Verification</button>
                                     <%  }%>
                                     <div id="norgItems" runat="server">
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
+                                        <a class="dropdown-item" href="/VoucherRedemption.aspx">Vouchers</a>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
                                     <div id="Div2" runat="server">
@@ -254,13 +253,21 @@
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
 
-                                    <% if (Convert.ToBoolean(Session["admin"]))
-                                        { %>
+                                    <% if (Convert.ToBoolean(Session["subadmin"]) == true)
+                                       { if (rlDeets.mgCollab == 1){%>
+                                            <div class="dropdown-divider"></div>
+                                            <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                        <%} if (rlDeets.viewAppLogs == 1) { %>
+                                            <div class="dropdown-divider"></div>
+                                            <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                         <%}
+                                    } else if (Convert.ToBoolean(Session["admin"])){%>
+
                                     <div class="dropdown-divider"></div>
-                                    <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                    <%  }%>
+                                            <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                 <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                <%} %>
                                 </div>
                             </div>
                             <%--<asp:HyperLink ID="lblProfile" CssClass="nav-link" runat="server" NavigateUrl="/EventStatus.aspx"></asp:HyperLink>--%>

@@ -19,11 +19,8 @@ namespace FinalProj
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
-            {
-                Response.Redirect("homepage.aspx"); // Adios Gladios
-            }
-            else
+            
+            if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
                 // Whatever you want here.
                 if (!IsPostBack)
@@ -100,6 +97,9 @@ namespace FinalProj
                         apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
                     }
                 }
+            }else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+            {
+                Response.Redirect("homepage.aspx"); // Adios Gladios
             }
 
         }

@@ -19,30 +19,43 @@ namespace FinalProj
         public string result ="";
         public string errmsg = "";
 
+        protected Admins adDeets;
+        protected roles rlDeets;
         protected List<Admins> adList;
         protected List<roles> rlList;
         protected string currentSelected;
+        protected int aaLogsCheck;
+        protected int mgCollabCheck;
+        protected int mgVouchCheck;
         string OldText = string.Empty;
+        protected bool capsuleApp;
+        protected bool capsuleCollab;
+        protected bool capsuleVouch;
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+            
+            if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                
-                Response.Redirect("homepage.aspx"); // Adios Gladios
-            }
-            else
-            {
+                Admins ad = new Admins();
+                adDeets = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+                roles rl = new roles();
+                rlDeets = rl.GetRole(adDeets.adminRole);
+
                 if (!IsPostBack)
                 {
                     // Whatever you want here.
-                    Admins ad = new Admins();
+                    roles rls = new roles();
+                    rlDeets = rls.GetRole(adDeets.adminRole);
+
                     adList = ad.GetAllAdmins();
 
-                    roles rl = new roles();
                     rlList = rl.GetAllRoles();
                     tbName.Text = rlList[0].Roles;
+                    capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
+                    capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
+                    capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
                     aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
                     mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
                     mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
@@ -50,13 +63,41 @@ namespace FinalProj
                 else
                 {
 
-                    Admins ad = new Admins();
                     adList = ad.GetAllAdmins();
-                    roles rl = new roles();
                     rlList = rl.GetAllRoles();
                     // show configurations for role
+                    if (aaLogs.Checked == true)
+                    {
+                        aaLogsCheck = 1;
+                    }
+                    else {
+                        aaLogsCheck = 0;
+
+                    }
+
+                    if (mgCollab.Checked == true) {
+                        mgCollabCheck = 1;
+
+                    }
+                    else
+                    {
+                        mgCollabCheck = 0;
+
+                    }
+
+                    if (mgVouch.Checked == true)
+                    {
+                        mgVouchCheck = 1;
+                    }
+                    else {
+                        mgVouchCheck = 0;
+                    }
                 }
 
+            } else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+            {
+
+                Response.Redirect("homepage.aspx"); // Adios Gladios
             }
         }
 
@@ -160,19 +201,7 @@ namespace FinalProj
             rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
         }
 
-        protected void aaLogs_CheckedChanged(object sender, EventArgs e)
-        {
-            roles rls = new roles();
-
-            if (aaLogs.Checked == true)
-            {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), 1, Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
-            }
-            else {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), 0, Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
-
-            }
-        }
+     
 
 
         protected void roleDDL_SelectedIndexChanged(object sender, EventArgs e)
@@ -191,34 +220,7 @@ namespace FinalProj
             }
         }
 
-        protected void mgCollab_CheckedChanged(object sender, EventArgs e)
-        {
-            roles rls = new roles();
-
-            if (aaLogs.Checked == true)
-            {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), 1 , Convert.ToInt32(mgVouch.Checked));
-            }
-            else
-            {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), 0, Convert.ToInt32(mgVouch.Checked));
-
-            }
-        }
-
-        protected void mgVouch_CheckedChanged(object sender, EventArgs e)
-        {
-            roles rls = new roles();
-
-            if (aaLogs.Checked == true)
-            {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), 1);
-            }
-            else
-            {
-                rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), 0);
-            }
-        }
+        
 
         protected void addRole_Click(object sender, EventArgs e)
         {
@@ -242,14 +244,18 @@ namespace FinalProj
 
         protected void btnUpdate_Click1(object sender, EventArgs e)
         {
-            if (tbName.Text == "") { 
-                
+            if (tbName.Text != OldText)
+            {
+                roles rl = new roles();
+                rlList = rl.GetAllRoles();
+                OldText = rlList[0].Roles;
+                roles singleRl = rl.GetRole(roleDDL.SelectedValue);
+                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck);
+                Response.Redirect("addCollaborator.aspx");
             }
-            roles rl = new roles();
-            rlList = rl.GetAllRoles();
-            OldText = rlList[0].Roles;
-            rl.UpdateRoleName(OldText, AntiXssEncoder.HtmlEncode(tbName.Text, true));
-            Response.Redirect("addCollaborator.aspx");
+            else {
+                Response.Redirect("addCollaborator.aspx");
+            }
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -293,9 +299,25 @@ namespace FinalProj
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            roles rl = new roles();
-            rl.DeleteRole(roleDDL.SelectedValue);
-            Response.Redirect("addCollaborator.aspx");
+            List<Admins> adList;
+            Admins ad = new Admins();
+            adList = ad.GetAllAdmins();
+            bool tracker = true;
+            foreach (var elmt in adList) {
+                if (elmt.adminRole == roleDDL.SelectedValue) {
+                    tracker = false;
+                    break;
+                }
+            }
+            if (tracker)
+            {
+                roles rl = new roles();
+                rl.DeleteRole(roleDDL.SelectedValue);
+                Response.Redirect("addCollaborator.aspx");
+            }
+            else {
+                roleUsed.Visible = true;
+            }
         }
     }
 }

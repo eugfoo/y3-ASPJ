@@ -58,6 +58,7 @@ namespace FinalProj
                 ad.UpdateStatusByEmail(Session["email"].ToString(), "Accepted");
                 scssmsg.Text = "Successful Verification!";
                 PanelSuccess.Visible = true;
+                Session.Clear();
                 Response.Redirect("/homepage.aspx");
             }
             else {
