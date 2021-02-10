@@ -135,7 +135,10 @@
                      <div class="form-group">
                         <label for="formGroupExampleInput2">Name:</label>
                         <asp:TextBox type="text" CssClass="form-control" ID="tbName" runat="server" CausesValidation="True"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a Role Name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
+                        <asp:Label ID="enterMsg" runat="server" Text="Please enter a role name!" Visible="False" ForeColor="#CC0000"></asp:Label>
+
+                         <asp:Label ID="existMsg" runat="server" Text="Role already exists!" Visible="False" ForeColor="#CC0000"></asp:Label>
+                        
                     </div>
                     <div class="form-group">
                         <label>View Application Logs: </label>
@@ -166,11 +169,11 @@
                     </div>
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">
-                            <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False"/>
+                            <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnDelete_Click"/>
                             <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-success" Text="Update" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnUpdate_Click1" />
 
                             <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnCancel_Click" />
-                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" Visible="False" />
+                            <asp:Button ID="btnSave" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnSave_Click" />
                         </div>
                     </div>
                 </div>

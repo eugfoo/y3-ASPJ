@@ -42,13 +42,22 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox tbName;
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// enterMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.Label enterMsg;
+
+        /// <summary>
+        /// existMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label existMsg;
 
         /// <summary>
         /// aaLogs control.

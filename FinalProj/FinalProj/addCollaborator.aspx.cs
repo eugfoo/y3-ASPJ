@@ -251,5 +251,51 @@ namespace FinalProj
             rl.UpdateRoleName(OldText, AntiXssEncoder.HtmlEncode(tbName.Text, true));
             Response.Redirect("addCollaborator.aspx");
         }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            string role = AntiXssEncoder.HtmlEncode(tbName.Text, true);
+            int applog = Convert.ToInt32(aaLogs.Checked);
+            int manageCollab = Convert.ToInt32(mgCollab.Checked);
+            int manageVouch = Convert.ToInt32(mgVouch.Checked);
+            roles rl = new roles();
+            List<roles> rlList;
+            rlList = rl.GetAllRoles();
+            bool tracker = false;
+
+            if (role != "")
+            {
+                foreach (var elmnt in rlList)
+                {
+                    if (role == elmnt.Roles)
+                    {
+                        tracker = true;
+                    }
+                }
+                if (!tracker)
+                {
+                    rl.InsertRole(role, applog, manageCollab, manageVouch);
+                    Response.Redirect("/addCollaborator.aspx");
+                }
+                else
+                {
+                    //  input err msg
+
+                    existMsg.Visible = true;
+                }
+            }
+            else {
+                enterMsg.Visible = true;
+
+            }
+
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            roles rl = new roles();
+            rl.DeleteRole(roleDDL.SelectedValue);
+            Response.Redirect("addCollaborator.aspx");
+        }
     }
 }

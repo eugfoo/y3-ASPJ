@@ -41,5 +41,16 @@ namespace FinalProj.BLL
 			RolesDAO rl = new RolesDAO();
 			return rl.UpdateRoleName(oldRoleName, newRoleName);
 		}
+
+		public int InsertRole(string roles, int appLogs, int mgCollab, int mgVouch) {
+			RolesDAO rl = new RolesDAO();
+			return rl.Insert(roles, appLogs, mgCollab, mgVouch);
+		}
+
+		public int DeleteRole(string roles)
+		{
+			RolesDAO rl = new RolesDAO();
+			return rl.DeleteRole(roles);
+		}
 	}
 }
