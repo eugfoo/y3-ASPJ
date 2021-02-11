@@ -92,6 +92,11 @@ namespace FinalProj
                             Session["user"] = tryingUser;
                             Session["subadmin"] = true;
                             Session["subadminEmail"] = tbEmail.Text;
+                            string ipAddr = GetIPAddress();
+                            string countryLogged = CityStateCountByIp(ipAddr);
+                            DateTime dtLog = DateTime.Now;
+                            Logs lg = new Logs();
+                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); 
                             Response.Redirect("homepage.aspx");
                         }
                         else

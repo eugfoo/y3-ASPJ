@@ -19,85 +19,102 @@ namespace FinalProj
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            
+
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                // Whatever you want here.
-                if (!IsPostBack)
+                string adEmail = Session["subadminEmail"].ToString();
+                Admins ad = new Admins();
+                Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                roles rl = new roles();
+                roles rlDetails = rl.GetRole(adDetails.adminRole);
+                if (rlDetails.viewAppLogs == 1 || Convert.ToBoolean(Session["admin"]) == true)
                 {
-                    ActivityLog alg = new ActivityLog();
-                    algList = alg.GetAllLogsOfActivities();
-
-                    for (int i = 0; i < algList.Count; i++)
+                    // Whatever you want here.
+                    if (!IsPostBack)
                     {
-                        Users us = new Users();
-                        string he = algList[i].userEmail;
-                        Users lol = us.GetUserByEmail(algList[i].userEmail);
+                        ActivityLog alg = new ActivityLog();
+                        algList = alg.GetAllLogsOfActivities();
 
-                        picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
-
-                    }
-                }else {
-                    ActivityLog alg = new ActivityLog();
-
-                    algList = alg.GetAllLogsOfActivities();
-                    if (violationType.SelectedValue == "FailedAuthentication")
-                    {
-                        foreach (var elmt in algList)
+                        for (int i = 0; i < algList.Count; i++)
                         {
-                            if (elmt.ViolationType == "Failed Authentication")
+                            Users us = new Users();
+                            string he = algList[i].userEmail;
+                            Users lol = us.GetUserByEmail(algList[i].userEmail);
+
+                            picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
+
+                        }
+                    }
+                    else
+                    {
+                        ActivityLog alg = new ActivityLog();
+
+                        algList = alg.GetAllLogsOfActivities();
+                        if (violationType.SelectedValue == "FailedAuthentication")
+                        {
+                            foreach (var elmt in algList)
                             {
-                                aalgList.Add(elmt);
+                                if (elmt.ViolationType == "Failed Authentication")
+                                {
+                                    aalgList.Add(elmt);
+                                }
 
                             }
-
                         }
-                    }
-                    else if (violationType.SelectedValue == "All") {
-                        foreach (var elmt in algList)
+                        else if (violationType.SelectedValue == "All")
                         {
-                           
-                            aalgList.Add(elmt);
-                        }
-                    }else if (violationType.SelectedValue == "Spamming")
-                    {
-                        foreach (var elmt in algList)
-                        {
-                            if (elmt.ViolationType == "Spamming")
+                            foreach (var elmt in algList)
                             {
+
                                 aalgList.Add(elmt);
                             }
                         }
-                    }
-                    else if (violationType.SelectedValue == "XSS")
-                    {
-                        foreach (var elmt in algList)
+                        else if (violationType.SelectedValue == "Spamming")
                         {
-                            if (elmt.ViolationType == "XSS")
+                            foreach (var elmt in algList)
                             {
-                                aalgList.Add(elmt);
+                                if (elmt.ViolationType == "Spamming")
+                                {
+                                    aalgList.Add(elmt);
+                                }
                             }
                         }
-                    }
-                    else if (violationType.SelectedValue == "Malware")
-                    {
-                        foreach (var elmt in algList)
+                        else if (violationType.SelectedValue == "XSS")
                         {
-                            if (elmt.ViolationType == "Malware")
+                            foreach (var elmt in algList)
                             {
-                                aalgList.Add(elmt);
+                                if (elmt.ViolationType == "XSS")
+                                {
+                                    aalgList.Add(elmt);
+                                }
                             }
                         }
-                    }
+                        else if (violationType.SelectedValue == "Malware")
+                        {
+                            foreach (var elmt in algList)
+                            {
+                                if (elmt.ViolationType == "Malware")
+                                {
+                                    aalgList.Add(elmt);
+                                }
+                            }
+                        }
 
-                    foreach (var lement in aalgList)
-                    {
-                        Users us = new Users();
+                        foreach (var lement in aalgList)
+                        {
+                            Users us = new Users();
 
-                        apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
+                            apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
+                        }
                     }
                 }
-            }else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+                else {
+                    string err = "NoPermission";
+                    Response.Redirect("homepage.aspx?error=" + err);
+                }
+                
+            }
+            else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
             {
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }

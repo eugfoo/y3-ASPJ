@@ -21,6 +21,11 @@ namespace FinalProj
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			if (Request.QueryString["error"] == "NoPermission") {
+				panelError.Visible = true;
+				lb_error.Text = "No Permissions. Please request for permission if you wish to access the feature";
+
+			}
 			loadDates("no");
 			if (Session["user"] == null)
 			{

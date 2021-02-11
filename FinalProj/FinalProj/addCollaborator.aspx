@@ -3,22 +3,22 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
-    table {
-        border-collapse:separate;
-        border:solid black 1px;
-        border-radius:6px;
-        -moz-border-radius:6px;
-    }
+        table {
+            border-collapse:separate;
+            border:solid black 1px;
+            border-radius:6px;
+            -moz-border-radius:6px;
+        }
 
-    td, th {
-        border-left:solid black 1px;
-        border-top:solid black 1px;
-    }
+        td, th {
+            border-left:solid black 1px;
+            border-top:solid black 1px;
+        }
 
 
-    td:first-child, th:first-child {
-         border-left: none;
-    }
+        td:first-child, th:first-child {
+                border-left: none;
+        }
         #adCont {
             margin:2%;
         }
@@ -219,7 +219,6 @@
                     </td>
                     <%} index++;%>
 
-
                 </tr>
                 <%} %>
             </table>
@@ -249,13 +248,14 @@
 
                     <asp:Label for="collabEmail" runat="server" style="float:left;">Email address:</asp:Label>
                     
-
                     <asp:TextBox type="email" ID="collabEmail" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email" runat="server"></asp:TextBox>
                     <p>
                     <asp:Label for="roleChoice" runat="server" style="float:left;">Role:</asp:Label>
-                    <asp:DropDownList ID="roleChoice" style="float:left; margin-left:2%; margin-bottom:3%;" class="btn btn-primary dropdown-toggle" runat="server" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles">
+                    <asp:DropDownList ID="roleChoice" style="float:left; margin-top:3%; margin-left:2%; margin-bottom:3%;" class="btn btn-primary dropdown-toggle" runat="server" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles">
                     </asp:DropDownList>
+
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Id], [Roles] FROM [rolesTable]" ></asp:SqlDataSource>
+                    <p>
                     <asp:Button ID="submit" style="margin-top:3%;" runat="server" class="btn btn-success btn-md btn-block" Text="Submit" OnClick="submit_Click" />
 
                 </div>
@@ -272,10 +272,7 @@
     <script type="text/javascript">
     function ShowPopup(title, body) {
         $("#MyPopup").modal("show");
-        }
-
-
-
+    }
 
        
     </script>

@@ -31,6 +31,8 @@ namespace FinalProj
         protected bool capsuleApp;
         protected bool capsuleCollab;
         protected bool capsuleVouch;
+        protected roles cap;
+        protected int capPerm = 0;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,59 +40,69 @@ namespace FinalProj
             
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                Admins ad = new Admins();
-                adDeets = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
-                roles rl = new roles();
-                rlDeets = rl.GetRole(adDeets.adminRole);
-
-                if (!IsPostBack)
-                {
-                    // Whatever you want here.
-                    roles rls = new roles();
-                    rlDeets = rls.GetRole(adDeets.adminRole);
-
-                    adList = ad.GetAllAdmins();
-
-                    rlList = rl.GetAllRoles();
-                    tbName.Text = rlList[0].Roles;
-                    capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
-                    capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
-                    capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
-                    aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
-                    mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
-                    mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
+                if (!Convert.ToBoolean(Session["admin"])) { 
+                    string adEmail = Session["subadminEmail"].ToString();
+                    Admins ad = new Admins();
+                    Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                    roles rl = new roles();
+                    cap = rl.GetRole(adDetails.adminRole);
+                    capPerm = cap.viewAppLogs;
                 }
-                else
+
+                if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
                 {
-
-                    adList = ad.GetAllAdmins();
-                    rlList = rl.GetAllRoles();
-                    // show configurations for role
-                    if (aaLogs.Checked == true)
+                    Admins ad = new Admins();
+                    roles rl = new roles();
+                    if (!IsPostBack)
                     {
-                        aaLogsCheck = 1;
-                    }
-                    else {
-                        aaLogsCheck = 0;
+                        // Whatever you want here.
 
-                    }
+                        adList = ad.GetAllAdmins();
 
-                    if (mgCollab.Checked == true) {
-                        mgCollabCheck = 1;
-
+                        rlList = rl.GetAllRoles();
+                        tbName.Text = rlList[0].Roles;
+                        capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
+                        capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
+                        capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
+                        aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
+                        mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
+                        mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
                     }
                     else
                     {
-                        mgCollabCheck = 0;
 
-                    }
+                        adList = ad.GetAllAdmins();
+                        rlList = rl.GetAllRoles();
+                        // show configurations for role
+                        if (aaLogs.Checked == true)
+                        {
+                            aaLogsCheck = 1;
+                        }
+                        else
+                        {
+                            aaLogsCheck = 0;
 
-                    if (mgVouch.Checked == true)
-                    {
-                        mgVouchCheck = 1;
-                    }
-                    else {
-                        mgVouchCheck = 0;
+                        }
+
+                        if (mgCollab.Checked == true)
+                        {
+                            mgCollabCheck = 1;
+
+                        }
+                        else
+                        {
+                            mgCollabCheck = 0;
+
+                        }
+
+                        if (mgVouch.Checked == true)
+                        {
+                            mgVouchCheck = 1;
+                        }
+                        else
+                        {
+                            mgVouchCheck = 0;
+                        }
                     }
                 }
 
