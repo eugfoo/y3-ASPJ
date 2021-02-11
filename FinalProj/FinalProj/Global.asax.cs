@@ -57,23 +57,27 @@ namespace FinalProj
         }
         protected void Session_End(object sender, EventArgs e)
         {
+            if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true) {
+                
+            } 
+            else { 
+                Users user = (Users)Session["user"];
+                Logs lg = new Logs();
+                if (user.GetUserByEmail(user.email) != null)
+                {
+                    lgList = lg.GetAllLogsOfUser(user.email);
+                    string ipAddr = lgList[0].ipAddr;
+                    string countryLogged = CityStateCountByIp(ipAddr);
+                    DateTime dtLog = DateTime.Now;
 
-            Users user = (Users)Session["user"];
-            Logs lg = new Logs();
-            if (user.GetUserByEmail(user.email) != null)
-            {
-                lgList = lg.GetAllLogsOfUser(user.email);
-                string ipAddr = lgList[0].ipAddr;
-                string countryLogged = CityStateCountByIp(ipAddr);
-                DateTime dtLog = DateTime.Now;
-
-                CityStateCountByIp(ipAddr);
-                ActivityLog alg = new ActivityLog();
-                alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
-                Session.Clear();
-            }
-            else {
-                Session.Clear();
+                    CityStateCountByIp(ipAddr);
+                    ActivityLog alg = new ActivityLog();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
+                    Session.Clear();
+                }
+                else {
+                    Session.Clear();
+                }
             }
 
 

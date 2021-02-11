@@ -46,7 +46,7 @@ namespace FinalProj
                     Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
                     roles rl = new roles();
                     cap = rl.GetRole(adDetails.adminRole);
-                    capPerm = cap.viewAppLogs;
+                    capPerm = cap.mgCollab;
                 }
 
                 if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)

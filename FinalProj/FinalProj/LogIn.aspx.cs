@@ -50,7 +50,7 @@ namespace FinalProj
                 string subAdminPassHash = ComputeSha256Hash(tbPass.Text);
 
                 Users user = new Users();
-                Users subAdminLogin = user.GetUserByEmail(tbEmail.Text);
+                Users subAdCreds = user.GetUserByEmail(tbEmail.Text);
                 string passHash = tbPass.Text.ToString().Trim();
 
                 if (adminlogin != null) //user exists
@@ -61,7 +61,7 @@ namespace FinalProj
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
-                        //lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
+                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
                         Session["admin"] = true;
                         Session["adminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
                         Response.Redirect("homepage.aspx");
@@ -78,8 +78,8 @@ namespace FinalProj
                 else if (subadminlogin != null && subadminlogin.adminStatus == "Accepted") 
                 {
 
-                    string adminDbHash = subAdminLogin.passHash;
-                    string adminDbSalt = subAdminLogin.passSalt;
+                    string adminDbHash = subAdCreds.passHash;
+                    string adminDbSalt = subAdCreds.passSalt;
                     SHA256Managed adminHashing = new SHA256Managed();
                     if (adminDbSalt != null && adminDbSalt.Length > 0 && adminDbHash != null && adminDbHash.Length > 0)
                     {

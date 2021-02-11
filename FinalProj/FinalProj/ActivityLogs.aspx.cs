@@ -15,6 +15,8 @@ namespace FinalProj
 
         protected List<string> picList = new List<string>();
         protected List<string> apicList = new List<string>();
+        protected roles cap;
+        protected int capPerm = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,12 +24,17 @@ namespace FinalProj
 
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                string adEmail = Session["subadminEmail"].ToString();
-                Admins ad = new Admins();
-                Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
-                roles rl = new roles();
-                roles rlDetails = rl.GetRole(adDetails.adminRole);
-                if (rlDetails.viewAppLogs == 1 || Convert.ToBoolean(Session["admin"]) == true)
+                if (!Convert.ToBoolean(Session["admin"]))
+                {
+                    string adEmail = Session["subadminEmail"].ToString();
+                    Admins ad = new Admins();
+                    Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                    roles rl = new roles();
+                    cap = rl.GetRole(adDetails.adminRole);
+                    capPerm = cap.viewAppLogs;
+                }
+
+                if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
                 {
                     // Whatever you want here.
                     if (!IsPostBack)
