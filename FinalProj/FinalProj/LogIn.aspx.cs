@@ -47,6 +47,11 @@ namespace FinalProj
                 Admins subadmin = new Admins();
                 Admins subadminlogin = subadmin.GetAllAdminWithEmail(tbEmail.Text);
                 string adminPassHash = ComputeSha256Hash(tbPass.Text);
+                string subAdminPassHash = ComputeSha256Hash(tbPass.Text);
+
+                Users user = new Users();
+                Users tryingUser = user.GetUserByEmail(tbEmail.Text);
+                string passHash = tbPass.Text.ToString().Trim();
 
                 if (adminlogin != null) //user exists
                 {
@@ -70,21 +75,40 @@ namespace FinalProj
                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
-                else if (subadminlogin != null) {
-                    if (tbPass.Text == "123") { 
-                        Session["subadmin"] = true;
-                        Session["subadminEmail"] = tbEmail.Text;
-                        Response.Redirect("homepage.aspx");
+                else if (tryingUser != null) 
+                {
+                    string adminDbHash = tryingUser.passHash;
+                    string adminDbSalt = tryingUser.passSalt;
+                    SHA256Managed adminHashing = new SHA256Managed();
+                    if (adminDbSalt != null && adminDbSalt.Length > 0 && adminDbHash != null && adminDbHash.Length > 0)
+                    {
+                        string adminPwdWithSalt = passHash + adminDbSalt;
+                        byte[] adminHashWithSalt = adminHashing.ComputeHash(Encoding.UTF8.GetBytes(adminPwdWithSalt));
+                        string adminHash = Convert.ToBase64String(adminHashWithSalt);
+                        if (adminHash.Equals(adminDbHash))
+                        {
+                            Session["subadmin"] = true;
+                            Session["subadminEmail"] = tbEmail.Text;
+                            Response.Redirect("homepage.aspx");
+                        }
+                        else
+                        {
+                            string ipAddr = GetIPAddress();
+                            string countryLogged = CityStateCountByIp(ipAddr);
+                            DateTime dtLog = DateTime.Now;
+                            Logs lg = new Logs();
+                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                        }
                     }
                 }
 
 
 
 
-                Users user = new Users();
-                Users tryingUser = user.GetUserByEmail(tbEmail.Text);
+                
+                
 
-                string passHash = tbPass.Text.ToString().Trim();
+                
                 if (userTrying.userOTPCheck == 0)
                 {
                     if (tryingUser != null) // user exists
