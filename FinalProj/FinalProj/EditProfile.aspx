@@ -138,6 +138,11 @@
                         <asp:TextBox TextMode="MultiLine" Columns="50" Rows="5" type="text"
                             CssClass="form-control" ID="tbDesc" runat="server" CausesValidation="True"></asp:TextBox>
                     </div>
+                    <!-- Selfie Verification -->
+                    <div class="form-group">
+                        <asp:Button ID="btnVerify" runat="server" CssClass="btn btn-info" Text="Verification Selfie" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnVerify_Click"/>
+                    </div>
+
                 </div>
                 <div class="col-0 col-sm-1 col-md-1"></div>
                 <div class="col-12 col-sm-5 col-md-5">

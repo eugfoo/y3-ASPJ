@@ -223,6 +223,7 @@
     <Content Include="StyleSheet\sweetalert.css" />
     <Content Include="threadCreaterOverview.aspx" />
     <Content Include="TwoFactor1.aspx" />
+    <Content Include="Verify.aspx" />
     <Content Include="Voucher.css" />
     <Content Include="AddVoucher.aspx" />
     <Content Include="VoucherRedemption.aspx" />
@@ -539,6 +540,13 @@
     <Compile Include="TwoFactor1.aspx.designer.cs">
       <DependentUpon>TwoFactor1.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Verify.aspx.cs">
+      <DependentUpon>Verify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Verify.aspx.designer.cs">
+      <DependentUpon>Verify.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VoucherRedemption.aspx.cs">
       <DependentUpon>VoucherRedemption.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -586,7 +594,7 @@
   <ItemGroup>
     <Folder Include="App_Start\" />
     <Folder Include="Data\" />
-    <Folder Include="Img\User\" />
+    <Folder Include="Img\User\UserFaceVerification\" />
     <Folder Include="Img\Voucher\" />
     <Folder Include="Models\" />
   </ItemGroup>

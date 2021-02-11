@@ -79,6 +79,11 @@ namespace FinalProj
             Response.Redirect("/EventStatus.aspx");
         }
 
+        protected void btnVerify_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Verify.aspx");
+        }
+
         protected void ddlDiet_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItemId = ddlDiet.SelectedItem.Value;
