@@ -58,7 +58,6 @@ namespace FinalProj
                         // Whatever you want here.
 
                         adList = ad.GetAllAdmins();
-
                         rlList = rl.GetAllRoles();
                         tbName.Text = rlList[0].Roles;
                         capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
@@ -106,10 +105,11 @@ namespace FinalProj
                     }
                 }
 
-            } else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+            } else // If a non-admin tries to access the page...
             {
 
-                Response.Redirect("homepage.aspx"); // Adios Gladios
+                string err = "NoPermission";
+                Response.Redirect("homepage.aspx?error=" + err);
             }
         }
 
