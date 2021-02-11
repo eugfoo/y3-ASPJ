@@ -50,7 +50,7 @@ namespace FinalProj
                 string subAdminPassHash = ComputeSha256Hash(tbPass.Text);
 
                 Users user = new Users();
-                Users tryingUser = user.GetUserByEmail(tbEmail.Text);
+                Users subAdminLogin = user.GetUserByEmail(tbEmail.Text);
                 string passHash = tbPass.Text.ToString().Trim();
 
                 if (adminlogin != null) //user exists
@@ -75,10 +75,10 @@ namespace FinalProj
                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
-                else if (tryingUser != null) 
+                else if (subAdminLogin != null) 
                 {
-                    string adminDbHash = tryingUser.passHash;
-                    string adminDbSalt = tryingUser.passSalt;
+                    string adminDbHash = subAdminLogin.passHash;
+                    string adminDbSalt = subAdminLogin.passSalt;
                     SHA256Managed adminHashing = new SHA256Managed();
                     if (adminDbSalt != null && adminDbSalt.Length > 0 && adminDbHash != null && adminDbHash.Length > 0)
                     {
@@ -105,10 +105,10 @@ namespace FinalProj
 
 
 
-                
-                
 
-                
+
+
+                Users tryingUser = user.GetUserByEmail(tbEmail.Text);
                 if (userTrying.userOTPCheck == 0)
                 {
                     if (tryingUser != null) // user exists
