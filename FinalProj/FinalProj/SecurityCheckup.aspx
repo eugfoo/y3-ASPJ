@@ -13,6 +13,11 @@
             font-size: 17px;
             color:grey;
         }
+
+        #lblSessionHistory{
+            text-decoration: none;
+            color: green;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -32,7 +37,7 @@
 
             <div class="form-group">
                 <h5>Your Session History</h5><br />
-                <strong><a href="/SessionHistory.aspx" <asp:Label ID="lblSessionHistory" CssClass="lblClass" runat="server" Text="See your recent login attempts"></asp:Label></a></strong>
+                <strong><a href="/SessionHistory.aspx" <asp:Label ID="lblSessionHistory" runat="server" Text="See your recent login attempts"></asp:Label></a></strong>
             </div>
 
             <div class="form-group">

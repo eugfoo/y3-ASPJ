@@ -125,22 +125,22 @@
             border-radius: 3px;
         }
 
-        .dropdown-content a {
-            text-decoration: none;
-            color: black;
-            display: block;
-            padding: 14px 12px;
-        }
+            .dropdown-content a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 14px 12px;
+            }
 
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
 
-        .dropdown-content p {
-            font-weight: bold;
-            color: dodgerblue;
-            display: inline;
-        }
+            .dropdown-content p {
+                font-weight: bold;
+                color: dodgerblue;
+                display: inline;
+            }
 
         .dropdown:hover .dropdown-content {
             display: block;
@@ -176,33 +176,37 @@
                 <div class="dropdown">
                     <div class="hexagon" id="hexagon">
                         <% if (Session["id"] != null)
-                           { %>
+                            { %>
                         <div class="dropdown-content">
-                           <br />
-                           <% if (adList.Count == 0 && notiList.Count == 0) 
-                               { %>
-                                <p ">You have no notifications</p>
-                            <%}else
-                              {
-                                for (int j = 0; j < adList.Count; j++){
-                                    if (adList[j].adminEmail.ToString() == Session["email"].ToString())
-                                    { %>
-                                        <a href="/accVerify.aspx"><p>You have been invited to be a sub-admin</p>
-                                            <br />
-                                            Please click here to verify! </a>
-                                    <%}
+                            <br />
+                            <% if (adList.Count == 0 && notiList.Count == 0)
+                                { %>
+                            <p>You have no notifications</p>
+                            <%}
+                                else
+                                {
+                                    for (int j = 0; j < adList.Count; j++)
+                                    {
+                                        if (adList[j].adminEmail.ToString() == Session["email"].ToString())
+                                        { %>
+                            <a href="/accVerify.aspx">
+                                <p>You have been invited to be a sub-admin</p>
+                                <br />
+                                Please click here to verify! </a>
+                            <%}
                                 }
-                                for (int i = 0; i < notiList.Count; i++){
+                                for (int i = 0; i < notiList.Count; i++)
+                                {
                                     if (notiList[i].User_id.ToString() == Session["id"].ToString())
                                     { %>
-                                    <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
-                                        <p id="eventName"><%= notiList[i].EventName %></p>
-                                        has ended!
+                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
+                                <p id="eventName"><%= notiList[i].EventName %></p>
+                                has ended!
                                         <br />
-                                        Please click here to complete feedback to get points! </a>
-                                    <%}
+                                Please click here to complete feedback to get points! </a>
+                            <%}
                                 }%>
-                              <%}%>
+                            <%}%>
                         </div>
                         <% } %>
                         <span></span>
@@ -237,8 +241,8 @@
                                     <a class="dropdown-item" href="/EditProfile.aspx">Edit Profile</a>
 
                                     <% Users user = (Users)Session["user"];
-                                    if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
-                                    { %>
+                                        if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
+                                        { %>
                                     <div class="dropdown-divider"></div>
                                     <button id="openModal" runat="server" type="button" class="btn dropdown-item" data-toggle="modal" data-target="#reqVer">Request Verification</button>
                                     <%  }%>
@@ -254,20 +258,31 @@
                                     </div>
 
                                     <% if (Convert.ToBoolean(Session["subadmin"]) == true)
-                                       { if (rlDeets.mgCollab == 1){%>
-                                            <div class="dropdown-divider"></div>
-                                            <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                        <%} if (rlDeets.viewAppLogs == 1) { %>
-                                            <div class="dropdown-divider"></div>
-                                            <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                         <%}
-                                    } else if (Convert.ToBoolean(Session["admin"])){%>
-
+                                        {
+                                            { %>
                                     <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                 <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                <%} %>
+                                    <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                    <%}
+                                        if (rlDeets.mgCollab == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                    <%}
+                                        if (rlDeets.viewAppLogs == 1)
+                                        { %>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                    <%}
+                                        }
+                                        else if (Convert.ToBoolean(Session["admin"]))
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                    <%} %>
                                 </div>
                             </div>
                             <%--<asp:HyperLink ID="lblProfile" CssClass="nav-link" runat="server" NavigateUrl="/EventStatus.aspx"></asp:HyperLink>--%>
@@ -280,7 +295,7 @@
             </nav>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
-            <div class="modal fade" id="reqVer" tabindex="-1" role="dialog" aria-labelledby="reqVerLabel" aria-hidden="true">
+            <div runat="server" class="modal fade" id="reqVer" tabindex="-1" role="dialog" aria-labelledby="reqVerLabel" aria-hidden="true">
                 <div class="modal-dialog modal-img" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
