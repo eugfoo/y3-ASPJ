@@ -83,7 +83,7 @@ namespace FinalProj
                         {
 
                             Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
-                            if (roleDetail.Roles == rl.GetRole(adDetails.adminRole).Roles) {
+                            if (roleDetail.Roles == adDetails.adminRole) {
                                 assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
 
                             }
@@ -315,6 +315,7 @@ namespace FinalProj
                 rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck);
                 List<Admins> adRlList;
                 adRlList = ad.GetAllAdmins();
+
                 foreach (var elmt in adRlList) {
                     if (elmt.adminRole == OldText) {
                         ad.UpdateRoleByEmail(elmt.adminEmail, AntiXssEncoder.HtmlEncode(tbName.Text, true));
