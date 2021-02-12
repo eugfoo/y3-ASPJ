@@ -66,10 +66,37 @@ namespace FinalProj
                         aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
                         mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
                         mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
+                        assignDDL.Items.Clear();
+                        assignRoleDDL.Items.Clear();
+                        foreach (var adminDetail in adList)
+                        {
+                            if (adminDetail.adminRole != "Main Admin") { 
+                                string fullDeets = adminDetail.adminEmail + " (" + adminDetail.adminName + ")";
+                                assignDDL.Items.Add(new ListItem(fullDeets, adminDetail.adminEmail));
+                            }
+
+                           
+                        }
+
+                        foreach (var roleDetail in rlList)
+                        {
+                            Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
+                            if (roleDetail.Roles == rl.GetRole(adDetails.adminRole).Roles) {
+                                assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
+
+                            }
+                            else { 
+                                assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles, roleDetail.Roles));
+                            }
+
+                        }
+                        assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole; 
                     }
                     else
                     {
 
+                        CancelRoleAssign.Visible = false;
+                        updtRoleAssign.Visible = false;
                         adList = ad.GetAllAdmins();
                         rlList = rl.GetAllRoles();
                         // show configurations for role
@@ -104,12 +131,24 @@ namespace FinalProj
                         }
                     }
                 }
+                else // If a non-admin tries to access the page...
+                {
+                    if (Convert.ToBoolean(Session["subadmin"]))
+                    {
+                        string err = "NoPermission";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                    else
+                    {
+                        Response.Redirect("homepage.aspx");
+                    }
+                }
 
             } else // If a non-admin tries to access the page...
             {
-
-                string err = "NoPermission";
-                Response.Redirect("homepage.aspx?error=" + err);
+                
+                Response.Redirect("homepage.aspx");
+                
             }
         }
 
@@ -230,6 +269,8 @@ namespace FinalProj
                     mgVouch.Checked = Convert.ToBoolean(role.mgVouch);
                 }
             }
+            btnCancel.Visible = false;
+            btnSave.Visible = false;
         }
 
         
@@ -330,6 +371,28 @@ namespace FinalProj
             else {
                 roleUsed.Visible = true;
             }
+        }
+
+        protected void assignRoleDDL_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+            Admins ad = new Admins();
+            if (assignRoleDDL.SelectedValue == ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole)
+            {
+                CancelRoleAssign.Visible = false;
+                updtRoleAssign.Visible = false;
+            }
+            else {
+                CancelRoleAssign.Visible = true;
+                updtRoleAssign.Visible = true;
+            }
+        }
+
+        protected void updtRoleAssign_Click(object sender, EventArgs e)
+        {
+            Admins ad = new Admins();
+            ad.UpdateRoleByEmail(assignDDL.SelectedValue, assignRoleDDL.SelectedValue);
         }
     }
 }

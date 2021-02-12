@@ -132,13 +132,40 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
-        /// DropDownList1 control.
+        /// assignDDL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList assignDDL;
+
+        /// <summary>
+        /// assignRoleDDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList assignRoleDDL;
+
+        /// <summary>
+        /// CancelRoleAssign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CancelRoleAssign;
+
+        /// <summary>
+        /// updtRoleAssign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button updtRoleAssign;
 
         /// <summary>
         /// addCollabBtn control.

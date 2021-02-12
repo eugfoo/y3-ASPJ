@@ -94,6 +94,7 @@
             margin-top: 4%;
             margin-bottom: 4%;
         }
+
     </style>
     <div id="adCont">
     
@@ -173,7 +174,7 @@
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">
                             <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnDelete_Click"/>
-                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-success" Text="Update" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnUpdate_Click1" />
+                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-warning" Text="Update" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnUpdate_Click1" />
 
                             <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnCancel_Click" />
                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnSave_Click" />
@@ -183,10 +184,36 @@
 
                 <div style="margin-top:1%;" class="col-6">
                     <h5 class="card-title">Role Assignment</h5>
+                    <div class="row">
+                        <div style="margin-top:1%;" class="col-2">
+                            <b class="lead">Sub Admins:</b>
+                        </div>
+                        <div style="margin-top:1%;" class="col-10">
+                            <asp:DropDownList class="btn dropdown-togglet btn-primary" style="width: 100%;" AutoPostBack="true" ID="assignDDL" runat="server">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="margin-top:1%;" class="col-1">
+                            <b class="lead">Role:</b>
+                        </div>
+                        <div style="margin-top:1%;" class="col-11">
 
-                    <b class="lead">Roles:</b>
-                    <asp:DropDownList ID="DropDownList1" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
-                    </asp:DropDownList>
+                            <asp:DropDownList class="btn dropdown-togglet btn-primary" style="width: 100%;" AutoPostBack="true"  ID="assignRoleDDL" runat="server" OnSelectedIndexChanged="assignRoleDDL_SelectedIndexChanged">
+                            </asp:DropDownList>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div style="margin-top:16.3%;" class="col-6">
+
+                            <asp:Button ID="CancelRoleAssign" runat="server" CssClass="btn btn-danger mr-3" style="width: 100%;" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" />
+                        </div>
+                        <div style="margin-top:16.3%;" class="col-6">
+                            <asp:Button ID="updtRoleAssign" runat="server" CssClass="btn btn-warning" AutoPostBack="true" style="width: 100%;" Text="Update" CausesValidation="false" UseSubmitBehavior="False"  Visible="False" OnClick="updtRoleAssign_Click" />
+
+                        </div>
+                    </div>
                 </div>
                </div>
             </div>
@@ -199,7 +226,8 @@
 
             <table id="myTable" class="table table-bordered">
                 <tr class="header">
-                    <th style="width:50%;">Name</th>
+                    <th style="width:30%;">Email</th>
+                    <th style="width:20%;">Name</th>
                     <th style="width:30%;">Role</th>
                     <th style="width:20%;">Status</th>
 
@@ -209,6 +237,7 @@
                     foreach (var element in adList)
                     { %>
                 <tr>
+                    <td><%= element.adminEmail %></td>
                     <td><%= element.adminName %></td>
                     <td><%= element.adminRole %></td>
                     <td><%= element.adminStatus %></td>

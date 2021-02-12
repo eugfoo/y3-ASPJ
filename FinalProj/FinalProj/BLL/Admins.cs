@@ -59,7 +59,10 @@ namespace FinalProj.BLL
 		}
 
 
-
+		public int UpdateRoleByEmail(string email, string role) {
+			AdminDAO ad = new AdminDAO();
+			return ad.UpdateRole(email, role);
+		}
 
 	}
 }

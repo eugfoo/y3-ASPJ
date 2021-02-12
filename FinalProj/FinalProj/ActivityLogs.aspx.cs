@@ -116,12 +116,21 @@ namespace FinalProj
                     }
                 }
                 else {
-                    string err = "NoPermission";
-                    Response.Redirect("homepage.aspx?error=" + err);
+
+                    if (Convert.ToBoolean(Session["subadmin"]))
+                    {
+                        string err = "NoPermission";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                    else
+                    {
+                        Response.Redirect("homepage.aspx");
+                    }
+                   
                 }
                 
             }
-            else if (!Convert.ToBoolean(Session["admin"])) // If a non-admin tries to access the page...
+            else // If a non-admin tries to access the page...
             {
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }

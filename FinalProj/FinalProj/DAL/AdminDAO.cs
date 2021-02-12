@@ -140,6 +140,22 @@ namespace FinalProj.DAL
             return result;
         }
 
+        public int UpdateRole(string email, string Role)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Admins SET Role = @Role WHERE Email = @email";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@email", email);
+            sqlCmd.Parameters.AddWithValue("@Role", Role);
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
         public int DeleteAdmins(string email, string name)
         {
             // Execute NonQuery return an integer value
@@ -169,6 +185,8 @@ namespace FinalProj.DAL
 
             return result;
         }
+
+        
 
     }
 }
