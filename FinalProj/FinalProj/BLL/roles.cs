@@ -38,6 +38,9 @@ namespace FinalProj.BLL
 			RolesDAO rl = new RolesDAO();
 			return rl.SelectRole(name);
 		}
+
+
+
 		public int UpdatePermsByRole(string roles, int appLogs, int mgCollaborators, int mgVouchers)
 		{
 			RolesDAO rl = new RolesDAO();

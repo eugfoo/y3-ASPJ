@@ -251,11 +251,12 @@ namespace FinalProj
             //ad.DeleteByEmail();
         }
 
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            roles rls = new roles();
-            rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
-        }
+        //protected void btnUpdate_Click(object sender, EventArgs e)
+        //{
+        //    roles rls = new roles();
+        //    rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
+        
+        //}
 
      
 
@@ -317,7 +318,7 @@ namespace FinalProj
                 adRlList = ad.GetAllAdmins();
 
                 foreach (var elmt in adRlList) {
-                    if (elmt.adminRole == OldText) {
+                    if (elmt.adminRole == roleDDL.SelectedValue) {
                         ad.UpdateRoleByEmail(elmt.adminEmail, AntiXssEncoder.HtmlEncode(tbName.Text, true));
                     }
                 }
