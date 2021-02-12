@@ -92,6 +92,7 @@ namespace FinalProj
                             }
 
                         }
+
                         assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole; 
                     }
                     else
@@ -275,6 +276,9 @@ namespace FinalProj
             }
             btnCancel.Visible = false;
             btnSave.Visible = false;
+            btnDelete.Visible = true;
+            btnUpdate.Visible = true;
+
         }
 
         

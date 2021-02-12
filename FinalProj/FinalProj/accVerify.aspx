@@ -11,7 +11,7 @@
 </style>
     <div id="bodyCont">
     <asp:Label ID="Label1" runat="server" style="font-size:50px; text-align: center;" Text="Verify your Account"></asp:Label>
-        <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
+    <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
         <asp:Label ID="errmsgTb" runat="server"></asp:Label>
     </asp:Panel>
 
