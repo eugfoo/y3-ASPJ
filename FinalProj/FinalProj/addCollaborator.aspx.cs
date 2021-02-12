@@ -423,5 +423,33 @@ namespace FinalProj
             CancelRoleAssign.Visible = false;
             updtRoleAssign.Visible = false;
         }
+
+        protected void assignDDL_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Admins ad = new Admins();
+            roles rl = new roles();
+            assignRoleDDL.Items.Clear();
+
+            rlList = rl.GetAllRoles();
+
+            //assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole;
+            foreach (var roleDetail in rlList)
+            {
+
+                Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
+                if (roleDetail.Roles == adDetails.adminRole)
+                {
+                    assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
+
+                }
+                else
+                {
+                    assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles, roleDetail.Roles));
+                }
+
+            }
+
+            assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole;
+        }
     }
 }

@@ -189,7 +189,7 @@
                             <b class="lead">Sub Admins:</b>
                         </div>
                         <div style="margin-top:1%;" class="col-10">
-                            <asp:DropDownList class="btn dropdown-togglet btn-primary" style="width: 100%;" AutoPostBack="true" ID="assignDDL" runat="server">
+                            <asp:DropDownList class="btn dropdown-togglet btn-primary" style="width: 100%;" AutoPostBack="true" ID="assignDDL" runat="server" OnSelectedIndexChanged="assignDDL_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
                     </div>
