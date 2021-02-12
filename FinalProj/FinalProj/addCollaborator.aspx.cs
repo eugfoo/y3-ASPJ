@@ -205,7 +205,6 @@ namespace FinalProj
 
         static async Task Execute(string useremail, string username)
         {
-            
             Random rnd = new Random();
             string OTPassword = "";
             OTPassword = rnd.Next(100000, 999999).ToString();

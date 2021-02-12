@@ -15,6 +15,7 @@
         <asp:Label ID="errmsgTb" runat="server"></asp:Label>
     </asp:Panel>
 
+
     <asp:Panel ID="PanelSuccess" runat="server" Visible="false" CssClass="stuff alert alert-success ">
         <asp:Label ID="scssmsg" runat="server"></asp:Label>
     </asp:Panel>
@@ -26,6 +27,8 @@
         </asp:RegularExpressionValidator>
     </div>
     <asp:Button ID="submitVerify"  class="btn btn-primary" runat="server" Text="Submit" OnClick="submitVerify_Click" />
+    <asp:Button ID="resendOTP" style="margin-left: 2%;" class="btn btn-warning" runat="server" Text="Resend OTP" OnClick="resendOTP_Click" Visible="False" />
+
 
     </div>
 

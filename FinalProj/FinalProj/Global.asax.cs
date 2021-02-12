@@ -73,6 +73,11 @@ namespace FinalProj
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
+                    collabOTP cbOTP = new collabOTP();
+                    collabOTP cbDetails = cbOTP.GetUserByEmailOTP(user.email);
+                    if (cbDetails != null) {
+                        cbOTP.UpdateOTPByEmail(cbDetails.userEmail, "", 0); ;
+                    }
                     Session.Clear();
                 }
                 else {

@@ -98,13 +98,19 @@ namespace FinalProj
                 if (!Convert.ToBoolean(Session["subadmin"]))
                 {
                     Users user = (Users)Session["user"];
-                    Session.Clear();
                     string ipAddr = GetIPAddress();
                     string countryLogged = CityStateCountByIp(ipAddr);
                     DateTime dtLog = DateTime.Now;
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
+                    collabOTP cbOTP = new collabOTP();
+                    collabOTP cbDetails = cbOTP.GetUserByEmailOTP(user.email);
+                    if (cbDetails != null)
+                    {
+                        cbOTP.UpdateOTPByEmail(cbDetails.userEmail, "", 0); ;
+                    }
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Successful Log out Attempt ", "-", user.email, countryLogged);
+                    Session.Clear();
                     Response.Redirect("/homepage.aspx");
                 }
                 else {
