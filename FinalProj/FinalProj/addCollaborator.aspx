@@ -174,7 +174,7 @@
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">
                             <asp:Button ID="btnDelete" runat="server" CssClass="btn btn-danger mr-3" Text="Delete Role" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnDelete_Click"/>
-                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-warning" Text="Update" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnUpdate_Click1" />
+                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-warning" Text="Update" OnClick="btnUpdate_Click1" />
 
                             <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger mr-3" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnCancel_Click" />
                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-success" Text="Save" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="btnSave_Click" />
@@ -207,10 +207,10 @@
                     <div class="row">
                         <div style="margin-top:16.3%;" class="col-6">
 
-                            <asp:Button ID="CancelRoleAssign" runat="server" CssClass="btn btn-danger mr-3" style="width: 100%;" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" />
+                            <asp:Button ID="CancelRoleAssign" runat="server" CssClass="btn btn-danger mr-3" style="width: 100%;" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="CancelRoleAssign_Click" />
                         </div>
                         <div style="margin-top:16.3%;" class="col-6">
-                            <asp:Button ID="updtRoleAssign" runat="server" CssClass="btn btn-warning" AutoPostBack="true" style="width: 100%;" Text="Update" CausesValidation="false" UseSubmitBehavior="False"  Visible="False" OnClick="updtRoleAssign_Click" />
+                            <asp:Button ID="updtRoleAssign" runat="server" CssClass="btn btn-warning" style="width: 100%;" Text="Update" CausesValidation="false" UseSubmitBehavior="False"  Visible="False" OnClick="updtRoleAssign_Click" />
 
                         </div>
                     </div>

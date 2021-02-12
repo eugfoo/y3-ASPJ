@@ -40,25 +40,25 @@ namespace FinalProj
             
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                if (!Convert.ToBoolean(Session["admin"])) { 
+                Admins ad = new Admins();
+                roles rl = new roles();
+                if (!Convert.ToBoolean(Session["admin"])) {
+
+
                     string adEmail = Session["subadminEmail"].ToString();
-                    Admins ad = new Admins();
                     Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
-                    roles rl = new roles();
                     cap = rl.GetRole(adDetails.adminRole);
                     capPerm = cap.mgCollab;
                 }
 
                 if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
                 {
-                    Admins ad = new Admins();
-                    roles rl = new roles();
+
                     if (!IsPostBack)
                     {
-                        // Whatever you want here.
-
                         adList = ad.GetAllAdmins();
                         rlList = rl.GetAllRoles();
+                        // Whatever you want here.
                         tbName.Text = rlList[0].Roles;
                         capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
                         capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
@@ -78,8 +78,10 @@ namespace FinalProj
                            
                         }
 
+
                         foreach (var roleDetail in rlList)
                         {
+
                             Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
                             if (roleDetail.Roles == rl.GetRole(adDetails.adminRole).Roles) {
                                 assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
@@ -94,11 +96,6 @@ namespace FinalProj
                     }
                     else
                     {
-
-                        CancelRoleAssign.Visible = false;
-                        updtRoleAssign.Visible = false;
-                        adList = ad.GetAllAdmins();
-                        rlList = rl.GetAllRoles();
                         // show configurations for role
                         if (aaLogs.Checked == true)
                         {
@@ -129,7 +126,12 @@ namespace FinalProj
                         {
                             mgVouchCheck = 0;
                         }
+                        CancelRoleAssign.Visible = false;
+                        updtRoleAssign.Visible = false;
+
                     }
+                    adList = ad.GetAllAdmins();
+                    rlList = rl.GetAllRoles();
                 }
                 else // If a non-admin tries to access the page...
                 {
@@ -143,6 +145,8 @@ namespace FinalProj
                         Response.Redirect("homepage.aspx");
                     }
                 }
+
+
 
             } else // If a non-admin tries to access the page...
             {
@@ -299,11 +303,19 @@ namespace FinalProj
         {
             if (tbName.Text != OldText)
             {
+                Admins ad = new Admins();
                 roles rl = new roles();
                 rlList = rl.GetAllRoles();
                 OldText = rlList[0].Roles;
                 roles singleRl = rl.GetRole(roleDDL.SelectedValue);
                 rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck);
+                List<Admins> adRlList;
+                adRlList = ad.GetAllAdmins();
+                foreach (var elmt in adRlList) {
+                    if (elmt.adminRole == OldText) {
+                        ad.UpdateRoleByEmail(elmt.adminEmail, AntiXssEncoder.HtmlEncode(tbName.Text, true));
+                    }
+                }
                 Response.Redirect("addCollaborator.aspx");
             }
             else {
@@ -393,6 +405,17 @@ namespace FinalProj
         {
             Admins ad = new Admins();
             ad.UpdateRoleByEmail(assignDDL.SelectedValue, assignRoleDDL.SelectedValue);
+            Response.Redirect("addCollaborator.aspx");
+        }
+
+        protected void CancelRoleAssign_Click(object sender, EventArgs e)
+        {
+            Admins ad = new Admins();
+            adList = ad.GetAllAdmins();
+            assignDDL.SelectedValue = adList[1].adminEmail;
+            assignRoleDDL.SelectedValue = adList[1].adminRole;
+            CancelRoleAssign.Visible = false;
+            updtRoleAssign.Visible = false;
         }
     }
 }
