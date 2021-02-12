@@ -52,10 +52,10 @@ namespace FinalProj.BLL
 			return adDao.UpdateStatus(email, status);
 		}
 
-		public int DeleteByEmail(string email, string status)
+		public int DeleteByEmail(string email, string name)
 		{
 			AdminDAO adDao = new AdminDAO();
-			return adDao.DeleteAdmins(email, status);
+			return adDao.DeleteAdmins(email, name);
 		}
 
 

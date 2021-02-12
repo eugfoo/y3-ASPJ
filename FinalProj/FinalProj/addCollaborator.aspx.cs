@@ -243,24 +243,6 @@ namespace FinalProj
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        // yet to do
-        protected void remoteBtn_Click(object sender, EventArgs e)
-        {
-            string asd = remoteBtn.Text;
-            
-            //ad.DeleteByEmail();
-        }
-
-        //protected void btnUpdate_Click(object sender, EventArgs e)
-        //{
-        //    roles rls = new roles();
-        //    rls.UpdatePermsByRole(AntiXssEncoder.HtmlEncode(tbName.Text, true), Convert.ToInt32(aaLogs.Checked), Convert.ToInt32(mgCollab.Checked), Convert.ToInt32(mgVouch.Checked));
-        
-        //}
-
-     
-
-
         protected void roleDDL_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedIT = roleDDL.SelectedItem.Text;
@@ -450,6 +432,16 @@ namespace FinalProj
             }
 
             assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole;
+        }
+
+        protected void collabGV_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            Admins ad = new Admins();
+            collabOTP cbotp = new collabOTP();
+            adList = ad.GetAllAdmins();
+            ad.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
+            cbotp.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
+            Response.Redirect("addCollaborator.aspx");
         }
     }
 }

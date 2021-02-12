@@ -92,5 +92,36 @@ namespace FinalProj.DAL
         }
 
         
+        public int DeleteOTP(string email, string name)
+        {
+            // Execute NonQuery return an integer value
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand();
+
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            // Step 2 - Instantiate SqlCommand instance to add record 
+            //          with DELETE statement
+            string sqlStmt = "DELETE from collabOTP Where email = @paraEmail AND name = @paraName";
+            sqlCmd = new SqlCommand(sqlStmt, myConn);
+
+            // Step 3 : Add each parameterised variable with value
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+            sqlCmd.Parameters.AddWithValue("@paraName", name);
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+        }
+
+
     }
 }

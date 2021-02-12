@@ -177,13 +177,22 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.Button addCollabBtn;
 
         /// <summary>
-        /// remoteBtn control.
+        /// collabGV control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button remoteBtn;
+        protected global::System.Web.UI.WebControls.GridView collabGV;
+
+        /// <summary>
+        /// SqlDataSource2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
 
         /// <summary>
         /// collabEmail control.

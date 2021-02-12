@@ -222,9 +222,29 @@
         <div class="card">
           <h5 class="card-header">Manage Access</h5>
           <div class="card-body">
+              <div class="row">
               <asp:Button ID="addCollabBtn"  runat="server" class="btn btn-success" style="float: left; margin-bottom:1%;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
-
-            <table id="myTable" class="table table-bordered">
+              </div>
+            <div class="row" style="align-content:center;">
+              <asp:GridView ID="collabGV" class="table table-bordered table-striped table-hover" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource2" Width="1500px" OnRowDeleting="collabGV_RowDeleting">
+                  <Columns>
+                        <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email"/>
+                        <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                        <asp:BoundField DataField="Role" HeaderText="Role" SortExpression="Role" />
+                        <asp:BoundField DataField="Status"  HeaderText="Status" SortExpression="Status" />
+                        <asp:TemplateField ShowHeader="False">
+                            <ItemTemplate>
+                                <asp:Button ID="Button1" runat="server" Visible='<%# Eval("Role").ToString() != "Main Admin" ? true : false %>'  CausesValidation="false" CommandName="Delete" Text="Remove" />
+                            </ItemTemplate>
+                            <ControlStyle CssClass="btn btn-danger mr-3" />
+                        </asp:TemplateField>
+                  </Columns>
+                  <HeaderStyle CssClass="text-center" />
+                  <RowStyle CssClass="text-center" />
+              </asp:GridView>
+              <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Name], [Role], [Status], [Email] FROM [Admins]"></asp:SqlDataSource>
+           </div>
+              <%--<table id="myTable" class="table table-bordered table-striped table-hover">
                 <tr class="header">
                     <th style="width:30%;">Email</th>
                     <th style="width:20%;">Name</th>
@@ -241,16 +261,10 @@
                     <td><%= element.adminName %></td>
                     <td><%= element.adminRole %></td>
                     <td><%= element.adminStatus %></td>
-                    <%if (element.adminRole != "Main Admin")
-                        {%>
-                    <td>
-                        <asp:Button ID="remoteBtn" runat="server" class="btn btn-danger" Text="Remove" OnClick="remoteBtn_Click" />
-                    </td>
-                    <%} index++;%>
 
                 </tr>
                 <%} %>
-            </table>
+            </table>--%>
 
           </div>
         </div>

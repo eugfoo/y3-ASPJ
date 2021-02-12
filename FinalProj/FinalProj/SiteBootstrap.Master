@@ -186,7 +186,7 @@
                                         if (adList[j].adminEmail.ToString() == Session["email"].ToString())
                                         { %>
                             <a href="/accVerify.aspx">
-                                <p>You have been invited to be a sub-admin</p>
+                                <p>You have been invited to be a sub-admin under the <%=adList[j].adminRole %> role</p>
                                 <br />
                                 Please click here to verify! </a>
                             <%}

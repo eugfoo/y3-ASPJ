@@ -42,5 +42,11 @@ namespace FinalProj.BLL
 			collablOTPDAO cotp = new collablOTPDAO();
 			return cotp.UpdateOTP(email, otp, otpcheck);
 		}
+
+		public int DeleteByEmail(string email, string status)
+		{
+			collablOTPDAO cotp = new collablOTPDAO();
+			return cotp.DeleteOTP(email, status);
+		}
 	}
 }

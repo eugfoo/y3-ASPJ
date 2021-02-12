@@ -20,12 +20,12 @@
     </asp:Panel>
 
     <div class="form-group">
-        <label for="accVerifytb">Verify Account</label>
+        <label for="accVerifytb">Activate Account</label>
         <asp:TextBox class="form-control" ID="accVerifytb" runat="server" placeholder="Enter OTP"></asp:TextBox>
         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="accVerifytb" runat="server" ForeColor="Red" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+" Font-Bold="True" Font-Italic="True">
         </asp:RegularExpressionValidator>
     </div>
-    <asp:Button ID="submitVerify"  class="btn btn-primary" runat="server" Text="Button" OnClick="submitVerify_Click" />
+    <asp:Button ID="submitVerify"  class="btn btn-primary" runat="server" Text="Submit" OnClick="submitVerify_Click" />
 
     </div>
 
