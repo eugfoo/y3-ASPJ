@@ -279,7 +279,7 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/bAcc.aspx">Blocked Accounts</a>
+                                    <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
                                     <%} %>
                                 </div>
                             </div>
