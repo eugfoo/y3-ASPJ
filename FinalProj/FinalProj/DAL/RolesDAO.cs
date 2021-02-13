@@ -39,20 +39,21 @@ namespace FinalProj.DAL
                 int appLogs = int.Parse(row["viewApplicationLogs"].ToString());
                 int mgCollab = int.Parse(row["manageCollaborators"].ToString());
                 int mgVouch = int.Parse(row["manageVouchers"].ToString());
+                int mgBan = int.Parse(row["manageBans"].ToString());
 
 
-                roles obj = new roles(roleId, role, appLogs, mgCollab, mgVouch);
+                roles obj = new roles(roleId, role, appLogs, mgCollab, mgVouch, mgBan);
                 roleList.Add(obj);
             };
 
             return roleList;
         }
 
-        public int UpdatePerms(string role, int applogs, int mgcollab, int mgvouch)
+        public int UpdatePerms(string role, int applogs, int mgcollab, int mgvouch, int mgban)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE rolesTable SET viewApplicationLogs = @applogs, manageCollaborators = @mgcollab, manageVouchers = @mgvouch WHERE Roles = @role";
+            string sqlStmt = "UPDATE rolesTable SET viewApplicationLogs = @applogs, manageCollaborators = @mgcollab, manageVouchers = @mgvouch, manageBans = @mgBans WHERE Roles = @role";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
@@ -60,17 +61,19 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@mgcollab", mgcollab);
             sqlCmd.Parameters.AddWithValue("@mgvouch", mgvouch);
             sqlCmd.Parameters.AddWithValue("@role", role);
+            sqlCmd.Parameters.AddWithValue("@mgBans", mgban);
+
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();
             return result;
         }
 
-        public int UpdateRole(int roleId, string newRoleName, int app ,int collab, int vouch)
+        public int UpdateRole(int roleId, string newRoleName, int app ,int collab, int vouch, int mgban)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE rolesTable SET Roles = @newRole, viewApplicationLogs = @vapplogs, manageCollaborators = @mgCollab, manageVouchers = @mgVouch  WHERE Id = @roleId";
+            string sqlStmt = "UPDATE rolesTable SET Roles = @newRole, viewApplicationLogs = @vapplogs, manageCollaborators = @mgCollab, manageVouchers = @mgVouch, manageBans = @mgBans  WHERE Id = @roleId";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
@@ -79,6 +82,7 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@vapplogs", app);
             sqlCmd.Parameters.AddWithValue("@mgCollab", collab);
             sqlCmd.Parameters.AddWithValue("@mgVouch", vouch);
+            sqlCmd.Parameters.AddWithValue("@mgBans", mgban);
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();
@@ -86,7 +90,7 @@ namespace FinalProj.DAL
         }
 
 
-        public int Insert(string roleName, int appLog, int mgCollab, int mgVouch)
+        public int Insert(string roleName, int appLog, int mgCollab, int mgVouch, int mgBan)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -99,7 +103,7 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO rolesTable(Roles, viewApplicationLogs, manageCollaborators, manageVouchers) " + "VALUES (@RoleName, @applog, @mgcollab, @mgvouch)";
+            string sqlStmt = "INSERT INTO rolesTable(Roles, viewApplicationLogs, manageCollaborators, manageVouchers, manageBans) " + "VALUES (@RoleName, @applog, @mgcollab, @mgvouch, @mgban)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -107,6 +111,7 @@ namespace FinalProj.DAL
             sqlCmd.Parameters.AddWithValue("@applog", appLog);
             sqlCmd.Parameters.AddWithValue("@mgcollab", mgCollab);
             sqlCmd.Parameters.AddWithValue("@mgvouch", mgVouch);
+            sqlCmd.Parameters.AddWithValue("@mgban", mgBan);
 
 
             // Step 4 Open connection the execute NonQuery of sql command   
@@ -178,9 +183,10 @@ namespace FinalProj.DAL
                 int appLogs = int.Parse(row["viewApplicationLogs"].ToString());
                 int mgCollab = int.Parse(row["manageCollaborators"].ToString());
                 int mgCouch = int.Parse(row["manageVouchers"].ToString());
+                int mgBan = int.Parse(row["manageBans"].ToString());
 
 
-                roleDetail = new roles(roleId, roleNames, appLogs, mgCollab, mgCouch);
+                roleDetail = new roles(roleId, roleNames, appLogs, mgCollab, mgCouch, mgBan);
             }
             else
             {

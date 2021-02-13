@@ -52,7 +52,6 @@ namespace FinalProj
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Account Blocked", "Malware", user.email, countryLogged); // logs block acc
                     Session.Clear();
                     Response.Redirect("/homepage.aspx");
-
                     
                 }
                 else { 

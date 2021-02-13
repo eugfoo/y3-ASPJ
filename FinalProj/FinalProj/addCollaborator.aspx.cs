@@ -25,6 +25,7 @@ namespace FinalProj
         protected List<roles> rlList;
         protected string currentSelected;
         protected int aaLogsCheck;
+        protected int mgBanCheck;
         protected int mgCollabCheck;
         protected int mgVouchCheck;
         string OldText = string.Empty;
@@ -66,6 +67,7 @@ namespace FinalProj
                         aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
                         mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
                         mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
+                        mgBan.Checked = Convert.ToBoolean(rlList[0].mgBan);
                         assignDDL.Items.Clear();
                         assignRoleDDL.Items.Clear();
                         foreach (var adminDetail in adList)
@@ -126,6 +128,14 @@ namespace FinalProj
                         else
                         {
                             mgVouchCheck = 0;
+                        }
+
+                        if (mgBan.Checked == true)
+                        {
+                            mgBanCheck = 1;
+                        }
+                        else {
+                            mgBanCheck = 0;
                         }
                         CancelRoleAssign.Visible = false;
                         updtRoleAssign.Visible = false;
@@ -254,6 +264,7 @@ namespace FinalProj
                     aaLogs.Checked = Convert.ToBoolean(role.viewAppLogs);
                     mgCollab.Checked = Convert.ToBoolean(role.mgCollab);
                     mgVouch.Checked = Convert.ToBoolean(role.mgVouch);
+                    mgBan.Checked = Convert.ToBoolean(role.mgBan);
                 }
             }
             btnCancel.Visible = false;
@@ -294,7 +305,7 @@ namespace FinalProj
                 rlList = rl.GetAllRoles();
                 OldText = rlList[0].Roles;
                 roles singleRl = rl.GetRole(roleDDL.SelectedValue);
-                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck);
+                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck, mgBanCheck);
                 List<Admins> adRlList;
                 adRlList = ad.GetAllAdmins();
 
@@ -316,6 +327,7 @@ namespace FinalProj
             int applog = Convert.ToInt32(aaLogs.Checked);
             int manageCollab = Convert.ToInt32(mgCollab.Checked);
             int manageVouch = Convert.ToInt32(mgVouch.Checked);
+            int manageBan = Convert.ToInt32(mgBan.Checked);
             roles rl = new roles();
             List<roles> rlList;
             rlList = rl.GetAllRoles();
@@ -332,7 +344,7 @@ namespace FinalProj
                 }
                 if (!tracker)
                 {
-                    rl.InsertRole(role, applog, manageCollab, manageVouch);
+                    rl.InsertRole(role, applog, manageCollab, manageVouch, manageBan);
                     Response.Redirect("/addCollaborator.aspx");
                 }
                 else

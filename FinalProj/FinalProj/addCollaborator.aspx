@@ -170,6 +170,15 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
+                    <div class="form-group">
+                        <label>Manage Bans</label>
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                            title="Allow users under this role to manage bans"></i>
+                        <label class="switch">
+                            <asp:CheckBox ID="mgBan" runat="server" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                      <asp:Label ID="roleUsed" runat="server" Text="The role is currently being used" ForeColor="#CC0000" Visible="False"></asp:Label>
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">
@@ -223,8 +232,10 @@
           <h5 class="card-header">Manage Access</h5>
           <div class="card-body">
               <div class="row">
-              <asp:Button ID="addCollabBtn"  runat="server" class="btn btn-success" style="float: left; margin-bottom:1%;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
-              </div>
+                <div class="col-4">
+                    <asp:Button ID="addCollabBtn"  runat="server" class="btn btn-success" style="float: left; margin-bottom:1%;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
+                </div>
+            </div>
             <div class="row" style="align-content:center;">
                 <div class="col-12">
 
