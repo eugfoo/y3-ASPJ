@@ -325,7 +325,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button ID="btnSend" CssClass="btn btn-success" runat="server" OnClick="btnSend_Click" CausesValidation="False" Text="Send" />
+                            <asp:Button ID="btnSend" CssClass="btn btn-success" runat="server" CausesValidation="False" OnClick="btnSend_Click" Text="Send" />
                         </div>
                     </div>
                 </div>

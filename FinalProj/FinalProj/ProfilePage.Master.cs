@@ -100,7 +100,7 @@ namespace FinalProj
         protected void btnSend_Click(object sender, EventArgs e)
         {
             Users user = (Users)Session["user"];
-            user.VerifyOrgById(user.id);
+            user.VerifyOrgByEmail(user.email);
         }
 
         public void initializePPFields(Users userI)

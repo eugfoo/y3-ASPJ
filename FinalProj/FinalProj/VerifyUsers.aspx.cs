@@ -20,7 +20,7 @@ namespace FinalProj
             //else
             //{
             Users user = new Users();
-            List<Users> userList = user.getAllUsers();
+            List<Users> userList = user.getUnverifiedUsers();
             List<ListItem> Imgs = new List<ListItem>();
             string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
             string[] ImagePaths = Directory.GetFiles(path);
@@ -41,15 +41,14 @@ namespace FinalProj
 
             Gv_imgs.DataSource = Imgs;
             Gv_imgs.DataBind();
-
-
-
             //}
         }
 
         protected void btnVerify_Click(object sender, EventArgs e)
         {
-            var id = Gv_imgs.SelectedDataKey.Values[0].ToString();
+            Users user = new Users();
+            string email = Gv_imgs.SelectedDataKey.Values[0].ToString();
+            user.VerifyOrgByEmail(email);
         }
     }
 }

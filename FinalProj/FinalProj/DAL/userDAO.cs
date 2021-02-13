@@ -195,16 +195,16 @@ namespace FinalProj.DAL
         }
 
 
-        public int VerifyOrgById(int id)
+        public int VerifyOrgByEmail(string email)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE Users SET userIsVerified = @paraVer where id = @paraId";
+            string sqlStmt = "UPDATE Users SET userIsVerified = @paraVer where email = @paraEmail";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
             sqlCmd.Parameters.AddWithValue("@paraVer", 1);
-            sqlCmd.Parameters.AddWithValue("@paraId", id);
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
             myConn.Open();
             result = sqlCmd.ExecuteNonQuery();
             myConn.Close();
@@ -484,6 +484,53 @@ namespace FinalProj.DAL
             return result;
         }
 
+        public List<Users> getUnverifiedUsers()
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "SELECT * FROM Users WHERE userIsVerified = 0";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+
+            List<Users> unverifiedUserList = new List<Users>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];
+                int Uid = Convert.ToInt32(row["Id"]);
+                string Uemail = row["userEmail"].ToString();
+                string UpassHash = row["userPasswordHash"].ToString();
+                string Uname = row["userName"].ToString();
+                string UDPimage = row["userDPImage"].ToString();
+                string UBPimage = row["userBPImage"].ToString();
+                string Udesc = row["userDesc"].ToString();
+                int Urating = Convert.ToInt32(row["userRating"]);
+                string UisOrg = row["userIsOrg"].ToString();
+                double Upoints = Convert.ToDouble(row["userPoints"]);
+                string Uparticipate = row["userParticipated"].ToString();
+                int Uverified = Convert.ToInt32(row["userIsVerified"]);
+                string UregDate = row["userRegDate"].ToString();
+                string Ufacebook = row["userFacebook"].ToString();
+                string Uinstagram = row["userInstagram"].ToString();
+                string Utwitter = row["userTwitter"].ToString();
+                string Udiet = row["userDiet"].ToString();
+                int Utwofactor = Convert.ToInt32(row["user2FA"]);
+                int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
+                string UGoogleKey = row["userGoogleSecretKey"].ToString();
+                string UpassSalt = row["userGoogleSecretKey"].ToString();
+                string UVerifyImage = row["userVerifyImage"].ToString();
+
+                Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt, UVerifyImage);
+                unverifiedUserList.Add(user);
+            }
+
+            return unverifiedUserList;
+        }
 
     }
 }

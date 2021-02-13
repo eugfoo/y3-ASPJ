@@ -98,10 +98,10 @@ namespace FinalProj.BLL
             return dao.getAllUser();
         }
 
-        public int VerifyOrgById(int id)
+        public int VerifyOrgByEmail(string email)
         {
             userDAO user = new userDAO();
-            return user.VerifyOrgById(id);
+            return user.VerifyOrgByEmail(email);
         }
 
         public int UpdateDietByID(int id, string diet)
@@ -193,6 +193,12 @@ namespace FinalProj.BLL
             int result = dao.getLastUserId();
             return result;
         }
+
+		public List<Users> getUnverifiedUsers()
+        {
+			userDAO dao = new userDAO();
+			return dao.getUnverifiedUsers();
+		}
 
     }
 }
