@@ -82,15 +82,17 @@ namespace FinalProj
                     {
                         // show error msg
                         PanelError.Visible = true;
-                        errmsgTb.Text = "User doesn't exist";
+                        errmsgTb.Text = "User doesn't exist!";
                     }
                 }
                 else{
-                    errmsgTb.Text = "Please enter a reason for the ban";
+                    PanelError.Visible = true;
+                    errmsgTb.Text = "Please enter a reason for the ban!";
                 }
             }
             else {
-                errmsgTb.Text = "Please enter an Email";
+                PanelError.Visible = true;
+                errmsgTb.Text = "Please enter an Email!";
             }
 
         }

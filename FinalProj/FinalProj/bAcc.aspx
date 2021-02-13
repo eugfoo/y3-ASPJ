@@ -8,15 +8,19 @@
         }
 
     </style>
-    <div id="adCont">
+    <div class="row" style="margin-top:1%; margin-left:1.5%; margin-right:1.5%; text-align:center;">
+        <div class="col-12">
         <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
-            <asp:Label ID="errmsgTb" runat="server"></asp:Label>
+                <asp:Label ID="errmsgTb" runat="server"></asp:Label>
         </asp:Panel>
+        </div>
+    </div>
+    <div id="adCont">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-header">Ban Management</h5>
                 <div class="row">
-                    <div class="col-6" style="margin-top:1%;">
+                    <div class="col-6">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-5">
