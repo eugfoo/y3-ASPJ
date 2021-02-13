@@ -82,10 +82,11 @@ namespace FinalProj.DAL
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
                 string UpassSalt = row["userSalt"].ToString();
+                string UVerifyImage = row["userVerifyImage"].ToString();
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc,
                     Urating, UisOrg, Upoints, Uparticipate, Uverified, UregDate, Ufacebook,
-                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
+                    Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt, UVerifyImage);
             }
             else
             {
@@ -131,10 +132,11 @@ namespace FinalProj.DAL
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
                 string UpassSalt = row["userGoogleSecretKey"].ToString();
+                string UVerifyImage = row["userVerifyImage"].ToString();
 
 
                 user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt, UVerifyImage);
             }
             else
             {
@@ -182,9 +184,10 @@ namespace FinalProj.DAL
                 int UGoogleAuth = Convert.ToInt32(row["userGoogleAuth"]);
                 string UGoogleKey = row["userGoogleSecretKey"].ToString();
                 string UpassSalt = row["userGoogleSecretKey"].ToString();
+                string UVerifyImage = row["userVerifyImage"].ToString();
 
                 Users user = new Users(Uid, Uemail, UpassHash, Uname, UDPimage, UBPimage, Udesc, Urating, UisOrg, Upoints,
-                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt);
+                    Uparticipate, Uverified, UregDate, Ufacebook, Uinstagram, Utwitter, Udiet, Utwofactor, UGoogleAuth, UGoogleKey, UpassSalt, UVerifyImage);
                 allUserList.Add(user);
             }
 

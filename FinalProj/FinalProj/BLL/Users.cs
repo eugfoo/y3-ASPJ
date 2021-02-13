@@ -29,6 +29,7 @@ namespace FinalProj.BLL
 		public int googleauth { get; set; }
 		public string googleKey { get; set; }
 		public string passSalt { get; set; }
+		public string verifyImage { get; set; }
 
 
 		public Users() { }
@@ -45,7 +46,7 @@ namespace FinalProj.BLL
 
 		public Users(int uId, string uEmail, string uPassHash, string uName, string uDPImage, string uBPImage,
 			string uDesc, int uRating, string uIsOrg, double uPoints, string uParticipate, int uVerified, string uRegDate,
-			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor, int googleAut, string googleKe, string uPassSalt)
+			string uFacebook, string uInstagram, string uTwitter, string uDiet, int uTwoFactor, int googleAut, string googleKe, string uPassSalt, string uVerifyImage)
 		{
 			id = uId;
 			email = uEmail;
@@ -68,6 +69,7 @@ namespace FinalProj.BLL
 			googleauth = googleAut;
 			googleKey = googleKe;
 			passSalt = uPassSalt;
+			verifyImage = uVerifyImage;
 		}
 
 		public int AddUser()
