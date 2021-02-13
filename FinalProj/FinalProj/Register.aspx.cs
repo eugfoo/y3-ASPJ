@@ -33,7 +33,7 @@ namespace FinalProj
                 {
                     if (tbPass.Text == tbCfmPass.Text)               // If the passwords match...
                     {
-                        if (tbPass.Text.Length > 8)                  // If the password is longer than the amount of seconds I wish to live...
+                        if (tbPass.Text != null && !string.IsNullOrEmpty(tbPass.Text) && PasswordStrengthIndicator.Core.Helper.IsPasswordMeetPolicy(tbPass.Text)) // If the password is longer than the amount of seconds I wish to live...
                         {
                             if (IsReCaptchaValid())
                             {                                string pwd = AntiXssEncoder.HtmlEncode(tbPass.Text.ToString().Trim(), true);
@@ -69,7 +69,7 @@ namespace FinalProj
                         }
                         else
                         {
-                            lblError.Text = "Password should be longer than 8 characters.";
+                            lblError.Text = "Password does not meet password policy!";
                             lblError.Visible = true;
                         }
                     }

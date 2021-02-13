@@ -6,6 +6,8 @@
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ClearView</title>
+    <link rel="stylesheet" href="prettify.css">
+    <link href="/Content/themes/base/jquery-ui.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style type="text/css">
@@ -53,7 +55,11 @@
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Password</label>
                         <asp:RequiredFieldValidator CssClass="vError" ID="RequiredFieldValidator2" runat="server" ControlToValidate="tbPass" EnableClientScript="False" ErrorMessage="*"></asp:RequiredFieldValidator>
-                        <asp:TextBox type="password" CssClass="form-control" ID="tbPass" runat="server" CausesValidation="True"></asp:TextBox>
+                        <asp:TextBox type="password" CssClass="form-control" ID="tbPass" runat="server" TextMode="SingleLine" CausesValidation="True"></asp:TextBox>
+                        <a id="passwordPolicy" href="#">Password policy</a>
+                    </div>
+                    <div class="form-group">
+                          <asp:Label ID="ResultLabel" runat="server" Text=""></asp:Label>
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Confirm Password</label>
@@ -75,7 +81,12 @@
             </div>
         </div>
     </form>
+       <script src="//code.jquery.com/jquery-latest.min.js"></script>
+        <script src="Scripts/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.password-strength.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.blockUI.js" type="text/javascript"></script>
       <script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
+
      <script type="text/javascript">
          var your_site_key = '6LdJqj4aAAAAADXys_74SixLJ13hcdCH3w-T3vQS';
          var renderRecaptcha = function () {
@@ -92,6 +103,21 @@
                  document.getElementById('lblMessage1').innerHTML = "";
              }
          };
-     </script>
+         </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var myPlugin = $("#<%=tbPass.ClientID%>").password_strength({
+                //web site alias if any/xml folder if any/
+                appFolderXMLPath: "<%= Page.ResolveUrl(@"~/MyXML/PasswordPolicy.xslt") %>",
+                passwordPolicyLinkId: 'passwordPolicy'
+            });
+
+            $("#<%=btnRegister.ClientID%>").click(function () {
+                return myPlugin.metReq(); //return true or false
+            });
+        });
+
+        </script>
+
 </body>
 </html>
