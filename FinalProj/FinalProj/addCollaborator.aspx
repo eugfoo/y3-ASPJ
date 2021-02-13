@@ -214,11 +214,11 @@
 
                     </div>
                     <div class="row">
-                        <div style="margin-top:16.3%;" class="col-6">
+                        <div style="margin-top:21%;" class="col-6">
 
                             <asp:Button ID="CancelRoleAssign" runat="server" CssClass="btn btn-danger mr-3" style="width: 100%;" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="CancelRoleAssign_Click" />
                         </div>
-                        <div style="margin-top:16.3%;" class="col-6">
+                        <div style="margin-top:21%;" class="col-6">
                             <asp:Button ID="updtRoleAssign" runat="server" CssClass="btn btn-warning" style="width: 100%;" Text="Update" CausesValidation="false" UseSubmitBehavior="False"  Visible="False" OnClick="updtRoleAssign_Click" />
 
                         </div>

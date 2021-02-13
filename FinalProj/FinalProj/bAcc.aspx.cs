@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security.AntiXss;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using FinalProj.BLL;
@@ -48,8 +49,6 @@ namespace FinalProj
             else
             {
                 Response.Redirect("homepage.aspx");
-                
-
             }
         }
 
@@ -60,6 +59,40 @@ namespace FinalProj
             blList = bl.getAllBlockedUsers();
             bl.unblock(blList[e.RowIndex].email);
             Response.Redirect("bAcc.aspx");
+        }
+
+        protected void banAccBtn_Click(object sender, EventArgs e)
+        {
+            blocked bl = new blocked();
+            Users us = new Users();
+            Users usDeets;
+            string bantb = AntiXssEncoder.HtmlEncode(banEmail.Text, true);
+            string banreasontb = AntiXssEncoder.HtmlEncode(banreasonTB.Text, true);
+            usDeets = us.GetUserByEmail(bantb);
+            DateTime dtn = DateTime.Now;
+            if (bantb != "")
+            {
+                if (banreasontb != "") { 
+                    if (usDeets != null)
+                    {
+                        bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
+                        Response.Redirect("/bAcc.aspx");
+                    }
+                    else
+                    {
+                        // show error msg
+                        PanelError.Visible = true;
+                        errmsgTb.Text = "User doesn't exist";
+                    }
+                }
+                else{
+                    errmsgTb.Text = "Please enter a reason for the ban";
+                }
+            }
+            else {
+                errmsgTb.Text = "Please enter an Email";
+            }
+
         }
     }
 }

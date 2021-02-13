@@ -92,12 +92,6 @@
         window.addEventListener('load', (event) => {
             countChars(document.getElementById("ContentPlaceHolder1_desc"));
         });
-
-
-
-
-
-
 	</script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -106,9 +100,6 @@
     <div>
         <p class="h1" id="createEventTitle">CREATE YOUR EVENT</p>
     </div>
-
-
-
 
     <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
         <asp:Label ID="errmsgTb" runat="server"></asp:Label>

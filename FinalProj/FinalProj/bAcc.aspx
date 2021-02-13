@@ -9,19 +9,33 @@
 
     </style>
     <div id="adCont">
+        <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
+            <asp:Label ID="errmsgTb" runat="server"></asp:Label>
+        </asp:Panel>
         <div class="card">
             <div class="card-body">
                 <h5 class="card-header">Ban Management</h5>
                 <div class="row">
                     <div class="col-6" style="margin-top:1%;">
                         <div class="form-group">
-                            <label for="formGroupExampleInput2">Email:</label>
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-5">
+                                    <label for="formGroupExampleInput2">Email:</label>
+                                </div>
+                                <div class="col-5">
+                                    <label for="formGroupExampleInput2">Reason:</label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
                                     <asp:TextBox ID="banEmail" type="text" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
-                                <div class="col-4">
-                                    <asp:Button ID="banAccBtn" style="margin-left:2%" CssClass="btn btn-danger" runat="server" Text="Ban Account" />
+                                <div class="col-5">
+                                    <asp:TextBox ID="banreasonTB" type="text" CssClass="form-control" runat="server"></asp:TextBox>
+                                </div>
+                                <div class="col-2">
+                                    <asp:Button ID="banAccBtn" style="margin-left:2%" CssClass="btn btn-danger" runat="server" Text="Ban Account" OnClick="banAccBtn_Click" />
                                 </div>
                             </div>
                         </div>

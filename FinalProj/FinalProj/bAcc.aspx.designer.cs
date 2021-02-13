@@ -15,6 +15,24 @@ namespace FinalProj
     {
 
         /// <summary>
+        /// PanelError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelError;
+
+        /// <summary>
+        /// errmsgTb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label errmsgTb;
+
+        /// <summary>
         /// banEmail control.
         /// </summary>
         /// <remarks>
@@ -22,6 +40,15 @@ namespace FinalProj
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox banEmail;
+
+        /// <summary>
+        /// banreasonTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox banreasonTB;
 
         /// <summary>
         /// banAccBtn control.
