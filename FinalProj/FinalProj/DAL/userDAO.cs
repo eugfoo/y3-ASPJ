@@ -199,7 +199,7 @@ namespace FinalProj.DAL
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE Users SET userIsVerified = @paraVer where email = @paraEmail";
+            string sqlStmt = "UPDATE Users SET userIsVerified = @paraVer where userEmail = @paraEmail";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
