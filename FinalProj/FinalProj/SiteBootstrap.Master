@@ -280,6 +280,8 @@
                                     <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
                                     <%} %>
                                 </div>
                             </div>
