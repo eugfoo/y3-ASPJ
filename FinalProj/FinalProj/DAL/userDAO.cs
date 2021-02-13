@@ -451,6 +451,23 @@ namespace FinalProj.DAL
             return result;
         }
 
+        public int UpdateVerifyImage(int id, string path)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE Users SET UserVerifyImage = @path WHERE id = @paraId";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@path", path);
+            sqlCmd.Parameters.AddWithValue("@paraId", id);
+
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
         public int getLastUserId()
         {
             int result = 0;

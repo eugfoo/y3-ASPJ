@@ -181,6 +181,12 @@ namespace FinalProj.BLL
 			return user.UpdateGoogleAuthenticator(id, secretKey, number);
 		}
 
+		public int UpdateVerifyImage(int id, string path)
+		{
+			userDAO user = new userDAO();
+			return user.UpdateVerifyImage(id, path);
+		}
+
 		public int getLastUserId()
         {
             userDAO dao = new userDAO();

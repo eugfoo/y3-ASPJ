@@ -33,8 +33,10 @@ namespace FinalProj
             //Save the Byte Array as Image File.
             string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
             string fileNameWitPath = path + user.email.ToString() + ".png";
+            string dbPath = "/Img/User/UserFaceVerification/" + user.email.ToString() + ".png";
 
             //string filePath = string.Format("~/Img/User/UserFaceVerification/{0}.png", Path.GetRandomFileName());
+            user.UpdateVerifyImage(user.id, dbPath);
             File.WriteAllBytes(fileNameWitPath, bytes);
             
         }
