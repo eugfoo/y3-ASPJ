@@ -50,6 +50,10 @@
             color: white;
         }
 
+        #divBox {
+            display: block;
+        }
+
         .btnSave {
             background-color: #5cb85c;
             border-radius: 5px;
@@ -63,7 +67,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="ml-5 mt-3 mr-5">
+
+    <div id="divBox" class="ml-5 mt-3 mr-5">
         <div id="box">
             <div class="row">
                 <div id="div1" class="col-lg-9 col-sm-9 col-md-9">

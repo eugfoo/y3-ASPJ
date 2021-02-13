@@ -287,6 +287,7 @@
     <Content Include="threadCreaterOverview.aspx" />
     <Content Include="TwoFactor1.aspx" />
     <Content Include="Verify.aspx" />
+    <Content Include="VerifyUsers.aspx" />
     <Content Include="Voucher.css" />
     <Content Include="AddVoucher.aspx" />
     <Content Include="VoucherRedemption.aspx" />
@@ -615,6 +616,13 @@
     <Compile Include="Verify.aspx.designer.cs">
       <DependentUpon>Verify.aspx</DependentUpon>
     </Compile>
+    <Compile Include="VerifyUsers.aspx.cs">
+      <DependentUpon>VerifyUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerifyUsers.aspx.designer.cs">
+      <DependentUpon>VerifyUsers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="VoucherRedemption.aspx.cs">
       <DependentUpon>VoucherRedemption.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -669,6 +677,7 @@
   <ItemGroup>
     <Folder Include="App_Start\" />
     <Folder Include="Data\" />
+    <Folder Include="Img\User\AdminFaceVerification\" />
     <Folder Include="Img\User\UserFaceVerification\" />
     <Folder Include="Img\Voucher\" />
     <Folder Include="Models\" />
