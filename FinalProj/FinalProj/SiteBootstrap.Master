@@ -277,7 +277,9 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                    <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/bAcc.aspx">Blocked Accounts</a>
                                     <%} %>
                                 </div>
                             </div>

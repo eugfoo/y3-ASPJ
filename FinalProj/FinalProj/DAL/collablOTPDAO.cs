@@ -118,7 +118,6 @@ namespace FinalProj.DAL
 
             // Step 5 :Close connection
             myConn.Close();
-
             return result;
         }
 

@@ -231,6 +231,7 @@
     <Content Include="addCollaborator.aspx" />
     <Content Include="sessionHistory.aspx" />
     <Content Include="accVerify.aspx" />
+    <Content Include="bAcc.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acknowledge.aspx.cs">
@@ -278,6 +279,7 @@
     <Compile Include="BLL\ActivityLog.cs" />
     <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
+    <Compile Include="BLL\blocked.cs" />
     <Compile Include="BLL\collabOTP.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
@@ -303,6 +305,7 @@
     </Compile>
     <Compile Include="DAL\AdminDAO.cs" />
     <Compile Include="DAL\AttendanceDAO.cs" />
+    <Compile Include="DAL\blockedDAO.cs" />
     <Compile Include="DAL\collablOTPDAO.cs" />
     <Compile Include="DAL\HistoryOTPDAO.cs" />
     <Compile Include="DAL\LogsDAO.cs" />
@@ -574,6 +577,13 @@
     </Compile>
     <Compile Include="accVerify.aspx.designer.cs">
       <DependentUpon>accVerify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bAcc.aspx.cs">
+      <DependentUpon>bAcc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bAcc.aspx.designer.cs">
+      <DependentUpon>bAcc.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -42,13 +42,18 @@ namespace FinalProj
                 if (result.ToString() == "ThreatFound")
                 {
                     string ipAddr = GetIPAddress();
-
                     string countryLogged = CityStateCountByIp(ipAddr);
                     DateTime dtLog = DateTime.Now;
-
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
-                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Suspicious Event Photo", "Malware", user.email, countryLogged);
+                    blocked bl = new blocked();
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Malicious Event Photo", "Malware", user.email, countryLogged);
+                    bl.AddBlockedAcc(user.email, user.name, "Uploaded Malicious Event Photo", dtLog); // adds account the block table
+                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Account Blocked", "Malware", user.email, countryLogged); // logs block acc
+                    Session.Clear();
+                    Response.Redirect("/homepage.aspx");
+
+                    
                 }
                 else { 
                 
