@@ -11,45 +11,74 @@
             var context = photo.getContext('2d');
             context.drawImage(video, 0, 0, photo.width, photo.height);
         }
+
         function ConvertToImage(btnSave) {
             var base64 = $('#canvas1')[0].toDataURL();
             $("[id*=hfImageData]").val(base64);
             __doPostBack(btnSave.name, "");
-        };
+        }
 
+        function pop() {
+            document.getElementsByClassName("btnSave")[0].style.display = "block";
+        }
     </script>
 
     <style>
         #capturing {
             display: inline-block;
         }
+
+        #box {
+            margin-top: 5%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #div1 {
+            padding-left: 30%;
+        }
+
+        #div2 {
+            padding-left: 20px;
+        }
+
+        #btnCapture {
+            background-color: #5bc0de;
+            border-radius: 5px;
+            border: none;
+            padding: 5px 15px 5px 15px;
+            color: white;
+        }
+
+        .btnSave {
+            background-color: #5cb85c;
+            border-radius: 5px;
+            border: none;
+            padding: 5px 15px 5px 15px;
+            color: white;
+            display: none;
+            margin-top: 5px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div>
-        <div class="ml-5 mt-3 mr-5">
+    <div class="ml-5 mt-3 mr-5">
+        <div id="box">
             <div class="row">
-                <div class="col-lg-12 col-sm-6 col-md-6">
-                    <video autoplay width="300" height="480"></video>
-                    <canvas id="canvas1" width="300" height="480"></canvas>
+                <div id="div1" class="col-lg-9 col-sm-9 col-md-9">
+                    <video autoplay></video>
+                    <canvas id="canvas1"></canvas>
+                </div>
+                <div id="div2" class="col-lg-3 col-sm-3 col-md-3">
+                    <button id="btnCapture" onclick="captureImage(); pop(); return false;">Capture</button>
+                    <asp:Button ID="btnSave" Text="Submit Image" class="btnSave" runat="server" UseSubmitBehavior="false" OnClick="Save" OnClientClick="return ConvertToImage(this)" />
                 </div>
             </div>
-
         </div>
     </div>
 
-
     <asp:HiddenField ID="hfImageData" runat="server" />
-    <button onclick="captureImage(); return false;">Capture</button>
-
-    <asp:Button ID="btnSave" Text="Submit Image" runat="server" UseSubmitBehavior="false" OnClick="Save" OnClientClick="return ConvertToImage(this)" />
-    <div style="display: none;" class="alert alert-success col-md-12" runat="server" role="alert">
-        <asp:Label ID="lblResult" runat="server" Text="" Visible="false"></asp:Label>
-    </div>
-
-
-
 
     <script type="text/javascript">
         navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {

@@ -15,15 +15,6 @@ namespace FinalProj
     {
 
         /// <summary>
-        /// hfImageData control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfImageData;
-
-        /// <summary>
         /// btnSave control.
         /// </summary>
         /// <remarks>
@@ -33,12 +24,12 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
-        /// lblResult control.
+        /// hfImageData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResult;
+        protected global::System.Web.UI.WebControls.HiddenField hfImageData;
     }
 }
