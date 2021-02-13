@@ -34,12 +34,19 @@
     </style>
     <script>
         $(function () {
-            $("#<%= txtStartDate.ClientID %>").datepicker();
-            $("#<%= txtEndDate.ClientID %>").datepicker();
+            $("#<%= txtStartDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#<%= txtEndDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
 
         });
 
     </script>
+    <div class="row" style="margin-top:1%; margin-left:1.5%; margin-right:1.5%; text-align:center;">
+        <div class="col-12">
+        <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
+                <asp:Label ID="errmsgTb" runat="server"></asp:Label>
+        </asp:Panel>
+        </div>
+    </div>
     <div id="adCont">
         <div class="card">
             <div class="card-body">
@@ -47,12 +54,12 @@
                 <div class="row" style="margin-top:1%;">
                     <div class="col-2">
                         Start Date:
-                        <asp:TextBox class="form-control" ID="txtStartDate" runat="server" />
+                        <asp:TextBox class="form-control" ID="txtStartDate" runat="server" AutoPostBack="True" />
                     </div>
                     <div class="col-2">
 
                         End Date:
-                        <asp:TextBox class="form-control" ID="txtEndDate" runat="server" />
+                        <asp:TextBox class="form-control" ID="txtEndDate" runat="server" AutoPostBack="True" />
                     </div>
                     <div class="col-2">
 

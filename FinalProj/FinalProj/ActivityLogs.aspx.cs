@@ -17,6 +17,8 @@ namespace FinalProj
         protected List<string> apicList = new List<string>();
         protected roles cap;
         protected int capPerm = 0;
+        protected DateTime dtStart;
+        protected DateTime dtEnd;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -54,57 +56,85 @@ namespace FinalProj
                     }
                     else
                     {
+                        PanelError.Visible = false;
                         ActivityLog alg = new ActivityLog();
+                        TimeSpan lgTime = new TimeSpan(23, 59, 59);
 
                         algList = alg.GetAllLogsOfActivities();
-                        if (violationType.SelectedValue == "FailedAuthentication")
+                        if (txtStartDate.Text != "" && txtEndDate.Text == "")
                         {
-                            foreach (var elmt in algList)
-                            {
-                                if (elmt.ViolationType == "Failed Authentication")
-                                {
-                                    aalgList.Add(elmt);
-                                }
+                            dtStart = Convert.ToDateTime(txtStartDate.Text);
+                            dtEnd = DateTime.Now;
+                        }
+                        else if (txtStartDate.Text == "" && txtEndDate.Text != "") {
+                            dtStart = algList[algList.Count - 1].DateTime;
+                            dtEnd = Convert.ToDateTime(txtEndDate.Text);
+                            dtEnd = dtEnd.Add(lgTime);
 
-                            }
-                        }
-                        else if (violationType.SelectedValue == "All")
-                        {
-                            foreach (var elmt in algList)
-                            {
+                        } else if (txtStartDate.Text != "" && txtEndDate.Text != ""){
+                            dtStart = Convert.ToDateTime(txtStartDate.Text);
+                            dtEnd = Convert.ToDateTime(txtEndDate.Text);
+                            dtEnd = dtEnd.Add(lgTime);
 
-                                aalgList.Add(elmt);
-                            }
                         }
-                        else if (violationType.SelectedValue == "Spamming")
+
+                        if (dtEnd >= dtStart)
                         {
-                            foreach (var elmt in algList)
+                            if (dtStart != null && dtEnd != null && violationType.SelectedValue == "FailedAuthentication")
                             {
-                                if (elmt.ViolationType == "Spamming")
+                                foreach (var elmt in algList)
                                 {
-                                    aalgList.Add(elmt);
+                                    if (elmt.ViolationType == "Failed Authentication" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
+                                    {
+                                        aalgList.Add(elmt);
+                                    }
+
                                 }
                             }
-                        }
-                        else if (violationType.SelectedValue == "XSS")
-                        {
-                            foreach (var elmt in algList)
+                            else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "All" )
                             {
-                                if (elmt.ViolationType == "XSS")
+                                foreach (var elmt in algList)
                                 {
-                                    aalgList.Add(elmt);
+                                    if (dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd) { 
+                                     aalgList.Add(elmt);
+                                    }
                                 }
                             }
-                        }
-                        else if (violationType.SelectedValue == "Malware")
-                        {
-                            foreach (var elmt in algList)
+                            else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "Spamming")
                             {
-                                if (elmt.ViolationType == "Malware")
+                                foreach (var elmt in algList)
                                 {
-                                    aalgList.Add(elmt);
+                                    if (elmt.ViolationType == "Spamming" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
+                                    {
+                                        aalgList.Add(elmt);
+                                    }
                                 }
                             }
+                            else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "XSS")
+                            {
+                                foreach (var elmt in algList)
+                                {
+                                    if (elmt.ViolationType == "XSS" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
+                                    {
+                                        aalgList.Add(elmt);
+                                    }
+                                }
+                            }
+                            else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "Malware")
+                            {
+                                foreach (var elmt in algList)
+                                {
+                                    if (elmt.ViolationType == "Malware" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
+                                    {
+                                        aalgList.Add(elmt);
+                                    }
+                                }
+                            }
+                            
+                        }
+                        else {
+                            PanelError.Visible = true;
+                            errmsgTb.Text = "Please select a valid date range";
                         }
 
                         foreach (var lement in aalgList)
