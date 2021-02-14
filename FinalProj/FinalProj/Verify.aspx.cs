@@ -14,10 +14,10 @@ namespace FinalProj
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null) // A user has signed in
-            {
-                Response.Redirect("/homepage.aspx");
-            }
+            //if (Session["user"] == null) // A user has signed in
+            //{
+            //    Response.Redirect("/homepage.aspx");
+            //}
         }
 
         protected void Save(object sender, EventArgs e)

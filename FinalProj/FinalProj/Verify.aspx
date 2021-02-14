@@ -10,12 +10,19 @@
             var video = document.querySelector("video");
             var context = photo.getContext('2d');
             context.drawImage(video, 0, 0, photo.width, photo.height);
+            document.getElementById("imageSubmitting").style.display = "block";
+
         }
 
         function ConvertToImage(btnSave) {
             var base64 = $('#canvas1')[0].toDataURL();
             $("[id*=hfImageData]").val(base64);
             __doPostBack(btnSave.name, "");
+        }
+
+        function startCapture() {
+            document.getElementById("btnStartCapture").style.display = "none";
+            document.getElementById("divBox").style.display = "block";
         }
 
         function pop() {
@@ -29,7 +36,6 @@
         }
 
         #box {
-            margin-top: 5%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -40,6 +46,9 @@
 
         #div2 {
             padding-left: 20px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
         }
 
         #btnCapture {
@@ -48,10 +57,27 @@
             border: none;
             padding: 5px 15px 5px 15px;
             color: white;
+            margin: 5px;
+        }
+
+        #divText {
+            width: 680px;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        #divVerification {
+            margin: auto;
+            margin-top: 80px;
+            width: 320px;
+        }
+
+        #btnStartCapture {
+            margin-top: 20px;
         }
 
         #divBox {
-            display: block;
+            display: none;
         }
 
         .btnSave {
@@ -66,13 +92,27 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="divText">
+        <h3>Steps:</h3>
+        <h4>1. Click Start Capture and point your camera towards yourself</h4>
+        <h4>2. Follow the pose in the image provided</h4>
+        <h4>3. Click Capture</h4>
+        <h4>4. Submit the Image for verification!</h4>
 
+    </div>
+
+    <div id="divVerification">
+        <asp:Image ID="img" runat="server" ImageUrl="~/Img/User/AdminFaceVerification/OGVerification.png" Width="320" Height="500" />
+        <button id="btnStartCapture" class="btn btn-success" onclick="startCapture(); return false;">Start Capture</button>
+    </div>
 
     <div id="divBox" class="ml-5 mt-3 mr-5">
         <div id="box">
             <div class="row">
                 <div id="div1" class="col-lg-9 col-sm-9 col-md-9">
+                    <h5>Your Camera:</h5>
                     <video autoplay></video>
+                    <h5 id="imageSubmitting" style="display: none;">The image you are submitting:</h5>
                     <canvas id="canvas1"></canvas>
                 </div>
                 <div id="div2" class="col-lg-3 col-sm-3 col-md-3">
