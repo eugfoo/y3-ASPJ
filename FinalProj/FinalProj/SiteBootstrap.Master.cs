@@ -49,7 +49,7 @@ namespace FinalProj
                     Users user = (Users)Session["user"];
                     if (user.isOrg.Trim() == "True")
                     {
-                        norgItems.Visible = false;
+                        //norgItems.Visible = false;
                     }
                     lblProfile.Text = user.name;
                     liLogOut.Visible = true;
@@ -122,15 +122,15 @@ namespace FinalProj
                     Admins adUser = new Admins();
                     Sessionmg ses = new Sessionmg();
                     Admins ad = adUser.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
-                    ses.UpdateSession(user.email, 0);
-                    Session.Clear();
+                    ses.UpdateSession(Session["subadminEmail"].ToString(), 0);
                     string ipAddr = GetIPAddress();
                     string countryLogged = CityStateCountByIp(ipAddr);
                     DateTime dtLog = DateTime.Now;
                     CityStateCountByIp(ipAddr);
                     Logs lg = new Logs();
                     //ActivityLog alg = new ActivityLog();
-                    lg.AddLog(user.email, dtLog, ipAddr, countryLogged, "Successful Log out Attempt");
+                    lg.AddLog(Session["subadminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Successful Log out Attempt");
+                    Session.Clear();
                     //alg.AddActivityLog(dtLog, ad.adminName, ipAddr, "Successful Log out Attempt ", "-", ad.adminEmail, countryLogged);
                     Response.Redirect("/homepage.aspx");
                 }

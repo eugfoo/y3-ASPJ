@@ -247,21 +247,17 @@
 
                                     <% Users user = (Users)Session["user"];
                                         if (user != null && user.isOrg.Trim() == "True" && Convert.ToInt32(user.verified) == 0)
-                                        { %>
+                                        {%>
                                     <div class="dropdown-divider"></div>
                                     <button id="openModal" runat="server" type="button" class="btn dropdown-item" data-toggle="modal" data-target="#reqVer">Request Verification</button>
-                                    <%  }%>
-                                    <div id="norgItems" runat="server">
+                                    <%}%>
+                                    <%if (Session["user"] != null){ %>
+                                        
                                         <div class="dropdown-divider"></div>
-                                        <%if (Convert.ToBoolean(Session["subadmin"]) == true || Convert.ToBoolean(Session["admin"]) == true)
-                                            { %>
-                                        <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
-                                        <%}else
-                                        { %>
                                         <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
-                                        <%} %>
-                                        <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
-                                    </div>
+
+                                    <%} %>
+
                                     <div id="Div2" runat="server">
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/SecurityCheckup.aspx">Security Checkup</a>
@@ -269,33 +265,42 @@
                                     </div>
 
                                     <% if (Convert.ToBoolean(Session["subadmin"]) == true)
-                                       {%>
+                                        {%>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
-                                            <%if (rlDeets.mgCollab == 1)
-                                                {%>
+                                            <%if (rlDeets.mgVouch == 1)
+                                            {%>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
+                                            <%}
+                                            if (rlDeets.mgCollab == 1)
+                                            {%>
                                                 <div class="dropdown-divider"></div>
                                                 <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
                                             <%}
-                                            if (rlDeets.mgBan == 1) {%>
-                                               <div class="dropdown-divider"></div>
-                                               <a id="mgBan" class="dropdown-item" href="/bAcc.aspx">Manage Bans</a>
+                                            if (rlDeets.mgBan == 1)
+                                            {%>
+                                                <div class="dropdown-divider"></div>
+                                                <a id="mgBan" class="dropdown-item" href="/bAcc.aspx">Manage Bans</a>
                                             <%}
-                                            if (rlDeets.viewAppLogs == 1){%>
+                                            if (rlDeets.viewAppLogs == 1)
+                                            {%>
                                                 <div class="dropdown-divider"></div>
                                                 <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                            <%}
+                                            <%} 
                                        }else if (Convert.ToBoolean(Session["admin"])){%>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
                                        <%}%>
                                 </div>
                             </div>

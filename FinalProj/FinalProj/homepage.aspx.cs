@@ -45,11 +45,46 @@ namespace FinalProj
 			}
 
 			loadDates("no");
-			if (Session["user"] == null)
+
+
+			if (Session["subadmin"] != null)
 			{
 				createEvent.Enabled = false;
+
+				Sessionmg ses = new Sessionmg();
+
+				sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+
+				if (sesDeets.Active == 1)
+				{
+				}
+				else
+				{
+					blocked bl = new blocked();
+					if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null)
+					{
+						Session.Clear();
+						string err = "SessionBanned";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
+				}
 			}
-			else {
+			else if (Session["admin"] != null)
+			{
+				Sessionmg ses = new Sessionmg();
+				createEvent.Enabled = false;
+
+				sesDeets = ses.GetSession(Session["adminEmail"].ToString());
+				if (sesDeets.Active == 1)
+				{
+				}
+				else
+				{
+				}
+
+			}
+			else if (Session["user"] != null)
+			{
 				Sessionmg ses = new Sessionmg();
 				blocked bl = new blocked();
 
@@ -57,7 +92,8 @@ namespace FinalProj
 				if (sesDeets.Active == 1)
 				{
 				}
-				else {
+				else
+				{
 					if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
 					{
 						Session.Clear();
@@ -67,38 +103,7 @@ namespace FinalProj
 				}
 			}
 
-			if (Session["subadmin"] != null) {
-				Sessionmg ses = new Sessionmg();
-				if (Convert.ToBoolean(Session["subadmin"]))
-				{
-					sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
-				}
-				else
-				{
-					sesDeets = ses.GetSession(Session["adminEmail"].ToString());
 
-				}
-
-				if (sesDeets.Active == 1)
-				{
-				}
-				else {
-					blocked bl = new blocked();
-					if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null)
-					{
-						Session.Clear();
-						string err = "SessionBanned";
-						Response.Redirect("homepage.aspx?error=" + err);
-					}
-					else
-					{
-						Session.Clear();
-						string err = "SessionKicked";
-						Response.Redirect("homepage.aspx?error=" + err);
-					}
-				}
-			}
-			
 		}
 
 		protected void loadDates(string all)

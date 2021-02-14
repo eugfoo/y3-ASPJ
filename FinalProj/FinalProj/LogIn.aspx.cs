@@ -115,7 +115,6 @@ namespace FinalProj
                             if (!blockedAcc)
                             {
                                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
-                                Session["user"] = tryingUser;
                                 Session["subadmin"] = true;
                                 Session["subadminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
                                 string ipAddr = GetIPAddress();
