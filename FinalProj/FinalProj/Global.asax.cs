@@ -57,10 +57,8 @@ namespace FinalProj
         }
         protected void Session_End(object sender, EventArgs e)
         {
-            if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true) {
-                
-            } 
-            else { 
+            if (Session["user"] != null)
+            {
                 Users user = (Users)Session["user"];
                 Logs lg = new Logs();
                 if (user.GetUserByEmail(user.email) != null)
@@ -73,19 +71,42 @@ namespace FinalProj
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
                     ses.UpdateSession(user.email, 0);
+                    lg.AddLog(user.email, dtLog, ipAddr, countryLogged, "Session Timeout");
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
                     collabOTP cbOTP = new collabOTP();
                     collabOTP cbDetails = cbOTP.GetUserByEmailOTP(user.email);
-                    if (cbDetails != null) {
+                    if (cbDetails != null)
+                    {
                         cbOTP.UpdateOTPByEmail(cbDetails.userEmail, "", 0); ;
                     }
                     Session.Clear();
                 }
-                else {
+                else
+                {
                     Session.Clear();
                 }
             }
-
+            else if (Session["subadmin"] != null)
+            {
+                Logs lg = new Logs();
+                lgList = lg.GetAllLogsOfUser(Session["subadminEmail"].ToString());
+                Sessionmg ses = new Sessionmg();
+                string ipAddr = lgList[0].ipAddr;
+                DateTime dtLog = DateTime.Now;
+                string countryLogged = CityStateCountByIp(ipAddr);
+                ses.UpdateSession(Session["subadminEmail"].ToString(), 0);
+                lg.AddLog(Session["subadminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
+            }
+            else {
+                Logs lg = new Logs();
+                Sessionmg ses = new Sessionmg();
+                lgList = lg.GetAllLogsOfUser(Session["adminEmail"].ToString());
+                string ipAddr = lgList[0].ipAddr;
+                DateTime dtLog = DateTime.Now;
+                string countryLogged = CityStateCountByIp(ipAddr);
+                ses.UpdateSession(Session["adminEmail"].ToString(), 0);
+                lg.AddLog(Session["adminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
+            }
 
         }
 
