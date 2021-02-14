@@ -65,6 +65,16 @@ namespace FinalProj
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
+                        Sessionmg ses = new Sessionmg();
+                        if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                        {
+                            // update
+                            ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                        }
+                        else
+                        {
+                            ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                        }
                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
                         Session["admin"] = true;
                         Session["adminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
@@ -107,11 +117,19 @@ namespace FinalProj
                                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
                                 Session["user"] = tryingUser;
                                 Session["subadmin"] = true;
-                                Session["subadminEmail"] = tbEmail.Text;
+                                Session["subadminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
                                 string ipAddr = GetIPAddress();
                                 string countryLogged = CityStateCountByIp(ipAddr);
                                 DateTime dtLog = DateTime.Now;
                                 Logs lg = new Logs();
+                                Sessionmg ses = new Sessionmg();
+                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null) {
+                                    // update
+                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                }
+                                else { 
+                                ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                }
                                 lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                 Response.Redirect("homepage.aspx");
                             }
@@ -180,8 +198,20 @@ namespace FinalProj
 
                                                 ActivityLog alg = new ActivityLog();
                                                 Users us = new Users();
-                                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                Sessionmg ses = new Sessionmg();
+                                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
                                                 {
+                                                    // update
+                                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
+                                                else
+                                                {
+                                                    ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
+
+                                                if (us.GetUserByEmail(tbEmail.Text) != null) // check if its admin or subadmin
+                                                {
+
                                                     string name = us.GetUserByEmail(tbEmail.Text).name;
                                                     lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                                     alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
@@ -255,6 +285,17 @@ namespace FinalProj
 
                                                 ActivityLog alg = new ActivityLog();
                                                 Users us = new Users();
+                                                Sessionmg ses = new Sessionmg();
+                                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                {
+                                                    // update
+                                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
+                                                else
+                                                {
+                                                    ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
+
                                                 if (us.GetUserByEmail(tbEmail.Text) != null)
                                                 {
                                                     string name = us.GetUserByEmail(tbEmail.Text).name;
@@ -426,6 +467,16 @@ namespace FinalProj
                                         }
                                         ActivityLog alg = new ActivityLog();
                                         Users us = new Users();
+                                        Sessionmg ses = new Sessionmg();
+                                        if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                        {
+                                            // update
+                                            ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                        }
+                                        else
+                                        {
+                                            ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                        }
                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                         {
                                             string name = us.GetUserByEmail(tbEmail.Text).name;
@@ -485,6 +536,16 @@ namespace FinalProj
 
                                                 ActivityLog alg = new ActivityLog();
                                                 Users us = new Users();
+                                                Sessionmg ses = new Sessionmg();
+                                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                {
+                                                    // update
+                                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
+                                                else
+                                                {
+                                                    ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                }
                                                 if (us.GetUserByEmail(tbEmail.Text) != null)
                                                 {
                                                     string name = us.GetUserByEmail(tbEmail.Text).name;
@@ -632,6 +693,16 @@ namespace FinalProj
 
                                             ActivityLog alg = new ActivityLog();
                                             Users us = new Users();
+                                            Sessionmg ses = new Sessionmg();
+                                            if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                            {
+                                                // update
+                                                ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            }
+                                            else
+                                            {
+                                                ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            }
                                             if (us.GetUserByEmail(tbEmail.Text) != null)
                                             {
                                                 string name = us.GetUserByEmail(tbEmail.Text).name;

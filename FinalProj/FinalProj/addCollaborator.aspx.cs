@@ -376,6 +376,7 @@ namespace FinalProj
             if (tracker)
             {
                 roles rl = new roles();
+
                 rl.DeleteRole(roleDDL.SelectedValue);
                 Response.Redirect("addCollaborator.aspx");
             }
@@ -450,6 +451,8 @@ namespace FinalProj
             Admins ad = new Admins();
             collabOTP cbotp = new collabOTP();
             adList = ad.GetAllAdmins();
+            Sessionmg ses = new Sessionmg();
+            ses.UpdateSession(adList[e.RowIndex].adminEmail, 0);
             ad.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
             cbotp.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
             Response.Redirect("addCollaborator.aspx");

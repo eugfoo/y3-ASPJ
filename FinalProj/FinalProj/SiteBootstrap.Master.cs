@@ -30,7 +30,6 @@ namespace FinalProj
 
             if (Convert.ToBoolean(Session["subadmin"])) // An admin has signed in
             {
-                liAdmin.Visible = true;
                 Admins ad = new Admins();
                 adDeets = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
                 roles rl = new roles();
@@ -106,11 +105,14 @@ namespace FinalProj
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
                     collabOTP cbOTP = new collabOTP();
+                    Sessionmg ses = new Sessionmg();
                     collabOTP cbDetails = cbOTP.GetUserByEmailOTP(user.email);
+                    ses.UpdateSession(user.email, 0);
                     if (cbDetails != null)
                     {
                         cbOTP.UpdateOTPByEmail(cbDetails.userEmail, "", 0); ;
                     }
+                    
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Successful Log out Attempt ", "-", user.email, countryLogged);
                     Session.Clear();
                     Response.Redirect("/homepage.aspx");
@@ -118,7 +120,9 @@ namespace FinalProj
                 else {
                     Users user = (Users)Session["user"];
                     Admins adUser = new Admins();
+                    Sessionmg ses = new Sessionmg();
                     Admins ad = adUser.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+                    ses.UpdateSession(user.email, 0);
                     Session.Clear();
                     string ipAddr = GetIPAddress();
                     string countryLogged = CityStateCountByIp(ipAddr);
@@ -132,6 +136,8 @@ namespace FinalProj
                 }
             }
             else {
+                Sessionmg ses = new Sessionmg();
+                ses.UpdateSession(Session["adminEmail"].ToString(), 0);
                 Session.Clear();
                 string ipAddr = GetIPAddress();
                 string countryLogged = CityStateCountByIp(ipAddr);

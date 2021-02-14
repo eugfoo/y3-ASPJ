@@ -69,9 +69,10 @@ namespace FinalProj
                     string ipAddr = lgList[0].ipAddr;
                     string countryLogged = CityStateCountByIp(ipAddr);
                     DateTime dtLog = DateTime.Now;
-
+                    Sessionmg ses = new Sessionmg();
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
+                    ses.UpdateSession(user.email, 0);
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Session Timeout", "-", user.email, countryLogged);
                     collabOTP cbOTP = new collabOTP();
                     collabOTP cbDetails = cbOTP.GetUserByEmailOTP(user.email);
