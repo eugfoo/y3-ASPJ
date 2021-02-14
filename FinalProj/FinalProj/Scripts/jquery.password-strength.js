@@ -169,17 +169,17 @@ Sample XML file contents:
 
     //default setting
     var password_settings = {
-        minLength: 12,
-        maxLength: 25,
+        minLength: 7,
+        maxLength: 20,
         specialLength: 1,
         upperLength: 1,
         numberLength: 1,
         barWidth: 200,
-        barColor: 'Red',
+        barColor: 'green',
         specialChars: '!@#$', //allowable special characters
         metRequirement: false,
-        useMultipleColors: 0,
-        maxConsecutiveRepeatedChars: 0
+        useMultipleColors: 1,
+        maxConsecutiveRepeatedChars: 3
     };
 
     //password strength plugin 
@@ -188,8 +188,8 @@ Sample XML file contents:
         var settings = $.extend({
             // default on root. https://ysatech.com/PasswordPolicy.xml
             //if on xml folder, the value will be "xml/"
-            appFolderXMLPath: "",
-            passwordPolicyLinkId: ""
+            appFolderXMLPath: "~/MyXML/",
+            passwordPolicyLinkId: "~/MyXML/PasswordPolicy.xslt"
         }, options);
 
         //check if password met requirement
