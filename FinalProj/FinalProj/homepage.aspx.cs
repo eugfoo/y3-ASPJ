@@ -18,18 +18,48 @@ namespace FinalProj
         protected Dictionary<int, int> attendingUsers = new Dictionary<int, int>();
 		protected List<Users> participantList = new List<Users>();
 		protected string setCalendarDate = "";
+		protected Sessionmg sesDeets;
+
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if (Request.QueryString["error"] == "NoPermission") {
+			if (Request.QueryString["error"] == "NoPermission")
+			{
 				panelError.Visible = true;
-				lb_error.Text = "No Permissions. Please request for permission if you wish to access the feature";
+				lb_error.Text = "No Permissions. Please request for permission if you wish to access the feature.";
 
 			}
+			else if (Request.QueryString["error"] == "SessionKicked") {
+				panelError.Visible = true;
+				lb_error.Text = "Your sub-admin priviliges were removed.";
+			}
+
 			loadDates("no");
 			if (Session["user"] == null)
 			{
 				createEvent.Enabled = false;
+			}
+
+			if (Session["subadmin"] != null) {
+				Sessionmg ses = new Sessionmg();
+				if (Convert.ToBoolean(Session["subadmin"]))
+				{
+					sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+				}
+				else
+				{
+					sesDeets = ses.GetSession(Session["adminEmail"].ToString());
+
+				}
+
+				if (sesDeets.Active == 1)
+				{
+				}
+				else {
+					Session.Clear();
+					string err = "SessionKicked";
+					Response.Redirect("homepage.aspx?error=" + err);
+				}
 			}
 			
 		}

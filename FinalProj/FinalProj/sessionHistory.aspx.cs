@@ -15,6 +15,8 @@ namespace FinalProj
     {
         protected List<Logs> lgList;
         protected List<MainAdmins> maList;
+        protected Sessionmg sesDeets;
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -34,17 +36,31 @@ namespace FinalProj
 
             }
             else if (Convert.ToBoolean(Session["subadmin"])) {
-                Users user = (Users)Session["user"];
-                em = user.email;
-                Logs lg = new Logs();
+                Sessionmg ses = new Sessionmg();
+                if (Convert.ToBoolean(Session["subadmin"]))
+                {
+                    sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+                }
+                else
+                {
+                    sesDeets = ses.GetSession(Session["adminEmail"].ToString());
 
-                lgList = lg.GetAllLogsOfUser(em);
+                }
+                if (sesDeets.Active == 1)
+                {
+                    Users user = (Users)Session["user"];
+                    em = user.email;
+                    Logs lg = new Logs();
 
+                    lgList = lg.GetAllLogsOfUser(em);
+                }
+                else {
+                    Session.Clear();
+                    string err = "SessionKicked";
+                    Response.Redirect("homepage.aspx?error=" + err);
+                }
 
-
-            }
-
-            else if (Convert.ToBoolean(Session["admin"]))
+            }else if (Convert.ToBoolean(Session["admin"]))
             {
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();

@@ -34,127 +34,150 @@ namespace FinalProj
         protected bool capsuleVouch;
         protected roles cap;
         protected int capPerm = 0;
+        protected Sessionmg sesDeets;
+
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                Admins ad = new Admins();
-                roles rl = new roles();
-                if (!Convert.ToBoolean(Session["admin"])) {
+                Sessionmg ses = new Sessionmg();
+                if (Convert.ToBoolean(Session["subadmin"]))
+                {
+                    sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+                }
+                else
+                {
+                    sesDeets = ses.GetSession(Session["adminEmail"].ToString());
 
-
-                    string adEmail = Session["subadminEmail"].ToString();
-                    Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
-                    cap = rl.GetRole(adDetails.adminRole);
-                    capPerm = cap.mgCollab;
                 }
 
-                if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
+                if (sesDeets.Active == 1)
                 {
+                    Admins ad = new Admins();
+                    roles rl = new roles();
+                    if (!Convert.ToBoolean(Session["admin"])) {
 
-                    if (!IsPostBack)
+
+                        string adEmail = Session["subadminEmail"].ToString();
+                        Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                        cap = rl.GetRole(adDetails.adminRole);
+                        capPerm = cap.mgCollab;
+                    }
+
+                    if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
                     {
+
+                        if (!IsPostBack)
+                        {
+                            adList = ad.GetAllAdmins();
+                            rlList = rl.GetAllRoles();
+                            // Whatever you want here.
+                            tbName.Text = rlList[0].Roles;
+                            capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
+                            capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
+                            capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
+                            aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
+                            mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
+                            mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
+                            mgBan.Checked = Convert.ToBoolean(rlList[0].mgBan);
+                            assignDDL.Items.Clear();
+                            assignRoleDDL.Items.Clear();
+                            foreach (var adminDetail in adList)
+                            {
+                                if (adminDetail.adminRole != "Main Admin") {
+                                    string fullDeets = adminDetail.adminEmail + " (" + adminDetail.adminName + ")";
+                                    assignDDL.Items.Add(new ListItem(fullDeets, adminDetail.adminEmail));
+                                }
+
+
+                            }
+
+
+                            foreach (var roleDetail in rlList)
+                            {
+
+                                Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
+                                if (roleDetail.Roles == adDetails.adminRole) {
+                                    assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
+
+                                }
+                                else {
+                                    assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles, roleDetail.Roles));
+                                }
+
+                            }
+
+                            assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole;
+                        }
+                        else
+                        {
+                            // show configurations for role
+                            if (aaLogs.Checked == true)
+                            {
+                                aaLogsCheck = 1;
+                            }
+                            else
+                            {
+                                aaLogsCheck = 0;
+
+                            }
+
+                            if (mgCollab.Checked == true)
+                            {
+                                mgCollabCheck = 1;
+
+                            }
+                            else
+                            {
+                                mgCollabCheck = 0;
+
+                            }
+
+                            if (mgVouch.Checked == true)
+                            {
+                                mgVouchCheck = 1;
+                            }
+                            else
+                            {
+                                mgVouchCheck = 0;
+                            }
+
+                            if (mgBan.Checked == true)
+                            {
+                                mgBanCheck = 1;
+                            }
+                            else {
+                                mgBanCheck = 0;
+                            }
+                            CancelRoleAssign.Visible = false;
+                            updtRoleAssign.Visible = false;
+
+                        }
                         adList = ad.GetAllAdmins();
                         rlList = rl.GetAllRoles();
-                        // Whatever you want here.
-                        tbName.Text = rlList[0].Roles;
-                        capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
-                        capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
-                        capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
-                        aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
-                        mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
-                        mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
-                        mgBan.Checked = Convert.ToBoolean(rlList[0].mgBan);
-                        assignDDL.Items.Clear();
-                        assignRoleDDL.Items.Clear();
-                        foreach (var adminDetail in adList)
-                        {
-                            if (adminDetail.adminRole != "Main Admin") { 
-                                string fullDeets = adminDetail.adminEmail + " (" + adminDetail.adminName + ")";
-                                assignDDL.Items.Add(new ListItem(fullDeets, adminDetail.adminEmail));
-                            }
-
-                           
-                        }
-
-
-                        foreach (var roleDetail in rlList)
-                        {
-
-                            Admins adDetails = ad.GetAllAdminWithEmail(assignDDL.SelectedValue);
-                            if (roleDetail.Roles == adDetails.adminRole) {
-                                assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles + " (Current)", roleDetail.Roles));
-
-                            }
-                            else { 
-                                assignRoleDDL.Items.Add(new ListItem(roleDetail.Roles, roleDetail.Roles));
-                            }
-
-                        }
-
-                        assignRoleDDL.SelectedValue = ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole; 
                     }
-                    else
+                    else // If a non-admin tries to access the page...
                     {
-                        // show configurations for role
-                        if (aaLogs.Checked == true)
+                        if (Convert.ToBoolean(Session["subadmin"]))
                         {
-                            aaLogsCheck = 1;
+                            string err = "NoPermission";
+                            Response.Redirect("homepage.aspx?error=" + err);
                         }
                         else
                         {
-                            aaLogsCheck = 0;
-
+                            Response.Redirect("homepage.aspx");
                         }
-
-                        if (mgCollab.Checked == true)
-                        {
-                            mgCollabCheck = 1;
-
-                        }
-                        else
-                        {
-                            mgCollabCheck = 0;
-
-                        }
-
-                        if (mgVouch.Checked == true)
-                        {
-                            mgVouchCheck = 1;
-                        }
-                        else
-                        {
-                            mgVouchCheck = 0;
-                        }
-
-                        if (mgBan.Checked == true)
-                        {
-                            mgBanCheck = 1;
-                        }
-                        else {
-                            mgBanCheck = 0;
-                        }
-                        CancelRoleAssign.Visible = false;
-                        updtRoleAssign.Visible = false;
-
                     }
-                    adList = ad.GetAllAdmins();
-                    rlList = rl.GetAllRoles();
                 }
-                else // If a non-admin tries to access the page...
+                else
                 {
-                    if (Convert.ToBoolean(Session["subadmin"]))
-                    {
-                        string err = "NoPermission";
-                        Response.Redirect("homepage.aspx?error=" + err);
-                    }
-                    else
-                    {
-                        Response.Redirect("homepage.aspx");
-                    }
+
+                    Session.Clear();
+                    string err = "SessionKicked";
+                    Response.Redirect("homepage.aspx?error=" + err);
                 }
 
 

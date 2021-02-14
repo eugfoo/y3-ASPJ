@@ -14,36 +14,56 @@ namespace FinalProj
     {
         protected roles cap;
         protected int capPerm = 0;
+        protected Sessionmg sesDeets;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                Admins ad = new Admins();
-                roles rl = new roles();
-
-                if (!Convert.ToBoolean(Session["admin"]))
+                Sessionmg ses = new Sessionmg();
+                if (Convert.ToBoolean(Session["subadmin"]))
                 {
-                    string adEmail = Session["subadminEmail"].ToString();
-                    Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
-                    cap = rl.GetRole(adDetails.adminRole);
-                    capPerm = cap.mgBan;
+                    sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
                 }
-
-                if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
+                else
                 {
+                    sesDeets = ses.GetSession(Session["adminEmail"].ToString());
 
-                } else
+                }
+                if (sesDeets.Active == 1)
                 {
-                    if (Convert.ToBoolean(Session["subadmin"]))
+                    Admins ad = new Admins();
+                    roles rl = new roles();
+
+                    if (!Convert.ToBoolean(Session["admin"]))
                     {
-                        string err = "NoPermission";
-                        Response.Redirect("homepage.aspx?error=" + err);
+                        string adEmail = Session["subadminEmail"].ToString();
+                        Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                        cap = rl.GetRole(adDetails.adminRole);
+                        capPerm = cap.mgBan;
+                    }
+
+                    if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
+                    {
+
                     }
                     else
                     {
-                        Response.Redirect("homepage.aspx");
+                        if (Convert.ToBoolean(Session["subadmin"]))
+                        {
+                            string err = "NoPermission";
+                            Response.Redirect("homepage.aspx?error=" + err);
+                        }
+                        else
+                        {
+                            Response.Redirect("homepage.aspx");
+                        }
                     }
+                }
+                else {
+                    Session.Clear();
+                    string err = "SessionKicked";
+                    Response.Redirect("homepage.aspx?error=" + err);
                 }
             }
             else

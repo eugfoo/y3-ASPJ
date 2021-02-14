@@ -181,7 +181,8 @@ namespace FinalProj
                 }
                 else {
                     Session.Clear();
-                    Response.Redirect("homepage.aspx");
+                    string err = "SessionKicked";
+                    Response.Redirect("homepage.aspx?error=" + err);
                 }
 
             }
@@ -191,25 +192,5 @@ namespace FinalProj
             }
 
         }
-
-        //protected void violationType_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    ActivityLog alg = new ActivityLog();
-
-        //    algList = alg.GetAllLogsOfActivities();
-        //    if (violationType.SelectedValue == "Malware")
-        //    {
-        //        int ss = algList.Count();
-        //        for (int i = 0; i < algList.Count; i++)
-        //        {
-        //            if (algList[i].ViolationType == "Malware")
-        //            {
-        //                aalgList.Add(algList[i]);
-                        
-        //            }
-
-        //        }
-        //    }
-        //}
     }
 }
