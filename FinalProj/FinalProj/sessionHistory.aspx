@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+
     <script>
 
         //$("#dtBasicExample").dataTable({
@@ -22,16 +22,16 @@
                 }
             ],           
         });
+
     </script>
-    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+
+    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0">
         <thead>
             <tr>
                 <th>DateTime</th>
                 <th>Ip Address</th>
                 <th>Country</th>
                 <th>Result</th>
-
- 
             </tr>
         </thead>
         <tbody>
@@ -45,7 +45,10 @@
                 { %>
                 <td style="color: #006400;"><%= element.result %></td>
             <%}
-               else if (element.result == "Failed Login Attempt"){ %>
+               else if (element.result == "Failed Login Attempt") { %>
+                <td style="color: #8B0000;"><%= element.result %></td>
+            <%}else if (element.result == "Successful Log out Attempt") 
+              {%>
                 <td style="color: #8B0000;"><%= element.result %></td>
             <%} %>
 
@@ -53,6 +56,5 @@
         <%} %>
 
         </tbody>
-
     </table>
 </asp:Content>

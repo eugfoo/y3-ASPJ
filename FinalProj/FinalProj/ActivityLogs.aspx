@@ -24,6 +24,12 @@
                 }
             ],
         });
+
+        $(function () {
+            $("#<%= txtStartDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
+                    $("#<%= txtEndDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
+
+                });
     </script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -32,14 +38,8 @@
             margin:1%;
         }
     </style>
-    <script>
-        $(function () {
-            $("#<%= txtStartDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
-            $("#<%= txtEndDate.ClientID %>").datepicker({ dateFormat: 'dd/mm/yy' });
 
-        });
 
-    </script>
     <div class="row" style="margin-top:1%; margin-left:1.5%; margin-right:1.5%; text-align:center;">
         <div class="col-12">
         <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
