@@ -224,9 +224,18 @@
                         <li class="nav-item mr-3">
                             <a class="nav-link" href="/forumPage1.aspx">Forum</a>
                         </li>
+                        <%if (Convert.ToBoolean(Session["admin"]))
+                            { %>
                         <li runat="server" id="liAdmin" visible="False" class="nav-item mr-3">
                             <asp:HyperLink CssClass="nav-link" runat="server" NavigateUrl="/AdminPage.aspx">Admin</asp:HyperLink>
                         </li>
+                        <%}
+                        else if (Convert.ToBoolean(Session["subadmin"]))
+                        { %>
+                        <li runat="server" id="lisubadmin" visible="False" class="nav-item mr-3">
+                            <asp:HyperLink CssClass="nav-link" runat="server" NavigateUrl="/AdminPage.aspx">Sub-Admin</asp:HyperLink>
+                        </li>
+                        <%} %>
                         <li class="nav-item mr-3">
                             <div class="btn-group">
 

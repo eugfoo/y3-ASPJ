@@ -36,7 +36,9 @@ namespace FinalProj
                 roles rl = new roles();
                 rlDeets = rl.GetRole(adDeets.adminRole);
                 Div2.Visible = false;
-            } else if (Convert.ToBoolean(Session["admin"])) {
+                lisubadmin.Visible = true;
+            }
+            else if (Convert.ToBoolean(Session["admin"])) {
                 liAdmin.Visible = true;
                 Div2.Visible = false;
 
