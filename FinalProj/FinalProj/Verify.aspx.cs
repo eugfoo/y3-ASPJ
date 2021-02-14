@@ -38,7 +38,7 @@ namespace FinalProj
             //string filePath = string.Format("~/Img/User/UserFaceVerification/{0}.png", Path.GetRandomFileName());
             user.UpdateVerifyImage(user.id, dbPath);
             File.WriteAllBytes(fileNameWitPath, bytes);
-            
+            Response.Redirect("/EditProfile.aspx");
         }
     }
 }

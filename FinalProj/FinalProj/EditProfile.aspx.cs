@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Collections.Generic;
 using System.Web.Security.AntiXss;
+using System.Web.UI.WebControls;
 
 namespace FinalProj
 {
@@ -60,7 +61,7 @@ namespace FinalProj
             {
                 user.UpdateBPByID(user.id, Session["tempBP"].ToString());
             }
-            
+
             if (ddlDiet.SelectedItem.Value != user.diet)
             {
                 if (ddlDiet.SelectedItem.Value == "Others")
@@ -176,7 +177,7 @@ namespace FinalProj
                 }
             }
             if (!Page.IsPostBack)
-            {   
+            {
                 if (user.twofactor == 0)
                 {
                     CB2FA.Checked = false;
@@ -195,6 +196,35 @@ namespace FinalProj
                 else
                 {
                     cbGoogle.Checked = true;
+                }
+            }
+            if (!Page.IsPostBack)
+            {
+                List<ListItem> Imgs = new List<ListItem>();
+                string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
+                string[] ImagePaths = Directory.GetFiles(path);
+
+                foreach (string imgPath in ImagePaths)
+                {
+                    if (imgPath.Contains(user.email))
+                    {
+                        string ImgName = Path.GetFileName(imgPath);
+                        Imgs.Add(new ListItem(user.email, "~/Img/User/UserFaceVerification/" + ImgName));
+                    }
+                }
+
+                if (user.verified == 1)
+                {
+                    btnVerify.Visible = false;
+                    lblVerified.Visible = false;
+                }
+                else
+                {
+                    if (Imgs.Count > 0)
+                    {
+                        btnVerify.Enabled = false;
+                        lblVerified.Visible = true;
+                    }
                 }
             }
         }
@@ -265,7 +295,7 @@ namespace FinalProj
             {
                 string dbSalt = tryingUser.passSalt;
                 SHA256Managed hashing = new SHA256Managed();
-                if (dbSalt != null && dbSalt.Length > 0 )
+                if (dbSalt != null && dbSalt.Length > 0)
                 {
                     string pwdWithSalt = passString + dbSalt;
                     byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));

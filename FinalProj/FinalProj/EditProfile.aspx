@@ -141,6 +141,7 @@
                     <!-- Selfie Verification -->
                     <div class="form-group">
                         <asp:Button ID="btnVerify" runat="server" CssClass="btn btn-info" Text="Verification Selfie" CausesValidation="false" UseSubmitBehavior="False" OnClick="btnVerify_Click"/>
+                        <asp:Label ID="lblVerified" runat="server" CssClass="alert-success" Text="You are in the process of getting verified!" Visible="false"></asp:Label>
                     </div>
 
                 </div>
