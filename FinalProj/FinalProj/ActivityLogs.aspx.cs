@@ -180,9 +180,17 @@ namespace FinalProj
 
                 }
                 else {
-                    Session.Clear();
-                    string err = "SessionKicked";
-                    Response.Redirect("homepage.aspx?error=" + err);
+                    blocked bl = new blocked();
+                    if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null) {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                    else { 
+                        Session.Clear();
+                        string err = "SessionKicked";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
                 }
 
             }

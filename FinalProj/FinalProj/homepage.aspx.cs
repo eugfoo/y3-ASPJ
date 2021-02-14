@@ -33,11 +33,33 @@ namespace FinalProj
 				panelError.Visible = true;
 				lb_error.Text = "Your sub-admin priviliges were removed.";
 			}
+			else if (Request.QueryString["error"] == "SessionBanned")
+			{
+				panelError.Visible = true;
+				lb_error.Text = "Your account has been banned.";
+			}
 
 			loadDates("no");
 			if (Session["user"] == null)
 			{
 				createEvent.Enabled = false;
+			}
+			else {
+				Sessionmg ses = new Sessionmg();
+				blocked bl = new blocked();
+
+				sesDeets = ses.GetSession(Session["email"].ToString());
+				if (sesDeets.Active == 1)
+				{
+				}
+				else {
+					if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+					{
+						Session.Clear();
+						string err = "SessionBanned";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
+				}
 			}
 
 			if (Session["subadmin"] != null) {
@@ -56,9 +78,19 @@ namespace FinalProj
 				{
 				}
 				else {
-					Session.Clear();
-					string err = "SessionKicked";
-					Response.Redirect("homepage.aspx?error=" + err);
+					blocked bl = new blocked();
+					if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null)
+					{
+						Session.Clear();
+						string err = "SessionBanned";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
+					else
+					{
+						Session.Clear();
+						string err = "SessionKicked";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
 				}
 			}
 			

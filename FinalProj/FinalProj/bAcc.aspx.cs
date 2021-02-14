@@ -76,6 +76,7 @@ namespace FinalProj
         {
             blocked bl = new blocked();
             List<blocked> blList;
+
             blList = bl.getAllBlockedUsers();
             bl.unblock(blList[e.RowIndex].email);
             Response.Redirect("bAcc.aspx");
@@ -95,8 +96,28 @@ namespace FinalProj
                 if (banreasontb != "") { 
                     if (usDeets != null)
                     {
-                        bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
-                        Response.Redirect("/bAcc.aspx");
+                        if (bantb == Session["subadminEmail"].ToString())
+                        {
+                            PanelError.Visible = true;
+                            errmsgTb.Text = "You can't ban yourself!";
+                        }
+                        else if (bantb == Session["adminEmail"].ToString()) {
+                            PanelError.Visible = true;
+                            errmsgTb.Text = "You can't ban yourself!";
+                        }
+                        else {
+                            Admins ad = new Admins();
+                            if (ad.GetAllAdminWithEmail(bantb) != null) {
+                                PanelError.Visible = true;
+                                errmsgTb.Text = "You can't ban an admin or sub-admin!";
+                            }
+                            else { 
+                                bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
+                                Sessionmg ses = new Sessionmg();
+                                ses.UpdateSession(bantb, 0);
+                                Response.Redirect("/bAcc.aspx");
+                            }
+                        }
                     }
                     else
                     {

@@ -46,7 +46,11 @@ namespace FinalProj.BLL
 			int result = bdao.unBlockAcc(uEmail);
 			return result;
 		}
-
+		public blocked GetBlockedAccWithEmail(string email)
+		{
+			blockedDAO bdao = new blockedDAO();
+			return bdao.SelectBlockedAcc(email);
+		}
 
 	}
 }

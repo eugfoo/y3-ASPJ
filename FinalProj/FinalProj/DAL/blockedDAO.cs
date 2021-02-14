@@ -103,5 +103,46 @@ namespace FinalProj.DAL
 
             return result;
         }
+
+        public blocked SelectBlockedAcc(string email)
+        {
+            //Step 1 -  Define a connection to the database by getting
+            //          the connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            //Step 2 -  Create a DataAdapter to retrieve data from the database table
+            string sqlStmt = "Select * from Blocked where userEmail = @parauserEmail";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            da.SelectCommand.Parameters.AddWithValue("@parauserEmail", email);
+
+            //Step 3 -  Create a DataSet to store the data to be retrieved
+            DataSet ds = new DataSet();
+
+            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
+            da.Fill(ds);
+
+            //Step 5 -  Read data from DataSet.
+            blocked blockedAccDetails = null;
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            if (rec_cnt == 1)
+            {
+                DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record\
+                string useremail = row["userEmail"].ToString();
+                string username = row["userName"].ToString();
+                string reason = row["Reason"].ToString();
+                DateTime dt = Convert.ToDateTime(row["DateTime"].ToString());
+
+
+                blockedAccDetails = new blocked(useremail, username, reason, dt);
+            }
+            else
+            {
+                blockedAccDetails = null;
+            }
+
+            return blockedAccDetails;
+        }
     }
 }

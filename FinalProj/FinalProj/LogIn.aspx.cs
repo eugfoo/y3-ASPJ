@@ -135,7 +135,7 @@ namespace FinalProj
                             }
                             else{
                                 lblError.Visible = true;
-                                lblError.Text = "Your Account has been banned due to malicious activities.";
+                                lblError.Text = "Your Account has been banned.";
 
                             }
                         }
@@ -226,7 +226,7 @@ namespace FinalProj
                                             else {
                                                 lblError.Visible = true;
 
-                                                lblError.Text = "Your Account has been banned due to malicious activities.";
+                                                lblError.Text = "Your Account has been banned.";
 
                                             }
                                         }
@@ -311,7 +311,7 @@ namespace FinalProj
                                             else {
                                                 lblError.Visible = true;
 
-                                                lblError.Text = "Your Account has been banned due to malicious activities.";
+                                                lblError.Text = "Your Account has been banned.";
                                             }
                                         }
                                         else
@@ -493,7 +493,7 @@ namespace FinalProj
                                     {
                                         lblError.Visible = true;
 
-                                        lblError.Text = "Your Account has been banned due to malicious activities.";
+                                        lblError.Text = "Your Account has been banned.";
                                     }
                                 }
                                 else
@@ -594,7 +594,7 @@ namespace FinalProj
                                             else {
                                                 lblError.Visible = true;
 
-                                                lblError.Text = "Your Account has been banned due to malicious activities.";
+                                                lblError.Text = "Your Account has been banned.";
 
                                             }
                                         }
@@ -749,7 +749,7 @@ namespace FinalProj
                                         }
                                         else {
                                             lblError.Visible = true;
-                                            lblError.Text = "Your Account has been banned due to malicious activities.";
+                                            lblError.Text = "Your Account has been banned.";
 
                                         }
                                     }
