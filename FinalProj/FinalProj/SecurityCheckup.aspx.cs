@@ -10,6 +10,8 @@ namespace FinalProj
 {
     public partial class SecurityCheckup : System.Web.UI.Page
     {
+        protected Sessionmg sesDeets;
+
         int recentCounter;
         string recentSecurity = "<br/>";
 
@@ -36,33 +38,64 @@ namespace FinalProj
             }
             else
             {
-                PassHist pass = new PassHist();
-
-                PassHist ps = pass.getLastPassByEmail(user.email);
-
-                DateTime now = DateTime.Now;
-                string DTNow = now.ToString("g");
-                string DTReg = ps.userRegDate;
-
-                TimeSpan span = (Convert.ToDateTime(DTNow) - Convert.ToDateTime(DTReg));
-                string spantime = String.Format("<strong>{0} Days {1} Hours {2} Minutes</strong>", span.Days, span.Hours, span.Minutes);
-                lblPassword.Text = spantime;
-                TimeSpan spanBase = new TimeSpan(14, 0, 0, 0);
-                if (span < spanBase)
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+                if (Convert.ToBoolean(Session["subadmin"]))
                 {
-                    recentCounter++;
-                    recentSecurity += "You recently changed your password <br/>";
+                    sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
                 }
-
-                ActivityLog log = new ActivityLog();
-                ActivityLog logo = log.getLastLogByEmail(user.email);
-
-                DateTime DTRec = logo.DateTime;
-                TimeSpan spanRecent = (Convert.ToDateTime(DTNow) - DTRec);
-                if (spanRecent < spanBase)
+                else if (Convert.ToBoolean(Session["admin"]))
                 {
-                    recentCounter++;
-                    recentSecurity += "You recently logged a " + logo.Action + "<br/>";
+                    sesDeets = ses.GetSession(Session["adminEmail"].ToString());
+
+                }
+                else { 
+                    sesDeets = ses.GetSession(Session["email"].ToString());
+                }
+                if (sesDeets.Active == 1)
+                {
+                    PassHist pass = new PassHist();
+
+                    PassHist ps = pass.getLastPassByEmail(user.email);
+
+                    DateTime now = DateTime.Now;
+                    string DTNow = now.ToString("g");
+                    string DTReg = ps.userRegDate;
+
+                    TimeSpan span = (Convert.ToDateTime(DTNow) - Convert.ToDateTime(DTReg));
+                    string spantime = String.Format("<strong>{0} Days {1} Hours {2} Minutes</strong>", span.Days, span.Hours, span.Minutes);
+                    lblPassword.Text = spantime;
+                    TimeSpan spanBase = new TimeSpan(14, 0, 0, 0);
+                    if (span < spanBase)
+                    {
+                        recentCounter++;
+                        recentSecurity += "You recently changed your password <br/>";
+                    }
+
+                    ActivityLog log = new ActivityLog();
+                    ActivityLog logo = log.getLastLogByEmail(user.email);
+
+                    DateTime DTRec = logo.DateTime;
+                    TimeSpan spanRecent = (Convert.ToDateTime(DTNow) - DTRec);
+                    if (spanRecent < spanBase)
+                    {
+                        recentCounter++;
+                        recentSecurity += "You recently logged a " + logo.Action + "<br/>";
+                    }
+                }
+                else
+                {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                    else {
+                        Session.Clear();
+                        string err = "SessionKicked";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
                 }
             }
 

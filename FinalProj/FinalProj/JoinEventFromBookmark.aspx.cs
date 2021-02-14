@@ -12,15 +12,34 @@ namespace FinalProj
 	{
 		protected int userId;
         protected string userName;
+		protected Sessionmg sesDeets;
+
 		protected void Page_Load(object sender, EventArgs e)
 		{
 
 			if (Session["user"] != null)
 			{
-				Users user = (Users)Session["user"];
-				userId = user.id;
-                userName = user.name;
-				Events ev = new Events();
+				Sessionmg ses = new Sessionmg();
+				blocked bl = new blocked();
+
+				sesDeets = ses.GetSession(Session["email"].ToString());
+				if (sesDeets.Active == 1)
+				{
+					Users user = (Users)Session["user"];
+					userId = user.id;
+					userName = user.name;
+					Events ev = new Events();
+				}
+				else
+				{
+
+					if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+					{
+						Session.Clear();
+						string err = "SessionBanned";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
+				}
 
 			}
 			else

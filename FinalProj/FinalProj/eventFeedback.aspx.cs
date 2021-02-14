@@ -12,12 +12,30 @@ namespace FinalProj
     {
         protected List<Feedback> allFeedbackListByEventId;
         Feedback feedback = new Feedback();
+        protected Sessionmg sesDeets;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null) // A user has signed in
+            if (Session["user"] == null)
             {
                 Response.Redirect("/homepage.aspx");
+            }
+            else {
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
+                {
+                }
+                else {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                }
             }
 
             int queriedEventId = Convert.ToInt32(Request.QueryString["eventId"]);
@@ -25,8 +43,6 @@ namespace FinalProj
 
             Events selectedEvent = events.getEventDetails(queriedEventId);
             LblEventTitle.Text = selectedEvent.Title;
-
-
 
 
         }

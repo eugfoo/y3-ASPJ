@@ -17,6 +17,8 @@ namespace FinalProj
         collabOTP coll;
         List<Admins> adList;
         bool exist = false;
+        protected Sessionmg sesDeets;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Admins ad = new Admins();
@@ -24,23 +26,43 @@ namespace FinalProj
 
             if (Session["email"] != null)
             {
-                collabOTP clbotpDetails = clbotp.GetUserByEmailOTP(Session["email"].ToString());
-                adList = ad.GetAllAdmins();
-                foreach (Admins element in adList)
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
                 {
-                    if (Session["email"].ToString() == element.adminEmail && element.adminStatus == "Pending")
+                    collabOTP clbotpDetails = clbotp.GetUserByEmailOTP(Session["email"].ToString());
+                    adList = ad.GetAllAdmins();
+                    foreach (Admins element in adList)
                     {
-                        exist = true;
-                        if (clbotpDetails.userOTP == "" && clbotpDetails.OTPStatus == 0) { 
-                            resendOTP.Visible = true;
-                            PanelError.Visible = true;
-                            errmsgTb.Text = "Your previous OTP has expired, please resend yourself a new OTP";
-                            errmsgTb.Visible = true;
+                        if (Session["email"].ToString() == element.adminEmail && element.adminStatus == "Pending")
+                        {
+                            exist = true;
+                            if (clbotpDetails.userOTP == "" && clbotpDetails.OTPStatus == 0)
+                            {
+                                resendOTP.Visible = true;
+                                PanelError.Visible = true;
+                                errmsgTb.Text = "Your previous OTP has expired, please resend yourself a new OTP";
+                                errmsgTb.Visible = true;
+                            }
+                        }
+                        else if (Session["email"].ToString() == element.adminEmail && element.adminStatus == "Accepted")
+                        {
+                            exist = false;
                         }
                     }
-                    else if (Session["email"].ToString() == element.adminEmail && element.adminStatus == "Accepted")
+                }
+                else {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
                     {
-                        exist = false;
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                    else {
+                        string err = "SessionRevoked";
+                        Response.Redirect("homepage.aspx?error=" + err);
                     }
                 }
             }

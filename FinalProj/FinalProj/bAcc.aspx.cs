@@ -96,27 +96,50 @@ namespace FinalProj
                 if (banreasontb != "") { 
                     if (usDeets != null)
                     {
-                        if (bantb == Session["subadminEmail"].ToString())
-                        {
-                            PanelError.Visible = true;
-                            errmsgTb.Text = "You can't ban yourself!";
-                        }
-                        else if (bantb == Session["adminEmail"].ToString()) {
-                            PanelError.Visible = true;
-                            errmsgTb.Text = "You can't ban yourself!";
-                        }
-                        else {
-                            Admins ad = new Admins();
-                            if (ad.GetAllAdminWithEmail(bantb) != null) {
+                        if (Session["subadminEmail"] != null) {
+                            if (bantb == Session["subadminEmail"].ToString())
+                            {
                                 PanelError.Visible = true;
-                                errmsgTb.Text = "You can't ban an admin or sub-admin!";
+                                errmsgTb.Text = "You can't ban yourself!";
                             }
-                            else { 
-                                bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
-                                Sessionmg ses = new Sessionmg();
-                                ses.UpdateSession(bantb, 0);
-                                Response.Redirect("/bAcc.aspx");
+                            else
+                            {
+                                Admins ad = new Admins();
+                                if (ad.GetAllAdminWithEmail(bantb) != null)
+                                {
+                                    PanelError.Visible = true;
+                                    errmsgTb.Text = "You can't ban an admin or sub-admin!";
+                                }
+                                else
+                                {
+                                    bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
+                                    Sessionmg ses = new Sessionmg();
+                                    ses.UpdateSession(bantb, 0);
+                                    Response.Redirect("/bAcc.aspx");
+                                }
                             }
+                        } else if (Session["adminEmail"] != null) { 
+                            if (bantb == Session["adminEmail"].ToString()) {
+                                PanelError.Visible = true;
+                                errmsgTb.Text = "You can't ban yourself!";
+                            }
+                            else
+                            {
+                                Admins ad = new Admins();
+                                if (ad.GetAllAdminWithEmail(bantb) != null)
+                                {
+                                    PanelError.Visible = true;
+                                    errmsgTb.Text = "You can't ban an admin or sub-admin!";
+                                }
+                                else
+                                {
+                                    bl.AddBlockedAcc(bantb, usDeets.name, banreasontb, dtn);
+                                    Sessionmg ses = new Sessionmg();
+                                    ses.UpdateSession(bantb, 0);
+                                    Response.Redirect("/bAcc.aspx");
+                                }
+                            }
+                        
                         }
                     }
                     else

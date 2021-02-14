@@ -16,33 +16,77 @@ namespace FinalProj
         protected List<Voucher> vcherList;
         protected int vchers;
         protected VoucherRedeemed vouchers;
+        protected Sessionmg sesDeets;
+        protected roles cap;
+        protected int capPerm = 0;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true)
             {
-                Voucher vcher = new Voucher();
-                vcherList = vcher.GetAllVouchersByName();
-
-                if (vcherList.Count == 0)
+                Sessionmg ses = new Sessionmg();
+                if (Convert.ToBoolean(Session["subadmin"]))
                 {
-                    no.Visible = true;
+                    sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+                }
+                else
+                {
+                    sesDeets = ses.GetSession(Session["adminEmail"].ToString());
+
                 }
 
-                if (Request.QueryString["voucherId"] != null)
+                if (sesDeets.Active == 1)
                 {
-                    vchers = vcher.DeleteVoucherById(int.Parse(Request.QueryString["voucherId"]));
-                    panelSuccess.Visible = true;
-                    vcherList = vcher.GetAllVouchersByName();
-                    if (vcherList.Count == 0)
+                    Admins ad = new Admins();
+                    roles rl = new roles();
+                    if (!Convert.ToBoolean(Session["admin"]))
                     {
-                        no.Visible = true;
+                        string adEmail = Session["subadminEmail"].ToString();
+                        Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
+                        cap = rl.GetRole(adDetails.adminRole);
+                        capPerm = cap.mgVouch;
                     }
+                    if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
+                    {
+
+                        Voucher vcher = new Voucher();
+                        vcherList = vcher.GetAllVouchersByName();
+
+                        if (vcherList.Count == 0)
+                        {
+                            no.Visible = true;
+                        }
+
+                        if (Request.QueryString["voucherId"] != null)
+                        {
+                            vchers = vcher.DeleteVoucherById(int.Parse(Request.QueryString["voucherId"]));
+                            panelSuccess.Visible = true;
+                            vcherList = vcher.GetAllVouchersByName();
+                            if (vcherList.Count == 0)
+                            {
+                                no.Visible = true;
+                            }
+                        }
+                    }
+                    else {
+                        if (Convert.ToBoolean(Session["subadmin"]))
+                        {
+                            string err = "NoPermission";
+                            Response.Redirect("homepage.aspx?error=" + err);
+                        }
+                        else
+                        {
+                            Response.Redirect("homepage.aspx");
+                        }
+                    }
+                }else{
+                    Session.Clear();
+                    string err = "SessionKicked";
+                    Response.Redirect("homepage.aspx?error=" + err);
                 }
-            } else if (Session["admin"] == null)
-            {
+            }else{
                 Response.Redirect("homepage.aspx");
             }
         }

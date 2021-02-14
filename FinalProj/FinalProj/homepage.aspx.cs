@@ -38,6 +38,11 @@ namespace FinalProj
 				panelError.Visible = true;
 				lb_error.Text = "Your account has been banned.";
 			}
+			else if (Request.QueryString["error"] == "SessionRevoked")
+			{
+				panelError.Visible = true;
+				lb_error.Text = "Your sub-admin invitation has been revoked.";
+			}
 
 			loadDates("no");
 			if (Session["user"] == null)

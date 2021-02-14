@@ -14,6 +14,7 @@ namespace FinalProj
     {
         public string viewingUserId;
         public List<Feedback> feedbackList = new List<Feedback>();
+        protected Sessionmg sesDeets;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,13 +23,30 @@ namespace FinalProj
 
             if (user != null)
             {
-                if (viewingUserId != null)
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
                 {
-                    loadDdlEvents(Convert.ToInt32(viewingUserId));
+                    if (viewingUserId != null)
+                    {
+                        loadDdlEvents(Convert.ToInt32(viewingUserId));
+                    }
+                    else
+                    {
+                        loadDdlEvents(user.id);
+                    }
                 }
                 else
                 {
-                    loadDdlEvents(user.id);
+
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
                 }
 
             }

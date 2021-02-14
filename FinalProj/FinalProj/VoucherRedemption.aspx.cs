@@ -17,67 +17,79 @@ namespace FinalProj
         public double points = 0;
         public List<decimal> pointCost = new List<decimal>();
         protected VoucherRedeemed vouchers;
+        protected Sessionmg sesDeets;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null && Session["admin"] == null)
+            if (Session["user"] == null)
             {
                 Response.Redirect("homepage.aspx");
             }
-            else if (Session["admin"] != null)
-            {
-                Response.Redirect("AddVoucher.aspx");
-            }
             else
             {
-                Users user = (Users)Session["user"];
-                points = user.points;
-                Voucher vcher = new Voucher();
-                vcherList = vcher.GetAllVouchersByName();
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
 
-                if (vcherList.Count == 0)
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
                 {
-                    no.Visible = true;
-                }
+                    Users user = (Users)Session["user"];
+                    points = user.points;
+                    Voucher vcher = new Voucher();
+                    vcherList = vcher.GetAllVouchersByName();
 
-                VoucherRedeemed voucher = new VoucherRedeemed();
-                vchers = vcher.GetVoucherById(Request.QueryString["voucherId"]);
-
-                if (vchers != null)
-                {
-                    foreach (var element in vchers)
+                    if (vcherList.Count == 0)
                     {
-                        if (points >= double.Parse(element.VoucherPoints))
+                        no.Visible = true;
+                    }
+
+                    VoucherRedeemed voucher = new VoucherRedeemed();
+                    vchers = vcher.GetVoucherById(Request.QueryString["voucherId"]);
+
+                    if (vchers != null)
+                    {
+                        foreach (var element in vchers)
                         {
-                            panelError.Visible = false;
-                            voucher.VoucherId = int.Parse(Request.QueryString["voucherId"]);
-                            voucher.VoucherAmount = element.VoucherAmount;
-                            voucher.VoucherName = element.VoucherName;
-                            voucher.VoucherPic = element.VoucherPic;
-                            voucher.UserId = user.id.ToString();
-                            voucher.Quantity = 1;
+                            if (points >= double.Parse(element.VoucherPoints))
+                            {
+                                panelError.Visible = false;
+                                voucher.VoucherId = int.Parse(Request.QueryString["voucherId"]);
+                                voucher.VoucherAmount = element.VoucherAmount;
+                                voucher.VoucherName = element.VoucherName;
+                                voucher.VoucherPic = element.VoucherPic;
+                                voucher.UserId = user.id.ToString();
+                                voucher.Quantity = 1;
 
-                            System.Diagnostics.Debug.WriteLine("This is voucherId: " + voucher.VoucherId);
-                            voucher = new VoucherRedeemed(voucher.VoucherId, voucher.VoucherName, voucher.VoucherAmount, voucher.VoucherPic, voucher.UserId, voucher.Quantity);
-                            int result = voucher.AddVoucher();
+                                System.Diagnostics.Debug.WriteLine("This is voucherId: " + voucher.VoucherId);
+                                voucher = new VoucherRedeemed(voucher.VoucherId, voucher.VoucherName, voucher.VoucherAmount, voucher.VoucherPic, voucher.UserId, voucher.Quantity);
+                                int result = voucher.AddVoucher();
 
-                            user.points = user.points - double.Parse(element.VoucherPoints);
-                            user.UpdatePointsByID(user.id, user.points);
+                                user.points = user.points - double.Parse(element.VoucherPoints);
+                                user.UpdatePointsByID(user.id, user.points);
 
-                            panelSuccess.Visible = true;
+                                panelSuccess.Visible = true;
 
-                            points = user.points;
+                                points = user.points;
+                            }
+                            else
+                            {
+                                panelSuccess.Visible = false;
+                                panelError.Visible = true;
+                            }
+
                         }
-                        else
-                        {
-                            panelSuccess.Visible = false;
-                            panelError.Visible = true;
-                        }
+                    }
 
+                }
+                else {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
                     }
                 }
-
-
 
             }
         }

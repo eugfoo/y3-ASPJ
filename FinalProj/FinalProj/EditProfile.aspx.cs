@@ -17,12 +17,29 @@ namespace FinalProj
         public string linkTwit = "https://www.twitter.com/";
         static string finalHash;
         protected List<PassHist> passList;
+        protected Sessionmg sesDeets;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["user"] != null) // A user has signed in
             {
-                loadFunctions();
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
+                {
+                    loadFunctions();
+                }
+                else {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                }
             }
             else
             {

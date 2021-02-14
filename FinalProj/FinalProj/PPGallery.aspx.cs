@@ -15,6 +15,7 @@ namespace FinalProj
     {
         public List<GPictures> gpList = null;
         public string viewingUserId;
+        protected Sessionmg sesDeets;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,14 +24,31 @@ namespace FinalProj
 
             if (user != null)
             {
-                if (viewingUserId != null) // A user is viewing another's PP
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
                 {
-                    btnOpen.Visible = false;
-                    loadGP(Convert.ToInt32(viewingUserId));
+                    if (viewingUserId != null) // A user is viewing another's PP
+                    {
+                        btnOpen.Visible = false;
+                        loadGP(Convert.ToInt32(viewingUserId));
+                    }
+                    else
+                    {
+                        loadGP(user.id);
+                    }
                 }
                 else
                 {
-                    loadGP(user.id);
+
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
                 }
             }
             else

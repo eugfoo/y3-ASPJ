@@ -253,7 +253,13 @@
                                     <%  }%>
                                     <div id="norgItems" runat="server">
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/VoucherRedemption.aspx">Vouchers</a>
+                                        <%if (Convert.ToBoolean(Session["subadmin"]) == true || Convert.ToBoolean(Session["admin"]) == true)
+                                            { %>
+                                        <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
+                                        <%}else
+                                        { %>
+                                        <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
+                                        <%} %>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
                                     <div id="Div2" runat="server">

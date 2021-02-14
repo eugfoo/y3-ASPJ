@@ -19,14 +19,31 @@ namespace FinalProj
 		protected Users profilePic;
 		protected Events eventDetail;
 		protected List<Users> participantList = new List<Users>();
+		protected Sessionmg sesDeets;
+
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (!Page.IsPostBack)
 			{
 				if (Session["user"] != null)
 				{
-					Users user = (Users)Session["user"];
-					userId = user.id;
+					Sessionmg ses = new Sessionmg();
+					blocked bl = new blocked();
+
+					sesDeets = ses.GetSession(Session["email"].ToString());
+					if (sesDeets.Active == 1)
+					{
+						Users user = (Users)Session["user"];
+						userId = user.id;
+					}
+					else {
+						if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+						{
+							Session.Clear();
+							string err = "SessionBanned";
+							Response.Redirect("homepage.aspx?error=" + err);
+						}
+					}
 
 				}
 

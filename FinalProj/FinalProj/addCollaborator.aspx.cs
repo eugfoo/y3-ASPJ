@@ -56,10 +56,12 @@ namespace FinalProj
 
                 if (sesDeets.Active == 1)
                 {
+                    if (Request.QueryString["scss"] == "invited") {
+                        result = "true";
+                    }
                     Admins ad = new Admins();
                     roles rl = new roles();
                     if (!Convert.ToBoolean(Session["admin"])) {
-
 
                         string adEmail = Session["subadminEmail"].ToString();
                         Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
@@ -200,16 +202,21 @@ namespace FinalProj
         {
             Users user = new Users();
             Admins ad = new Admins();
-           Users findCollaborator = user.GetUserByEmail(collabEmail.Text);
+            blocked bl = new blocked();
+            Users findCollaborator = user.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text, true));
             for (int i = 0; i < adList.Count; i++) {
                 if (collabEmail.Text == adList[i].adminEmail) {
                     errmsg += "Invitation already Sent!<br>";
                 }
             }
 
-            if (collabEmail.Text == "") {
+            if (AntiXssEncoder.HtmlEncode(collabEmail.Text, true) == "") {
                 errmsg += "Please enter an email!<br>";
 
+            }
+
+            if (bl.GetBlockedAccWithEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text, true)) != null) {
+                errmsg += "Can't invite a banned user as a sub-admin!<br>";
             }
 
             if (findCollaborator != null)
@@ -218,19 +225,22 @@ namespace FinalProj
                 {
                     result = "true";
                     Users us = new Users();
-
                     Users subAdmin = us.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text,true));
                     Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
 
                     ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true), roleChoice.SelectedValue);
-                    Response.Redirect("addCollaborator.aspx");
+                    Response.Redirect("addCollaborator.aspx?scss=invited");
                 }
                 else {
                     result = "false";
+                    PanelError.Visible = true;
+                    errmsglbl.Text = errmsg;
                 }
             }
             else {
                 result = "false";
+                PanelError.Visible = true;
+                errmsglbl.Text = "Please enter a valid user!";
 
             } 
         }

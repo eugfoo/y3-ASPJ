@@ -103,7 +103,8 @@
         <div class="alert alert-success" role="alert">
           Collaborator Invited!
         </div>
-    <%}
+        <%} %>
+    <%--<%}
     else if (result == "false" && collabEmail.Text == "")
     { %>
         <div class="alert alert-danger" role="alert">
@@ -121,8 +122,15 @@
         <div class="alert alert-danger" role="alert">
         Collaborator does not exist!
             </div>
-    <%} %>
+    <%} %>--%>
+        <asp:Panel ID="PanelError" runat="server" Visible="false" CssClass="stuff alert alert-danger ">
+            <asp:Label ID="errmsglbl" runat="server"></asp:Label>
+        </asp:Panel>
 
+
+        <asp:Panel ID="PanelSuccess" runat="server" Visible="false" CssClass="stuff alert alert-success ">
+            <asp:Label ID="scssmsg" runat="server"></asp:Label>
+        </asp:Panel>
         <div class="card">
             <div class="card-body">
                 <h5 class="card-header">Manage Roles</h5>

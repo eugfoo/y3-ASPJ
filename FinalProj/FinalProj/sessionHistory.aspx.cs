@@ -26,14 +26,27 @@ namespace FinalProj
         string em;
             if (Session["user"] != null)
             {
-                Users user = (Users)Session["user"];
-                em = user.email;
-                Logs lg = new Logs();
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
 
-                lgList = lg.GetAllLogsOfUser(em);
+                sesDeets = ses.GetSession(Session["email"].ToString());
+                if (sesDeets.Active == 1)
+                {
+                    Users user = (Users)Session["user"];
+                    em = user.email;
+                    Logs lg = new Logs();
 
-
-
+                    lgList = lg.GetAllLogsOfUser(em);
+                }
+                else
+                {
+                    if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+                    {
+                        Session.Clear();
+                        string err = "SessionBanned";
+                        Response.Redirect("homepage.aspx?error=" + err);
+                    }
+                }
             }
             else if (Convert.ToBoolean(Session["subadmin"])) {
                 Sessionmg ses = new Sessionmg();

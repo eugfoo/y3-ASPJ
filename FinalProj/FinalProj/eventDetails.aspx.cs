@@ -20,13 +20,43 @@ namespace FinalProj
 		protected Events eventDetail;
 		protected List<int> listOfUserId;
 		protected List<Users> participantList = new List<Users>();
+		protected Sessionmg sesDeets;
+
 		protected void Page_Load(object sender, EventArgs e)
         {
 			if (Session["user"] != null)
 			{
-				Users user = (Users)Session["user"];
-				userId = user.id;
-				
+				Sessionmg ses = new Sessionmg();
+				blocked bl = new blocked();
+
+				if (Convert.ToBoolean(Session["subadmin"]))
+				{
+					sesDeets = ses.GetSession(Session["subadminEmail"].ToString());
+				}
+				else if (Convert.ToBoolean(Session["admin"]))
+				{
+					sesDeets = ses.GetSession(Session["adminEmail"].ToString());
+
+				}
+				else
+				{
+					sesDeets = ses.GetSession(Session["email"].ToString());
+				}
+				if (sesDeets.Active == 1)
+				{
+					Users user = (Users)Session["user"];
+					userId = user.id;
+				}
+				else
+				{
+					if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
+					{
+						Session.Clear();
+						string err = "SessionBanned";
+						Response.Redirect("homepage.aspx?error=" + err);
+					}
+				}
+
 			}
 			if (Request.QueryString["eventId"] == null)
 			{
