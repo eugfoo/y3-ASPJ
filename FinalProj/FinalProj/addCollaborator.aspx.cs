@@ -415,7 +415,7 @@ namespace FinalProj
                 }
                 else
                 {
-                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated" + OldText + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated " + OldText + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
 
                 }
                 List<Admins> adRlList;

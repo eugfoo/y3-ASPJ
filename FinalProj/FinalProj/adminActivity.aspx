@@ -76,7 +76,7 @@
         </div>
         <div class="card" style="margin-top:1%;">
             <div class="card-body">
-                <h5 class="card-header">User Activity Logs</h5>
+                <h5 class="card-header">Admin Activity Logs</h5>
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">
                     <table id="dtBasicExample"  class="table table-striped table-bordered table-sm" cellspacing="0">

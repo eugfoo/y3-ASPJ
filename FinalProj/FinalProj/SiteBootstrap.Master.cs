@@ -118,7 +118,7 @@ namespace FinalProj
                     Response.Redirect("/homepage.aspx");
                 }
                 else {
-                    Users user = (Users)Session["user"];
+                    Users user = new Users();
                     Admins adUser = new Admins();
                     Sessionmg ses = new Sessionmg();
                     Admins ad = adUser.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
@@ -128,7 +128,9 @@ namespace FinalProj
                     DateTime dtLog = DateTime.Now;
                     CityStateCountByIp(ipAddr);
                     Logs lg = new Logs();
+                    adminLog adl = new adminLog();
                     //ActivityLog alg = new ActivityLog();
+                    adl.AddAdminLog(dtLog, user.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Successful Log out Attempt", " - ", Session["subadminEmail"].ToString(), countryLogged);
                     lg.AddLog(Session["subadminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Successful Log out Attempt");
                     Session.Clear();
                     //alg.AddActivityLog(dtLog, ad.adminName, ipAddr, "Successful Log out Attempt ", "-", ad.adminEmail, countryLogged);
@@ -137,6 +139,7 @@ namespace FinalProj
             }
             else {
                 Sessionmg ses = new Sessionmg();
+
                 ses.UpdateSession(Session["adminEmail"].ToString(), 0);
                 Session.Clear();
                 string ipAddr = GetIPAddress();
@@ -144,8 +147,11 @@ namespace FinalProj
                 DateTime dtLog = DateTime.Now;
                 CityStateCountByIp(ipAddr);
                 Logs lg = new Logs();
+                adminLog adl = new adminLog();
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();
+                adl.AddAdminLog(dtLog, ma.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Successful Log out Attempt", "-", Session["adminEmail"].ToString(), countryLogged);
+
                 lg.AddLog(maList[0].MainadminEmail, dtLog, ipAddr, countryLogged, "Successful Log out Attempt");
                 Response.Redirect("/homepage.aspx");
             }
