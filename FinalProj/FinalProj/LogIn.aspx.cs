@@ -523,6 +523,8 @@ namespace FinalProj
                                     {
                                         if (IsReCaptchaValid())
                                         {
+                                            blList = bl.getAllBlockedUsers();
+
                                             foreach (var blckedAcc in blList)
                                             {
                                                 if (blckedAcc.email == tbEmail.Text)
@@ -688,6 +690,8 @@ namespace FinalProj
                                 {
                                     if (IsReCaptchaValid())
                                     {
+                                        blList = bl.getAllBlockedUsers();
+
                                         foreach (var blckedAcc in blList)
                                         {
                                             if (blckedAcc.email == tbEmail.Text)
