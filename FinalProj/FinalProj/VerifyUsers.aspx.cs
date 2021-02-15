@@ -27,7 +27,6 @@ namespace FinalProj
                     string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
                     string[] ImagePaths = Directory.GetFiles(path);
                     int j = 0;
-
                     foreach (var i in userList)
                     {
                         foreach (string imgPath in ImagePaths)

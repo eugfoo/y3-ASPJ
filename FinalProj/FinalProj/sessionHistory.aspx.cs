@@ -62,7 +62,7 @@ namespace FinalProj
                 if (sesDeets.Active == 1)
                 {
                     Users user = (Users)Session["user"];
-                    em = user.email;
+                    em = Session["subadminEmail"].ToString();
                     Logs lg = new Logs();
 
                     lgList = lg.GetAllLogsOfUser(em);
