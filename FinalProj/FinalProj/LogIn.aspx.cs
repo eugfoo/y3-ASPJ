@@ -258,8 +258,7 @@ namespace FinalProj
                                                     Response.Cookies.Add(cookie2);
                                                 }
 
-                                                Response.Redirect("homepage.aspx");
-                                                //end
+                                                //Response.Redirect("homepage.aspx");                                                //end
 
                                                 if (us.GetUserByEmail(tbEmail.Text) != null) // check if its admin or subadmin
                                                     {
@@ -272,7 +271,7 @@ namespace FinalProj
                                                     {
                                                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                                     }
-                                                    Response.Redirect("TwoFactor1.aspx");
+                                                Response.Redirect("TwoFactor1.aspx");
                                                     // end
                                             }
                                             else {

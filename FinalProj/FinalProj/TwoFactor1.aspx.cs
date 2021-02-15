@@ -54,8 +54,8 @@ namespace FinalProj
                     cookie2["sid"] = uSid;
                     cookie2.Expires = DateTime.Now.AddYears(1);
                     Response.Cookies.Add(cookie2);
-                    Response.Redirect("homepage.aspx");
                 }
+                Response.Redirect("homepage.aspx");
             }
             else
             {
