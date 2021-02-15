@@ -8,10 +8,10 @@ using FinalProj.BLL;
 
 namespace FinalProj
 {
-    public partial class WebForm3 : System.Web.UI.Page
+    public partial class WebForm6 : System.Web.UI.Page
     {
-        protected List<ActivityLog> algList;
-        protected List<ActivityLog> aalgList = new List<ActivityLog>();
+        protected List<adminLog> admlgList;
+        protected List<adminLog> aadmlgList = new List<adminLog>();
 
         protected List<string> picList = new List<string>();
         protected List<string> apicList = new List<string>();
@@ -20,11 +20,8 @@ namespace FinalProj
         protected DateTime dtStart;
         protected DateTime dtEnd;
         protected Sessionmg sesDeets;
-
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
             if (Convert.ToBoolean(Session["admin"]) == true || Convert.ToBoolean(Session["subadmin"]) == true && Session["subadminEmail"] != null)
             {
                 Sessionmg ses = new Sessionmg();
@@ -55,26 +52,31 @@ namespace FinalProj
                         // Whatever you want here.
                         if (!IsPostBack)
                         {
-                            ActivityLog alg = new ActivityLog();
-                            algList = alg.GetAllLogsOfActivities();
+                            adminLog admlg = new adminLog();
+                            admlgList = admlg.GetAllAdminLogs();
 
-                            for (int i = 0; i < algList.Count; i++)
+                            for (int i = 0; i < admlgList.Count; i++)
                             {
                                 Users us = new Users();
-                                string he = algList[i].userEmail;
-                                Users lol = us.GetUserByEmail(algList[i].userEmail);
-
-                                picList.Add(us.GetUserByEmail(algList[i].userEmail).DPimage);
+                                string he = admlgList[i].userEmail;
+                                Users lol = us.GetUserByEmail(admlgList[i].userEmail);
+                                if (admlgList[i].userEmail != "admin@admin")
+                                {
+                                    picList.Add(us.GetUserByEmail(admlgList[i].userEmail).DPimage);
+                                }
+                                else {
+                                    picList.Add("/Img/defaultMan.jpg");
+                                }
 
                             }
                         }
                         else
                         {
                             PanelError.Visible = false;
-                            ActivityLog alg = new ActivityLog();
+                            adminLog admlg = new adminLog();
                             TimeSpan lgTime = new TimeSpan(23, 59, 59);
 
-                            algList = alg.GetAllLogsOfActivities();
+                            admlgList = admlg.GetAllAdminLogs();
                             if (txtStartDate.Text != "" && txtEndDate.Text == "")
                             {
                                 dtStart = Convert.ToDateTime(txtStartDate.Text);
@@ -82,7 +84,7 @@ namespace FinalProj
                             }
                             else if (txtStartDate.Text == "" && txtEndDate.Text != "")
                             {
-                                dtStart = algList[algList.Count - 1].DateTime;
+                                dtStart = admlgList[admlgList.Count - 1].DateTime;
                                 dtEnd = Convert.ToDateTime(txtEndDate.Text);
                                 dtEnd = dtEnd.Add(lgTime);
 
@@ -94,108 +96,71 @@ namespace FinalProj
                                 dtEnd = dtEnd.Add(lgTime);
 
                             }
-                            if (txtStartDate.Text == "" && txtEndDate.Text == "") {
+
+                            if (txtStartDate.Text == "" && txtEndDate.Text == "")
+                            {
                                 if (violationType.SelectedValue == "FailedAuthentication")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
                                         if (elmt.ViolationType == "Failed Authentication")
                                         {
-                                            aalgList.Add(elmt);
+                                            aadmlgList.Add(elmt);
                                         }
 
                                     }
                                 }
                                 else if (violationType.SelectedValue == "All")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
-                                       
-                                        aalgList.Add(elmt);
-                                        
-                                    }
-                                }
-                                else if (violationType.SelectedValue == "Spamming")
-                                {
-                                    foreach (var elmt in algList)
-                                    {
-                                        if (elmt.ViolationType == "Spamming")
-                                        {
-                                            aalgList.Add(elmt);
-                                        }
+
+                                        aadmlgList.Add(elmt);
+
                                     }
                                 }
                                 else if (violationType.SelectedValue == "XSS")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
                                         if (elmt.ViolationType == "XSS")
                                         {
-                                            aalgList.Add(elmt);
+                                            aadmlgList.Add(elmt);
                                         }
                                     }
                                 }
-                                else if (violationType.SelectedValue == "Malware")
-                                {
-                                    foreach (var elmt in algList)
-                                    {
-                                        if (elmt.ViolationType == "Malware")
-                                        {
-                                            aalgList.Add(elmt);
-                                        }
-                                    }
-                                }
+                                
                             }
                             else if (dtEnd >= dtStart)
                             {
                                 if (dtStart != null && dtEnd != null && violationType.SelectedValue == "FailedAuthentication")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
                                         if (elmt.ViolationType == "Failed Authentication" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
                                         {
-                                            aalgList.Add(elmt);
+                                            aadmlgList.Add(elmt);
                                         }
 
                                     }
                                 }
                                 else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "All")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
                                         if (dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
                                         {
-                                            aalgList.Add(elmt);
-                                        }
-                                    }
-                                }
-                                else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "Spamming")
-                                {
-                                    foreach (var elmt in algList)
-                                    {
-                                        if (elmt.ViolationType == "Spamming" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
-                                        {
-                                            aalgList.Add(elmt);
+                                            aadmlgList.Add(elmt);
                                         }
                                     }
                                 }
                                 else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "XSS")
                                 {
-                                    foreach (var elmt in algList)
+                                    foreach (var elmt in admlgList)
                                     {
                                         if (elmt.ViolationType == "XSS" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
                                         {
-                                            aalgList.Add(elmt);
-                                        }
-                                    }
-                                }
-                                else if (dtStart != null && dtEnd != null && violationType.SelectedValue == "Malware")
-                                {
-                                    foreach (var elmt in algList)
-                                    {
-                                        if (elmt.ViolationType == "Malware" && dtStart <= elmt.DateTime && elmt.DateTime <= dtEnd)
-                                        {
-                                            aalgList.Add(elmt);
+                                            aadmlgList.Add(elmt);
                                         }
                                     }
                                 }
@@ -207,11 +172,16 @@ namespace FinalProj
                                 errmsgTb.Text = "Please select a valid date range";
                             }
 
-                            foreach (var lement in aalgList)
+                            foreach (var lement in aadmlgList)
                             {
                                 Users us = new Users();
-
-                                apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
+                                if (lement.userEmail != "admin@admin")
+                                {
+                                    apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
+                                }
+                                else {
+                                    picList.Add("/Img/defaultMan.jpg");
+                                }
                             }
                         }
                     }
@@ -230,14 +200,17 @@ namespace FinalProj
                     }
 
                 }
-                else {
+                else
+                {
                     blocked bl = new blocked();
-                    if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null) {
+                    if (bl.GetBlockedAccWithEmail(Session["subadminEmail"].ToString()) != null)
+                    {
                         Session.Clear();
                         string err = "SessionBanned";
                         Response.Redirect("homepage.aspx?error=" + err);
                     }
-                    else { 
+                    else
+                    {
                         Session.Clear();
                         string err = "SessionKicked";
                         Response.Redirect("homepage.aspx?error=" + err);
@@ -249,7 +222,6 @@ namespace FinalProj
             {
                 Response.Redirect("homepage.aspx"); // Adios Gladios
             }
-
         }
     }
 }

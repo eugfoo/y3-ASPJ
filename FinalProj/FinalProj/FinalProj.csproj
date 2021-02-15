@@ -294,6 +294,7 @@
     <Content Include="sessionHistory.aspx" />
     <Content Include="accVerify.aspx" />
     <Content Include="bAcc.aspx" />
+    <Content Include="adminActivity.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acknowledge.aspx.cs">
@@ -339,6 +340,7 @@
       <DependentUpon>Authenticator.aspx</DependentUpon>
     </Compile>
     <Compile Include="BLL\ActivityLog.cs" />
+    <Compile Include="BLL\adminLog.cs" />
     <Compile Include="BLL\Admins.cs" />
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\blocked.cs" />
@@ -367,6 +369,7 @@
       <DependentUpon>bookmark.aspx</DependentUpon>
     </Compile>
     <Compile Include="DAL\AdminDAO.cs" />
+    <Compile Include="DAL\adminLogsDAO.cs" />
     <Compile Include="DAL\AttendanceDAO.cs" />
     <Compile Include="DAL\blockedDAO.cs" />
     <Compile Include="DAL\collablOTPDAO.cs" />
@@ -657,6 +660,13 @@
     </Compile>
     <Compile Include="bAcc.aspx.designer.cs">
       <DependentUpon>bAcc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="adminActivity.aspx.cs">
+      <DependentUpon>adminActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="adminActivity.aspx.designer.cs">
+      <DependentUpon>adminActivity.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
