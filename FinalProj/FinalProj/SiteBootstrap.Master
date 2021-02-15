@@ -177,32 +177,32 @@
                             <br />
                             <% if (adList.Count == 0 && notiList.Count == 0)
                                 { %>
-                            <p>You have no notifications</p>
-                            <%}
+                                    <p>You have no notifications</p>
+                                <%}
                                 else
                                 {
                                     for (int j = 0; j < adList.Count; j++)
                                     {
                                         if (adList[j].adminEmail.ToString() == Session["email"].ToString())
                                         { %>
-                            <a href="/accVerify.aspx">
-                                <p>You have been invited to be a sub-admin under the <%=adList[j].adminRole %> role</p>
-                                <br />
-                                Please click here to verify! </a>
-                            <%}
-                                }
-                                for (int i = 0; i < notiList.Count; i++)
-                                {
-                                    if (notiList[i].User_id.ToString() == Session["id"].ToString())
-                                    { %>
-                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
-                                <p id="eventName"><%= notiList[i].EventName %></p>
-                                has ended!
-                                        <br />
-                                Please click here to complete feedback to get points! </a>
-                            <%}
-                                }%>
-                            <%}%>
+                                            <a href="/accVerify.aspx">
+                                            <p>You have been invited to be a sub-admin under the <%=adList[j].adminRole %> role</p>
+                                            <br />
+                                            Please click here to verify! </a>
+                                        <%}
+                                    }
+                                    for (int i = 0; i < notiList.Count; i++)
+                                    {
+                                        if (notiList[i].User_id.ToString() == Session["id"].ToString())
+                                        { %>
+                                            <a href="/eventFeedback.aspx?eventId=<%= notiList[i].EventId %>" id="link">
+                                            <p id="eventName"><%= notiList[i].EventName %></p>
+                                            has ended!
+                                                    <br />
+                                            Please click here to complete feedback to get points! </a>
+                                        <%}
+                                    }%>
+                                <%}%>
                         </div>
                         <% } %>
                         <span></span>
@@ -230,8 +230,8 @@
                             <asp:HyperLink CssClass="nav-link" runat="server" NavigateUrl="/AdminPage.aspx">Admin</asp:HyperLink>
                         </li>
                         <%}
-                        else if (Convert.ToBoolean(Session["subadmin"]))
-                        { %>
+                            else if (Convert.ToBoolean(Session["subadmin"]))
+                            { %>
                         <li runat="server" id="lisubadmin" visible="False" class="nav-item mr-3">
                             <asp:HyperLink CssClass="nav-link" runat="server" NavigateUrl="/AdminPage.aspx">Sub-Admin</asp:HyperLink>
                         </li>
@@ -251,10 +251,11 @@
                                     <div class="dropdown-divider"></div>
                                     <button id="openModal" runat="server" type="button" class="btn dropdown-item" data-toggle="modal" data-target="#reqVer">Request Verification</button>
                                     <%}%>
-                                    <%if (Session["user"] != null){ %>
-                                        
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
+                                    <%if (Session["user"] != null)
+                                        { %>
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/VoucherRedemption.aspx">Redeem Vouchers</a>
 
                                     <%} %>
 
@@ -263,7 +264,7 @@
                                         <a class="dropdown-item" href="/SecurityCheckup.aspx">Security Checkup</a>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
-                                     <div id="Div1" runat="server">
+                                    <div id="Div1" runat="server">
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/EmailLogs.aspx">Emails from Clearview</a>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
@@ -271,48 +272,53 @@
 
                                     <% if (Convert.ToBoolean(Session["subadmin"]) == true)
                                         {%>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
-                                            <%if (rlDeets.mgVouch == 1)
-                                            {%>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
-                                            <%}
-                                            if (rlDeets.mgCollab == 1)
-                                            {%>
-                                                <div class="dropdown-divider"></div>
-                                                <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                            <%}
-                                            if (rlDeets.mgBan == 1)
-                                            {%>
-                                                <div class="dropdown-divider"></div>
-                                                <a id="mgBan" class="dropdown-item" href="/bAcc.aspx">Manage Bans</a>
-                                            <%}
-                                            if (rlDeets.viewAppLogs == 1)
-                                            {%>
-                                                <div class="dropdown-divider"></div>
-                                                <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                            <%}
-                                            if (rlDeets.mgAdLg == 1){%>
-                                                <div class="dropdown-divider"></div>
-                                                <a id="viewAdminlg" class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
-                                            <%}
-                                            }else if (Convert.ToBoolean(Session["admin"])){%>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
-                                       <%}%>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/RequestAccess.aspx">Request Access</a>
+                                    <%if (rlDeets.mgVouch == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
+                                    <%}
+                                        if (rlDeets.mgCollab == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="addCollab" class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                    <%}
+                                        if (rlDeets.mgBan == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="mgBan" class="dropdown-item" href="/bAcc.aspx">Manage Bans</a>
+                                    <%}
+                                        if (rlDeets.viewAppLogs == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
+                                    <%}
+                                        if (rlDeets.mgAdLg == 1)
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a id="viewAdminlg" class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
+                                    <%}
+                                        }
+                                        else if (Convert.ToBoolean(Session["admin"]))
+                                        {%>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/addCollaborator.aspx">Manage Collaborators</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/ActivityLogs.aspx">Acitivity Logs</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
+                                    <%}%>
                                 </div>
                             </div>
                             <%--<asp:HyperLink ID="lblProfile" CssClass="nav-link" runat="server" NavigateUrl="/EventStatus.aspx"></asp:HyperLink>--%>

@@ -269,6 +269,7 @@
     <Content Include="Register.aspx" />
     <Content Include="RemoveBookmark.aspx" />
     <Content Include="RemoveEventFromBookmark.aspx" />
+    <Content Include="RequestAccess.aspx" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.password-strength.js" />
@@ -356,6 +357,7 @@
     <Compile Include="BLL\MainAdmins.cs" />
     <Compile Include="BLL\Notifications.cs" />
     <Compile Include="BLL\PassHist.cs" />
+    <Compile Include="BLL\RequestPermission.cs" />
     <Compile Include="BLL\roles.cs" />
     <Compile Include="BLL\Sessionmg.cs" />
     <Compile Include="BLL\Thread.cs" />
@@ -385,6 +387,7 @@
     <Compile Include="DAL\MainAdminsDAO.cs" />
     <Compile Include="DAL\notificationsDAO.cs" />
     <Compile Include="DAL\passHistDAO.cs" />
+    <Compile Include="DAL\RequestPermissionDAO.cs" />
     <Compile Include="DAL\RolesDAO.cs" />
     <Compile Include="DAL\SessionMgDAO.cs" />
     <Compile Include="DAL\ThreadReplyDAO.cs" />
@@ -586,6 +589,13 @@
     </Compile>
     <Compile Include="RemoveEventFromBookmark.aspx.designer.cs">
       <DependentUpon>RemoveEventFromBookmark.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequestAccess.aspx.cs">
+      <DependentUpon>RequestAccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestAccess.aspx.designer.cs">
+      <DependentUpon>RequestAccess.aspx</DependentUpon>
     </Compile>
     <Compile Include="SecurityCheckup.aspx.cs">
       <DependentUpon>SecurityCheckup.aspx</DependentUpon>
