@@ -124,6 +124,7 @@ namespace FinalProj
                         }
                         else
                         {
+                            
                             // show configurations for role
                             if (aaLogs.Checked == true)
                             {
@@ -171,8 +172,16 @@ namespace FinalProj
                             {
                                 mgAdminLgCheck = 0;
                             }
-                            CancelRoleAssign.Visible = false;
-                            updtRoleAssign.Visible = false;
+
+                            if (assignRoleDDL.SelectedValue != ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole) {
+                                CancelRoleAssign.Visible = true;
+                                updtRoleAssign.Visible = true;
+                            }
+                            else { 
+
+                                CancelRoleAssign.Visible = false;
+                                updtRoleAssign.Visible = false;
+                            }
 
                         }
                         adList = ad.GetAllAdmins();
