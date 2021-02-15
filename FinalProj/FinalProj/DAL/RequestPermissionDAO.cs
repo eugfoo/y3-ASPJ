@@ -11,7 +11,7 @@ namespace FinalProj.DAL
 {
     public class RequestPermissionDAO
     {
-        public int Insert(RequestPermission user)
+        public int Insert(string email, string role)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -24,14 +24,13 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO RequestTable(subAdminEmail, requestRole, status) " +
-                "VALUES (@subAdminEmail, @requestRole, @userStatus)";
+            string sqlStmt = "INSERT INTO RequestTable(subAdminEmail, requestRole) " +
+                "VALUES (@subAdminEmail, @requestRole)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
-            sqlCmd.Parameters.AddWithValue("@subAdminEmail", user.subAdminEmail);
-            sqlCmd.Parameters.AddWithValue("@requestRole", user.requestRole);
-            sqlCmd.Parameters.AddWithValue("@userStatus", user.requestStatus);
+            sqlCmd.Parameters.AddWithValue("@subAdminEmail", email);
+            sqlCmd.Parameters.AddWithValue("@requestRole", role);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -40,6 +39,36 @@ namespace FinalProj.DAL
             // Step 5 :Close connection
             myConn.Close();
             return result;
+        }
+
+        public List<RequestPermission> getAllRequestByEmail(string email)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "SELECT * FROM RequestTable WHERE subAdminEmail = @email";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+            da.SelectCommand.Parameters.AddWithValue("@email", email);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+
+            List<RequestPermission> allReqList = new List<RequestPermission>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];
+                int requestId = Convert.ToInt32(row["Id"]);
+                string requestEmail = row["subAdminEmail"].ToString();
+                string requestRole = row["requestRole"].ToString();
+                int requestStatus = Convert.ToInt32(row["status"]);
+
+                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, requestStatus);
+                allReqList.Add(req);
+            }
+
+            return allReqList;
         }
 
         public RequestPermission getLastRequest(string email)

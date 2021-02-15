@@ -22,10 +22,10 @@ namespace FinalProj.BLL
             requestStatus = status;
         }
 
-        public int AddRequest(RequestPermission user)
+        public int AddRequest(string email, string role)
         {
             RequestPermissionDAO reqDAO = new RequestPermissionDAO();
-            return reqDAO.Insert(user);
+            return reqDAO.Insert(email, role);
         }
 
         public RequestPermission GetLastRequest(string email)
@@ -34,11 +34,16 @@ namespace FinalProj.BLL
             return ad.getLastRequest(email);
         }
 
+        public List<RequestPermission> getAllRequests(string email)
+        {
+            RequestPermissionDAO dao = new RequestPermissionDAO();
+            return dao.getAllRequestByEmail(email);
+        }
+
         public int DeleteByIdEmail(int id, string email)
         {
             RequestPermissionDAO reqDAO = new RequestPermissionDAO();
             return reqDAO.deleteRequest(id, email);
         }
     }
-
 }

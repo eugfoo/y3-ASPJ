@@ -19,6 +19,7 @@
         td:first-child, th:first-child {
                 border-left: none;
         }
+
         #adCont {
             margin:2%;
         }
