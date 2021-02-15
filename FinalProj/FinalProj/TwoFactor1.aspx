@@ -49,7 +49,7 @@
                         </ul>
                     </div>
                 <div class="card-body">
-                    <h5 class="card-title text-muted font-italic">Your login is protected with an authenticator app. Enter your authenticator code below.s</h5>
+                    <h5 class="card-title text-muted font-italic">Your login is protected with an authenticator app. Enter your authenticator code below.</h5>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Email</label>
                             <label for="formGroupExampleInput">Input Google Authenticator code here.</label>

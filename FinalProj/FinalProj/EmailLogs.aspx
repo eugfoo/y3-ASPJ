@@ -10,18 +10,18 @@
                 </li>
             </ul>
         </div>
-        <div class="card-body">
-             <% foreach (var element in elgList)
+           <div class="card-body">
+                <% foreach (var element in elgList)
                     { %>
-                <div class="form-group">
-                    <span ID="lblTitle" ><%=element.emailTitle %></span>
-                    <br />
-                    <span ID="lblDate" ><%=element.dateTime %></span>
-                    <br />
-                    <span ID="lblUser" ><%=element.userEmail %></span>
-                    <asp:Label ID="lblSeperator" CssClass="lblClass" runat="server" Text=" . "></asp:Label>
-                    <span ID="lblDate1" ><%=element.senderEmail %></span>
-                </div>
+                    <div class="form-group">
+                        <span><%=element.emailTitle %></span>
+                        <br />
+                        <span ID="lblDate" ><%=element.dateTime %></span>
+                        <br />
+                        <span><%=element.userEmail %></span>
+                        <asp:Label ID="lblSeperator" CssClass="lblClass" runat="server" Text=" . "></asp:Label>
+                        <span><%=element.senderEmail %></span>
+                    </div>
             <% } %>
         </div>
     </div>

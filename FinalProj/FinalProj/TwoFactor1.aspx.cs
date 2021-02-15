@@ -17,8 +17,6 @@ namespace FinalProj
 {
     public partial class TwoFactor1 : System.Web.UI.Page
     {
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["user"] == null)

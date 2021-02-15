@@ -29,20 +29,23 @@ namespace FinalProj
         public string userName = "";        public string senderEmail = "kovitwk21@gmail.com";        public string title = "";        public string code = "";
         public bool blockedAcc = false;
 
+        public string browser = "";
+        public int counter;
+        public string tempUserEmail;
+
         List<blocked> blList;
 
         protected List<EmailLog> elgList;
         protected List<Logs> lgList;
-
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            browser = Request.Browser.Type.ToUpper();
         }
 
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
-            {
+            {
                 HistoryOTP otp = new HistoryOTP();
                 HistoryOTP userTrying = otp.GetUserByEmailOTP(tbEmail.Text);
 
@@ -246,8 +249,8 @@ namespace FinalProj
                                                     }
                                                     EmailLog elg = new EmailLog();
                                                     DateTime dtelg = DateTime.Now;
-                                                    title = "New login from unknown device";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                    title = "New login from new browser";
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
@@ -356,6 +359,33 @@ namespace FinalProj
                                                 else
                                                 {
                                                     lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                }
+                                                if (Request.Cookies["SessionID"] == null)
+                                                {
+                                                    // edit here
+                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                    {
+                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                    }
+                                                    else
+                                                    {
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
+
+                                                    }
+                                                    EmailLog elg = new EmailLog();
+                                                    DateTime dtelg = DateTime.Now;
+                                                    title = "New login from new browser "+ browser;
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                    //Creates new cookie session
+                                                    Guid guid = Guid.NewGuid();
+                                                    string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                    HttpCookie cookie2 = new HttpCookie("SessionID");
+                                                    cookie2["sid"] = uSid;
+                                                    cookie2.Expires = DateTime.Now.AddYears(1);
+                                                    Response.Cookies.Add(cookie2);
                                                 }
                                                 Response.Redirect("Homepage.aspx");
                                             }
@@ -637,8 +667,8 @@ namespace FinalProj
                                                     }
                                                     EmailLog elg = new EmailLog();
                                                     DateTime dtelg = DateTime.Now;
-                                                    title = "New login from unknown device";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                    title = "New login from new browser";
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
@@ -804,8 +834,8 @@ namespace FinalProj
                                                 }
                                                 EmailLog elg = new EmailLog();
                                                 DateTime dtelg = DateTime.Now;
-                                                title = "New login from unknown device";
-                                                EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                title = "New login from new browser" + browser;
+                                                EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                 elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                 //Creates new cookie session
                                                 Guid guid = Guid.NewGuid();
@@ -1052,14 +1082,14 @@ namespace FinalProj
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
-        public static async Task EmailNewDevice(string email, string name)
+        public static async Task EmailNewDevice(string email, string name, string browser)
         {
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
-            var subject = "New login from unknown device";
+            var subject = "New login from new browser " + browser;
             var to = new EmailAddress(email, name);
             var plainTextContent = "";
-            var htmlContent = "<strong><h2>We detected a new sign-in to your account from an unknown device</h2></strong><br/>" +
+            var htmlContent = "<strong><h2>We detected a new sign-in to your account from </h2></strong>"+ browser +"<br/>" +
                 "<p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
