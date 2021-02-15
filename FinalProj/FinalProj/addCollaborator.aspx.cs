@@ -598,6 +598,8 @@ namespace FinalProj
 
         protected void assignDDL_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CancelRoleAssign.Visible = false;
+            updtRoleAssign.Visible = false;
             Admins ad = new Admins();
             roles rl = new roles();
             assignRoleDDL.Items.Clear();
