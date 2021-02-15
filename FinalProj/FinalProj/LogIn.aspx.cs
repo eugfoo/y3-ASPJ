@@ -26,11 +26,12 @@ namespace FinalProj
         public string result = "";
         public string OTPEmail = "";
         public string OTPassword = "";
-        public string userName = "";        public string code = "";
+        public string userName = "";        public string senderEmail = "kovitwk21@gmail.com";        public string title = "";        public string code = "";
         public bool blockedAcc = false;
 
         List<blocked> blList;
-
+
+        protected List<EmailLog> elgList;
         protected List<Logs> lgList;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -560,7 +561,11 @@ namespace FinalProj
 
                                                 if (counter == 0)
                                                 {
+                                                    EmailLog elg = new EmailLog();
+                                                    DateTime dtelg = DateTime.Now;
+                                                    title = "Is this you? Login Clearview";
                                                     EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                 }
                                                 HttpCookie cookie = Request.Cookies["SessionID"];
                                                 if (cookie == null)
@@ -577,7 +582,11 @@ namespace FinalProj
                                                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
 
                                                     }
+                                                    EmailLog elg = new EmailLog();
+                                                    DateTime dtelg = DateTime.Now;
+                                                    title = "New login from unknown device";
                                                     EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
                                                     string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
@@ -717,7 +726,11 @@ namespace FinalProj
 
                                             if (counter == 0)
                                             {
+                                                EmailLog elg = new EmailLog();
+                                                DateTime dtelg = DateTime.Now;
+                                                title = "Is this you? Login Clearview";
                                                 EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                             }
                                             HttpCookie cookie = Request.Cookies["SessionID"];
                                             if (cookie == null)
@@ -734,7 +747,11 @@ namespace FinalProj
                                                     lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
 
                                                 }
+                                                EmailLog elg = new EmailLog();
+                                                DateTime dtelg = DateTime.Now;
+                                                title = "New login from unknown device";
                                                 EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                 //Creates new cookie session
                                                 Guid guid = Guid.NewGuid();
                                                 string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
@@ -916,6 +933,7 @@ namespace FinalProj
 
             Random rnd = new Random();
             Users user = new Users();
+            EmailLog elg = new EmailLog();
             HistoryOTP otp = new HistoryOTP();
             Users findUser = user.GetUserByEmail(userEmail.Text);
             bool findEmail = otp.GetUserByEmail(userEmail.Text);
@@ -928,17 +946,23 @@ namespace FinalProj
                 int OTPCheck = 1;
                 if (findEmail)
                 {
+                    title = "OTP Login Clearview";
+                    DateTime dtelg = DateTime.Now;
                     result = "true";
                     otp.UpdateOTPByEmail(OTPEmail, OTPassword, OTPCheck);
                     lblOTP.Visible = true;
                     EmailFxOTP(OTPEmail, OTPassword, userName);
+                    elg.AddEmailLog(OTPEmail, senderEmail, dtelg, title);
                 }
                 else
                 {
+                    title = "OTP Login Clearview";
+                    DateTime dtelg = DateTime.Now;
                     result = "true";
                     otp.AddHistoryOTP(OTPEmail, OTPassword, OTPCheck);
                     lblOTP.Visible = true;
                     EmailFxOTP(OTPEmail, OTPassword, userName);
+                    elg.AddEmailLog(OTPEmail, senderEmail, dtelg, title);
                 }
             }
             else

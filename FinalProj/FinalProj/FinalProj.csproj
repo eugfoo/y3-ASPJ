@@ -203,6 +203,7 @@
     <Content Include="editforumThread.aspx" />
     <Content Include="EditProfile.aspx" />
     <Content Include="editEventDetails.aspx" />
+    <Content Include="EmailLogs.aspx" />
     <Content Include="error\errorPage.aspx" />
     <Content Include="eventFeedback.aspx" />
     <Content Include="EventStatus.aspx" />
@@ -345,6 +346,7 @@
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\blocked.cs" />
     <Compile Include="BLL\collabOTP.cs" />
+    <Compile Include="BLL\EmailLog.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
     <Compile Include="BLL\Feedback.cs" />
@@ -373,6 +375,7 @@
     <Compile Include="DAL\AttendanceDAO.cs" />
     <Compile Include="DAL\blockedDAO.cs" />
     <Compile Include="DAL\collablOTPDAO.cs" />
+    <Compile Include="DAL\EmailLogDAO.cs" />
     <Compile Include="DAL\HistoryOTPDAO.cs" />
     <Compile Include="DAL\LogsDAO.cs" />
     <Compile Include="DAL\eventStatusDAO.cs" />
@@ -416,6 +419,13 @@
     </Compile>
     <Compile Include="editEventDetails.aspx.designer.cs">
       <DependentUpon>editEventDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailLogs.aspx.cs">
+      <DependentUpon>EmailLogs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EmailLogs.aspx.designer.cs">
+      <DependentUpon>EmailLogs.aspx</DependentUpon>
     </Compile>
     <Compile Include="error\errorPage.aspx.cs">
       <DependentUpon>errorPage.aspx</DependentUpon>

@@ -263,6 +263,11 @@
                                         <a class="dropdown-item" href="/SecurityCheckup.aspx">Security Checkup</a>
                                         <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
                                     </div>
+                                     <div id="Div1" runat="server">
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/EmailLogs.aspx">Emails from Clearview</a>
+                                        <%--<a class="hexagon-item" href="#">Request Recommendation</a>--%>
+                                    </div>
 
                                     <% if (Convert.ToBoolean(Session["subadmin"]) == true)
                                         {%>
