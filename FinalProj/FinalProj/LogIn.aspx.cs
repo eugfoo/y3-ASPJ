@@ -67,6 +67,12 @@ namespace FinalProj
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
                         Sessionmg ses = new Sessionmg();
+                        Admins ad = new Admins();
+                        adminLog adl = new adminLog();
+                        MainAdmins mad = new MainAdmins();
+                        Users us = new Users();
+
+
                         if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
                         {
                             // update
@@ -76,17 +82,24 @@ namespace FinalProj
                         {
                             ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
                         }
-                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
-                        Session["admin"] = true;
                         Session["adminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
+                        Session["admin"] = true;
+
+                        adl.AddAdminLog(dtLog, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Successful Login Attempt", "-", Session["adminEmail"].ToString(), countryLogged);
+                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
                         Response.Redirect("homepage.aspx");
                     }
                     else
                     {
+                        lblError.Visible = true;
+
+                        adminLog adl = new adminLog();
+                        MainAdmins mad = new MainAdmins();
                         string ipAddr = GetIPAddress();
                         string countryLogged = CityStateCountByIp(ipAddr);
                         DateTime dtLog = DateTime.Now;
                         Logs lg = new Logs();
+                        adl.AddAdminLog(dtLog, mad.GetAdminByEmail(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)).MainadminName, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                     }
                 }
@@ -115,6 +128,8 @@ namespace FinalProj
                             }
                             if (!blockedAcc)
                             {
+                                adminLog adl = new adminLog();
+                                Users us = new Users();
                                 Users tryingUser = user.GetUserByEmail(tbEmail.Text);
                                 Session["subadmin"] = true;
                                 Session["subadminEmail"] = AntiXssEncoder.HtmlEncode(tbEmail.Text, true);
@@ -130,6 +145,8 @@ namespace FinalProj
                                 else { 
                                 ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
                                 }
+                                adl.AddAdminLog(dtLog, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Successful Login Attempt", "-", Session["subadminEmail"].ToString(), countryLogged);
+
                                 lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                 Response.Redirect("homepage.aspx");
                             }
@@ -141,10 +158,14 @@ namespace FinalProj
                         }
                         else
                         {
+                            lblError.Visible = true;
                             string ipAddr = GetIPAddress();
                             string countryLogged = CityStateCountByIp(ipAddr);
                             DateTime dtLog = DateTime.Now;
                             Logs lg = new Logs();
+                            adminLog adl = new adminLog();
+                            Users us = new Users();
+                            adl.AddAdminLog(dtLog, us.GetUserByEmail(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)).name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                             lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                         }
                     }

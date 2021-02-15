@@ -13,8 +13,6 @@ namespace FinalProj
         protected List<adminLog> admlgList;
         protected List<adminLog> aadmlgList = new List<adminLog>();
 
-        protected List<string> picList = new List<string>();
-        protected List<string> apicList = new List<string>();
         protected roles cap;
         protected int capPerm = 0;
         protected DateTime dtStart;
@@ -44,7 +42,7 @@ namespace FinalProj
                         Admins adDetails = ad.GetAllAdminWithEmail(adEmail);
                         roles rl = new roles();
                         cap = rl.GetRole(adDetails.adminRole);
-                        capPerm = cap.viewAppLogs;
+                        capPerm = cap.mgAdLg;
                     }
 
                     if (capPerm == 1 || Convert.ToBoolean(Session["admin"]) == true)
@@ -54,21 +52,6 @@ namespace FinalProj
                         {
                             adminLog admlg = new adminLog();
                             admlgList = admlg.GetAllAdminLogs();
-
-                            for (int i = 0; i < admlgList.Count; i++)
-                            {
-                                Users us = new Users();
-                                string he = admlgList[i].userEmail;
-                                Users lol = us.GetUserByEmail(admlgList[i].userEmail);
-                                if (admlgList[i].userEmail != "admin@admin")
-                                {
-                                    picList.Add(us.GetUserByEmail(admlgList[i].userEmail).DPimage);
-                                }
-                                else {
-                                    picList.Add("/Img/defaultMan.jpg");
-                                }
-
-                            }
                         }
                         else
                         {
@@ -172,17 +155,6 @@ namespace FinalProj
                                 errmsgTb.Text = "Please select a valid date range";
                             }
 
-                            foreach (var lement in aadmlgList)
-                            {
-                                Users us = new Users();
-                                if (lement.userEmail != "admin@admin")
-                                {
-                                    apicList.Add(us.GetUserByEmail(lement.userEmail).DPimage);
-                                }
-                                else {
-                                    picList.Add("/Img/defaultMan.jpg");
-                                }
-                            }
                         }
                     }
                     else

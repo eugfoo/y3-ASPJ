@@ -20,37 +20,102 @@ namespace FinalProj
 
             if (ex is HttpRequestValidationException)
             {
-                Users user = (Users)Session["user"];
-                Logs lg = new Logs();
-                if (user.GetUserByEmail(user.email) != null)
+                if (Session["user"] != null)
                 {
-                    lgList = lg.GetAllLogsOfUser(user.email);
+                    Users user = (Users)Session["user"];
+                    Logs lg = new Logs();
+                    if (user.GetUserByEmail(user.email) != null)
+                    {
+                        lgList = lg.GetAllLogsOfUser(user.email);
+                        string ipAddr = lgList[0].ipAddr;
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        DateTime dtLog = DateTime.Now;
+
+                        CityStateCountByIp(ipAddr);
+                        ActivityLog alg = new ActivityLog();
+
+                        alg.AddActivityLog(dtLog, user.name, ipAddr, "Suspicious HTML Entry", "XSS", user.email, countryLogged);
+                        Response.Clear();
+                        Response.StatusCode = 200;
+                        Response.Write(@"
+                        <html><head><title>HTML Not Allowed</title>
+                        <script language='JavaScript'><!--
+                        function back() { history.go(-1); } //--></script></head>
+                        <body style='font-family: Arial, Sans-serif;'>
+                        <h1>Oops!</h1>
+                        <p>I'm sorry, but HTML entry is not allowed on that page.</p>
+                        <p>Please make sure that your entries do not contain 
+                        any angle brackets like &lt; or &gt;.</p>
+                        <p><a href='javascript:back()'>Go back</a></p>
+                        </body></html>
+                        ");
+                        Response.End();
+                    }
+                    else
+                    {
+                    }
+                }
+                else if (Session["subadmin"] != null)
+                {
+                    Users user = new Users();
+                    Logs lg = new Logs();
+                    if (user.GetUserByEmail(Session["subadminEmail"].ToString()) != null)
+                    {
+                        adminLog adl = new adminLog();
+                        lgList = lg.GetAllLogsOfUser(user.email);
+                        string ipAddr = lgList[0].ipAddr;
+                        string countryLogged = CityStateCountByIp(ipAddr);
+                        DateTime dtLog = DateTime.Now;
+
+                        CityStateCountByIp(ipAddr);
+                        ActivityLog alg = new ActivityLog();
+                        adl.AddAdminLog(dtLog, user.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Suspicious HTML Entry", "XSS", Session["subadminEmail"].ToString(), countryLogged);
+                        Response.Clear();
+                        Response.StatusCode = 200;
+                        Response.Write(@"
+                        <html><head><title>HTML Not Allowed</title>
+                        <script language='JavaScript'><!--
+                        function back() { history.go(-1); } //--></script></head>
+                        <body style='font-family: Arial, Sans-serif;'>
+                        <h1>Oops!</h1>
+                        <p>I'm sorry, but HTML entry is not allowed on that page.</p>
+                        <p>Please make sure that your entries do not contain 
+                        any angle brackets like &lt; or &gt;.</p>
+                        <p><a href='javascript:back()'>Go back</a></p>
+                        </body></html>
+                        ");
+                        Response.End();
+                    }
+                }
+                else if (Session["admin"] != null) {
+                    Logs lg = new Logs();
+
+                    adminLog adl = new adminLog();
+                    MainAdmins mad = new MainAdmins();
+                    lgList = lg.GetAllLogsOfUser(Session["adminEmail"].ToString());
                     string ipAddr = lgList[0].ipAddr;
                     string countryLogged = CityStateCountByIp(ipAddr);
                     DateTime dtLog = DateTime.Now;
 
                     CityStateCountByIp(ipAddr);
                     ActivityLog alg = new ActivityLog();
-
-                    alg.AddActivityLog(dtLog, user.name, ipAddr, "Suspicious HTML Entry", "XSS", user.email, countryLogged);
+                    adl.AddAdminLog(dtLog, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Suspicious HTML Entry", "XSS", Session["adminEmail"].ToString(), countryLogged);
                     Response.Clear();
                     Response.StatusCode = 200;
                     Response.Write(@"
-                    <html><head><title>HTML Not Allowed</title>
-                    <script language='JavaScript'><!--
-                    function back() { history.go(-1); } //--></script></head>
-                    <body style='font-family: Arial, Sans-serif;'>
-                    <h1>Oops!</h1>
-                    <p>I'm sorry, but HTML entry is not allowed on that page.</p>
-                    <p>Please make sure that your entries do not contain 
-                    any angle brackets like &lt; or &gt;.</p>
-                    <p><a href='javascript:back()'>Go back</a></p>
-                    </body></html>
-                    ");
+                        <html><head><title>HTML Not Allowed</title>
+                        <script language='JavaScript'><!--
+                        function back() { history.go(-1); } //--></script></head>
+                        <body style='font-family: Arial, Sans-serif;'>
+                        <h1>Oops!</h1>
+                        <p>I'm sorry, but HTML entry is not allowed on that page.</p>
+                        <p>Please make sure that your entries do not contain 
+                        any angle brackets like &lt; or &gt;.</p>
+                        <p><a href='javascript:back()'>Go back</a></p>
+                        </body></html>
+                        ");
                     Response.End();
-                }
-                else
-                {
+                } else { 
                 }
             }
             
@@ -89,22 +154,30 @@ namespace FinalProj
             else if (Session["subadmin"] != null)
             {
                 Logs lg = new Logs();
+                adminLog adl = new adminLog();
+                MainAdmins mad = new MainAdmins();
+                Users us = new Users();
                 lgList = lg.GetAllLogsOfUser(Session["subadminEmail"].ToString());
                 Sessionmg ses = new Sessionmg();
                 string ipAddr = lgList[0].ipAddr;
                 DateTime dtLog = DateTime.Now;
                 string countryLogged = CityStateCountByIp(ipAddr);
+
                 ses.UpdateSession(Session["subadminEmail"].ToString(), 0);
+                adl.AddAdminLog(dtLog, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Session Timeout", "-", Session["subadminEmail"].ToString(), countryLogged);
                 lg.AddLog(Session["subadminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
             }
             else {
                 Logs lg = new Logs();
+                adminLog adl = new adminLog();
+                MainAdmins mad = new MainAdmins();
                 Sessionmg ses = new Sessionmg();
                 lgList = lg.GetAllLogsOfUser(Session["adminEmail"].ToString());
                 string ipAddr = lgList[0].ipAddr;
                 DateTime dtLog = DateTime.Now;
                 string countryLogged = CityStateCountByIp(ipAddr);
                 ses.UpdateSession(Session["adminEmail"].ToString(), 0);
+                adl.AddAdminLog(dtLog, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Session Timeout", "-", Session["adminEmail"].ToString(), countryLogged);
                 lg.AddLog(Session["adminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
             }
 

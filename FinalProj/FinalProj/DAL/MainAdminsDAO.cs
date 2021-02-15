@@ -98,7 +98,7 @@ namespace FinalProj.DAL
                 string MApass = row["Password"].ToString();
                 string MAname = row["Name"].ToString();
 
-                Mainadmin = new MainAdmins(Uid, MAemail, MAname, MApass);
+                Mainadmin = new MainAdmins(Uid, MAname, MAemail, MApass);
             }
             else
             {

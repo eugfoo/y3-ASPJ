@@ -292,8 +292,12 @@
                                             {%>
                                                 <div class="dropdown-divider"></div>
                                                 <a id="viewActivty" class="dropdown-item" href="/ActivityLogs.aspx">View Acitivity Logs</a>
-                                            <%} 
-                                       }else if (Convert.ToBoolean(Session["admin"])){%>
+                                            <%}
+                                            if (rlDeets.mgAdLg == 1){%>
+                                                <div class="dropdown-divider"></div>
+                                                <a id="viewAdminlg" class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
+                                            <%}
+                                            }else if (Convert.ToBoolean(Session["admin"])){%>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
                                             <div class="dropdown-divider"></div>
@@ -306,6 +310,8 @@
                                             <a class="dropdown-item" href="/bAcc.aspx">Ban Management</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/VerifyUsers.aspx">Verify User Selfie</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/adminActivity.aspx">View Admin Logs</a>
                                        <%}%>
                                 </div>
                             </div>

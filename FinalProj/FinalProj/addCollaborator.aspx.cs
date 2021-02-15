@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text;
 using System.Web.Security.AntiXss;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProj
 {
@@ -28,10 +30,13 @@ namespace FinalProj
         protected int mgBanCheck;
         protected int mgCollabCheck;
         protected int mgVouchCheck;
+        protected int mgAdminLgCheck;
         string OldText = string.Empty;
         protected bool capsuleApp;
         protected bool capsuleCollab;
         protected bool capsuleVouch;
+        protected bool capsuleBan;
+        protected bool capsuleAdminLog;
         protected roles cap;
         protected int capPerm = 0;
         protected Sessionmg sesDeets;
@@ -81,10 +86,13 @@ namespace FinalProj
                             capsuleApp = Convert.ToBoolean(rlList[0].viewAppLogs);
                             capsuleCollab = Convert.ToBoolean(rlList[0].mgCollab);
                             capsuleVouch = Convert.ToBoolean(rlList[0].mgVouch);
+                            capsuleBan = Convert.ToBoolean(rlList[0].mgBan);
+                            capsuleAdminLog = Convert.ToBoolean(rlList[0].mgAdLg);
                             aaLogs.Checked = Convert.ToBoolean(rlList[0].viewAppLogs);
                             mgCollab.Checked = Convert.ToBoolean(rlList[0].mgCollab);
                             mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
                             mgBan.Checked = Convert.ToBoolean(rlList[0].mgBan);
+                            mgAdLg.Checked = Convert.ToBoolean(rlList[0].mgAdLg);
                             assignDDL.Items.Clear();
                             assignRoleDDL.Items.Clear();
                             foreach (var adminDetail in adList)
@@ -153,6 +161,15 @@ namespace FinalProj
                             }
                             else {
                                 mgBanCheck = 0;
+                            }
+
+                            if (mgAdLg.Checked == true)
+                            {
+                                mgAdminLgCheck = 1;
+                            }
+                            else
+                            {
+                                mgAdminLgCheck = 0;
                             }
                             CancelRoleAssign.Visible = false;
                             updtRoleAssign.Visible = false;
@@ -225,9 +242,22 @@ namespace FinalProj
                 {
                     result = "true";
                     Users us = new Users();
-                    Users subAdmin = us.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text,true));
-                    Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
+                    adminLog adl = new adminLog();
+                    DateTime dt = DateTime.Now;
+                    MainAdmins mad = new MainAdmins();
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
 
+                    Users subAdmin = us.GetUserByEmail(AntiXssEncoder.HtmlEncode(collabEmail.Text, true));
+                    Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
+                    if (Session["admin"] != null)
+                    {
+                        adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Invited <b>" + collabEmail.Text + "</b> as a sub-admin under the <b>" + roleChoice.SelectedValue + "</i> role", "-", Session["adminEmail"].ToString(), countryLogged);
+                    }
+                    else {
+                        adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Invited <b>" + collabEmail.Text + "</b> as a sub-admin under the <b>" + roleChoice.SelectedValue + "</i> role", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                    }
                     ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true), roleChoice.SelectedValue);
                     Response.Redirect("addCollaborator.aspx?scss=invited");
                 }
@@ -245,7 +275,39 @@ namespace FinalProj
             } 
         }
 
+        public static string CityStateCountByIp(string IP)
+        {
+            //var url = "http://freegeoip.net/json/" + IP;
+            //var url = "http://freegeoip.net/json/" + IP;
+            string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+            var request = System.Net.WebRequest.Create(url);
+            WebResponse myWebResponse = request.GetResponse();
+            Stream stream = myWebResponse.GetResponseStream();
 
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                JObject objJson = JObject.Parse(json);
+                string Country = objJson["country_name"].ToString();
+                string Country_code = objJson["country_code"].ToString();
+                if (Country == "")
+                {
+                    Country = "-";
+                }
+
+                else if (Country_code == "")
+                {
+                    Country = Country;
+                }
+                else
+                {
+                    Country = Country + " (" + Country_code + ")";
+                }
+                return Country;
+
+            }
+
+        }
         static async Task Execute(string useremail, string username)
         {
             Random rnd = new Random();
@@ -298,6 +360,7 @@ namespace FinalProj
                     mgCollab.Checked = Convert.ToBoolean(role.mgCollab);
                     mgVouch.Checked = Convert.ToBoolean(role.mgVouch);
                     mgBan.Checked = Convert.ToBoolean(role.mgBan);
+                    mgAdLg.Checked = Convert.ToBoolean(role.mgAdLg);
                 }
             }
             btnCancel.Visible = false;
@@ -308,13 +371,14 @@ namespace FinalProj
         }
 
         
-
         protected void addRole_Click(object sender, EventArgs e)
         {
             tbName.Text = "";
             aaLogs.Checked = false;
             mgCollab.Checked = false;
             mgVouch.Checked = false;
+            mgBan.Checked = false;
+            mgAdLg.Checked = false;
             btnUpdate.Visible = false;
             btnDelete.Visible = false;
             btnCancel.Visible = true;
@@ -334,18 +398,36 @@ namespace FinalProj
             if (tbName.Text != OldText)
             {
                 Admins ad = new Admins();
+                adminLog adl = new adminLog();
+                MainAdmins mad = new MainAdmins();
+                Users us = new Users();
+                string ipAddr = GetIPAddress();
+                string countryLogged = CityStateCountByIp(ipAddr);
                 roles rl = new roles();
+                DateTime dt = DateTime.Now;
                 rlList = rl.GetAllRoles();
                 OldText = rlList[0].Roles;
                 roles singleRl = rl.GetRole(roleDDL.SelectedValue);
-                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck, mgBanCheck);
+                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck, mgBanCheck, mgAdminLgCheck);
+                if (Session["admin"] != null)
+                {
+                    adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Updated " + OldText + " role", "-", Session["adminEmail"].ToString(), countryLogged);
+                }
+                else
+                {
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated" + OldText + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                }
                 List<Admins> adRlList;
                 adRlList = ad.GetAllAdmins();
 
                 foreach (var elmt in adRlList) {
-                    if (elmt.adminRole == roleDDL.SelectedValue) {
+                    if (elmt.adminRole == roleDDL.SelectedValue)
+                    {
                         ad.UpdateRoleByEmail(elmt.adminEmail, AntiXssEncoder.HtmlEncode(tbName.Text, true));
+                        
                     }
+                    
                 }
                 Response.Redirect("addCollaborator.aspx");
             }
@@ -356,12 +438,21 @@ namespace FinalProj
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            Admins ad = new Admins();
+            adminLog adl = new adminLog();
+            MainAdmins mad = new MainAdmins();
+            Users us = new Users();
+            
+            string ipAddr = GetIPAddress();
+            string countryLogged = CityStateCountByIp(ipAddr);
+            roles rl = new roles();
+            DateTime dt = DateTime.Now;
             string role = AntiXssEncoder.HtmlEncode(tbName.Text, true);
             int applog = Convert.ToInt32(aaLogs.Checked);
             int manageCollab = Convert.ToInt32(mgCollab.Checked);
             int manageVouch = Convert.ToInt32(mgVouch.Checked);
             int manageBan = Convert.ToInt32(mgBan.Checked);
-            roles rl = new roles();
+            int manageAdLg = Convert.ToInt32(mgAdLg.Checked);
             List<roles> rlList;
             rlList = rl.GetAllRoles();
             bool tracker = false;
@@ -377,7 +468,16 @@ namespace FinalProj
                 }
                 if (!tracker)
                 {
-                    rl.InsertRole(role, applog, manageCollab, manageVouch, manageBan);
+                    rl.InsertRole(role, applog, manageCollab, manageVouch, manageBan, manageAdLg);
+                    if (Session["admin"] != null)
+                    {
+                        adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Created " + role + " role", "-", Session["adminEmail"].ToString(), countryLogged);
+                    }
+                    else
+                    {
+                        adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Created" + role + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                    }
                     Response.Redirect("/addCollaborator.aspx");
                 }
                 else
@@ -398,6 +498,14 @@ namespace FinalProj
         {
             List<Admins> adList;
             Admins ad = new Admins();
+            adminLog adl = new adminLog();
+            MainAdmins mad = new MainAdmins();
+            Users us = new Users();
+
+            string ipAddr = GetIPAddress();
+            string countryLogged = CityStateCountByIp(ipAddr);
+            roles rl = new roles();
+            DateTime dt = DateTime.Now;
             adList = ad.GetAllAdmins();
             bool tracker = true;
             foreach (var elmt in adList) {
@@ -408,9 +516,17 @@ namespace FinalProj
             }
             if (tracker)
             {
-                roles rl = new roles();
 
                 rl.DeleteRole(roleDDL.SelectedValue);
+                if (Session["admin"] != null)
+                {
+                    adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Deleted " + roleDDL.SelectedValue + " role", "-", Session["adminEmail"].ToString(), countryLogged);
+                }
+                else
+                {
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Deleted" + roleDDL.SelectedValue + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                }
                 Response.Redirect("addCollaborator.aspx");
             }
             else {
@@ -437,7 +553,23 @@ namespace FinalProj
         protected void updtRoleAssign_Click(object sender, EventArgs e)
         {
             Admins ad = new Admins();
+            adminLog adl = new adminLog();
+            MainAdmins mad = new MainAdmins();
+            Users us = new Users();
+
+            string ipAddr = GetIPAddress();
+            string countryLogged = CityStateCountByIp(ipAddr);
+            DateTime dt = DateTime.Now;
             ad.UpdateRoleByEmail(assignDDL.SelectedValue, assignRoleDDL.SelectedValue);
+            if (Session["admin"] != null)
+            {
+                adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Updated " + assignDDL.SelectedValue + "'s role to <b>" + assignRoleDDL.SelectedValue +"</b>", "-", Session["adminEmail"].ToString(), countryLogged);
+            }
+            else
+            {
+                adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated" + assignDDL.SelectedValue + "'s role to <b>" + assignRoleDDL.SelectedValue + "</b>", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+            }
             Response.Redirect("addCollaborator.aspx");
         }
 
@@ -484,10 +616,40 @@ namespace FinalProj
             Admins ad = new Admins();
             collabOTP cbotp = new collabOTP();
             adList = ad.GetAllAdmins();
+            DateTime dt = DateTime.Now;
             Sessionmg ses = new Sessionmg();
             ses.UpdateSession(adList[e.RowIndex].adminEmail, 0);
             ad.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
             cbotp.DeleteByEmail(adList[e.RowIndex].adminEmail, adList[e.RowIndex].adminName);
+            adminLog adl = new adminLog();
+            MainAdmins mad = new MainAdmins();
+            Users us = new Users();
+
+            string ipAddr = GetIPAddress();
+            string countryLogged = CityStateCountByIp(ipAddr);
+            if (adList[e.RowIndex].adminStatus == "Accepted")
+            {
+                if (Session["admin"] != null)
+                {
+                    adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Removed " + adList[e.RowIndex].adminEmail + " (" + adList[e.RowIndex].adminName + ") as a sub-admin", "-", Session["adminEmail"].ToString(), countryLogged);
+                }
+                else
+                {
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Removed " + adList[e.RowIndex].adminEmail + " (" + adList[e.RowIndex].adminName + ") as a sub-admin", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                }
+            }
+            else {
+                if (Session["admin"] != null)
+                {
+                    adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Revoked " + adList[e.RowIndex].adminEmail + " (" + adList[e.RowIndex].adminName + ")'s sub-admin invitation", "-", Session["adminEmail"].ToString(), countryLogged);
+                }
+                else
+                {
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Revoked " + adList[e.RowIndex].adminEmail + " (" + adList[e.RowIndex].adminName + ")'s sub-admin invitation", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                }
+            }
             Response.Redirect("addCollaborator.aspx");
         }
     }

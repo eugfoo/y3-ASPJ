@@ -139,7 +139,7 @@
                     <h5 class="card-title">Role Creation and Updates</h5>
 
                      <b class="lead">Roles:</b>
-                    <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
+                    <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="True" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged" >
                     </asp:DropDownList>
 
                     <asp:Button ID="addRole" CssClass="btn btn-primary" runat="server" Text="Add Role" OnClick="addRole_Click" />
@@ -161,7 +161,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                            <label>Manage Collaborators</label>
+                            <label>Manage Collaborators: </label>
                             <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                                 title="Allow users under this role to manage collaborators and assign specific roles"></i>
                             <label class="switch">
@@ -170,7 +170,7 @@
                             </label>
                     </div>
                     <div class="form-group">
-                        <label>Manage Vouchers</label>
+                        <label>Manage Vouchers: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Allow users under this role to manage vouchers"></i>
                         <label class="switch">
@@ -179,11 +179,20 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label>Manage Bans</label>
+                        <label>Manage Bans: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
                             title="Allow users under this role to manage bans"></i>
                         <label class="switch">
                             <asp:CheckBox ID="mgBan" runat="server" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                     <div class="form-group">
+                        <label>View Admin Logs: </label>
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                            title="Allow users under this role to view admin logs"></i>
+                        <label class="switch">
+                            <asp:CheckBox ID="mgAdLg" runat="server" />
                             <span class="slider round"></span>
                         </label>
                     </div>
