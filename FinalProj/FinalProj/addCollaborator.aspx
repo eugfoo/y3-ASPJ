@@ -231,11 +231,11 @@
 
                     </div>
                     <div class="row">
-                        <div style="margin-top:21%;" class="col-6">
+                        <div style="margin-top:25.8%;" class="col-6">
 
                             <asp:Button ID="CancelRoleAssign" runat="server" CssClass="btn btn-danger mr-3" style="width: 100%;" Text="Cancel" CausesValidation="false" UseSubmitBehavior="False" Visible="False" OnClick="CancelRoleAssign_Click" />
                         </div>
-                        <div style="margin-top:21%;" class="col-6">
+                        <div style="margin-top:25.8%;" class="col-6">
                             <asp:Button ID="updtRoleAssign" runat="server" CssClass="btn btn-warning" style="width: 100%;" Text="Update" CausesValidation="false" UseSubmitBehavior="False"  Visible="False" OnClick="updtRoleAssign_Click" />
 
                         </div>
@@ -248,14 +248,13 @@
         <div class="card">
           <h5 class="card-header">Manage Access</h5>
           <div class="card-body">
-              <div class="row">
+            <div class="row">
                 <div class="col-4">
                     <asp:Button ID="addCollabBtn"  runat="server" class="btn btn-success" style="float: left; margin-bottom:1%;" Text="Invite a Collaborator" OnClick="addCollabBtn_Click" />
                 </div>
             </div>
             <div class="row" style="align-content:center;">
                 <div class="col-12">
-
                   <asp:GridView ID="collabGV" class="table table-bordered table-striped table-hover" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource2" Width="1500px" OnRowDeleting="collabGV_RowDeleting">
                       <Columns>
                             <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email"/>
@@ -276,31 +275,8 @@
            
                 </div>
             </div>
-              <%--<table id="myTable" class="table table-bordered table-striped table-hover">
-                <tr class="header">
-                    <th style="width:30%;">Email</th>
-                    <th style="width:20%;">Name</th>
-                    <th style="width:30%;">Role</th>
-                    <th style="width:20%;">Status</th>
-
-                </tr>
-                <% 
-                    int index = 0;
-                    foreach (var element in adList)
-                    { %>
-                <tr>
-                    <td><%= element.adminEmail %></td>
-                    <td><%= element.adminName %></td>
-                    <td><%= element.adminRole %></td>
-                    <td><%= element.adminStatus %></td>
-
-                </tr>
-                <%} %>
-            </table>--%>
-
           </div>
         </div>
-   
     </div>
 
         <p></p>

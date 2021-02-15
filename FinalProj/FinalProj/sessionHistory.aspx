@@ -2,7 +2,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <style>
+        #adCont {
+            margin:2%;        
 
+        }
+
+    </style>
     <script>
 
         //$("#dtBasicExample").dataTable({
@@ -24,7 +30,7 @@
         });
 
     </script>
-
+    <div id="adCont">
     <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0">
         <thead>
             <tr>
@@ -64,4 +70,5 @@
 
         </tbody>
     </table>
+    </div>
 </asp:Content>
