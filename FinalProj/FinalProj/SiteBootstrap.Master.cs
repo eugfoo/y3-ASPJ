@@ -141,7 +141,6 @@ namespace FinalProj
                 Sessionmg ses = new Sessionmg();
 
                 ses.UpdateSession(Session["adminEmail"].ToString(), 0);
-                Session.Clear();
                 string ipAddr = GetIPAddress();
                 string countryLogged = CityStateCountByIp(ipAddr);
                 DateTime dtLog = DateTime.Now;
@@ -150,9 +149,12 @@ namespace FinalProj
                 adminLog adl = new adminLog();
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();
-                adl.AddAdminLog(dtLog, ma.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Successful Log out Attempt", "-", Session["adminEmail"].ToString(), countryLogged);
+                
+                adl.AddAdminLog(dtLog, maList[0].MainadminName, ipAddr, "Successful Log out Attempt", "-", maList[0].MainadminEmail, countryLogged);
 
                 lg.AddLog(maList[0].MainadminEmail, dtLog, ipAddr, countryLogged, "Successful Log out Attempt");
+                Session.Clear();
+
                 Response.Redirect("/homepage.aspx");
             }
         }

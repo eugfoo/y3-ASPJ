@@ -7,6 +7,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Web.Security.AntiXss;
 using System.Web.UI.WebControls;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProj
 {
@@ -314,20 +316,74 @@ namespace FinalProj
                 SHA256Managed hashing = new SHA256Managed();
                 if (dbSalt != null && dbSalt.Length > 0)
                 {
+                    Logs lg = new Logs();
+                    ActivityLog alg = new ActivityLog();
                     string pwdWithSalt = passString + dbSalt;
                     byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
                     string userHash = Convert.ToBase64String(hashWithSalt);
                     finalHash = Convert.ToBase64String(hashWithSalt);
                     DateTime now = DateTime.Now;
                     string DTNow = now.ToString("g");
+                    string ipAddr = GetIPAddress();
+                    string countryLogged = CityStateCountByIp(ipAddr);
                     PassHist pass1 = new PassHist(tryingUser.email, passHash, DTNow);
                     pass1.AddPass();
                     user.UpdatePassByID(tryingUser.id, finalHash);
-
+                    lg.AddLog(Session["email"].ToString(), now, ipAddr, countryLogged, "Successfully Changed Password");
+                    alg.AddActivityLog(now, Session["Name"].ToString(), ipAddr, "Successfully Changed Password", "-", Session["email"].ToString(), countryLogged);
                     lblSuccess.Visible = true;
                     lblError.Text = "";
                 }
             }
+        }
+        public static string CityStateCountByIp(string IP)
+        {
+            //var url = "http://freegeoip.net/json/" + IP;
+            //var url = "http://freegeoip.net/json/" + IP;
+            string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+            var request = System.Net.WebRequest.Create(url);
+            WebResponse myWebResponse = request.GetResponse();
+            Stream stream = myWebResponse.GetResponseStream();
+
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                JObject objJson = JObject.Parse(json);
+                string Country = objJson["country_name"].ToString();
+                string Country_code = objJson["country_code"].ToString();
+                if (Country == "")
+                {
+                    Country = "-";
+                }
+
+                else if (Country_code == "")
+                {
+                    Country = Country;
+                }
+                else
+                {
+                    Country = Country + " (" + Country_code + ")";
+                }
+                return Country;
+
+            }
+
+        }
+
+        protected string GetIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+            return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
         protected void userPassword_TextChanged(object sender, EventArgs e)
