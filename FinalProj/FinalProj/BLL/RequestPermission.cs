@@ -34,7 +34,13 @@ namespace FinalProj.BLL
             return ad.getLastRequest(email);
         }
 
-        public List<RequestPermission> getAllRequests(string email)
+        public List<RequestPermission> getAllRequests()
+        {
+            RequestPermissionDAO dao = new RequestPermissionDAO();
+            return dao.getAllRequest();
+        }
+
+        public List<RequestPermission> getAllRequestsEmail(string email)
         {
             RequestPermissionDAO dao = new RequestPermissionDAO();
             return dao.getAllRequestByEmail(email);

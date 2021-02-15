@@ -71,6 +71,35 @@ namespace FinalProj.DAL
             return allReqList;
         }
 
+        public List<RequestPermission> getAllRequest()
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            string sqlStmt = "SELECT * FROM RequestTable";
+            SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
+
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+
+            List<RequestPermission> allReqList = new List<RequestPermission>();
+            int rec_cnt = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < rec_cnt; i++)
+            {
+                DataRow row = ds.Tables[0].Rows[i];
+                int requestId = Convert.ToInt32(row["Id"]);
+                string requestEmail = row["subAdminEmail"].ToString();
+                string requestRole = row["requestRole"].ToString();
+                int requestStatus = Convert.ToInt32(row["status"]);
+
+                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, requestStatus);
+                allReqList.Add(req);
+            }
+
+            return allReqList;
+        }
+
         public RequestPermission getLastRequest(string email)
         {
             //Step 1 -  Define a connection to the database by getting

@@ -25,31 +25,25 @@ namespace FinalProj
                 if (Session["admin"] != null)
                 {
                     subAdminDiv.Visible = false;
+                    listReq = req.getAllRequests();
+                    gvAdmin.DataSource = listReq;
                 }
                 else
                 {
                     adminDiv.Visible = false;
                     ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
                     lblCurrentRole.Text = ad.adminRole;
-                    listReq = req.getAllRequests(ad.adminEmail);
-                    int count = 0;
+                    listReq = req.getAllRequestsEmail(ad.adminEmail);
                     foreach (var i in listReq)
                     {
                         if (i.subAdminEmail == ad.adminEmail)
                         {
+                            lblSuccess.Visible = true;
                             lblSuccess.Text = "Your request has been sent for review";
-                            count++;
-                        }
-                    }
-                    if (count == 0)
-                    {
-                        if (ad.adminRole == "User Management")
-                        {
-                            lblError.Text = "This is already your role!";
                             btnRequest.Enabled = false;
+                            roleDDL.Enabled = false;
                         }
                     }
-
                 }
             }
         }
@@ -58,20 +52,32 @@ namespace FinalProj
         {
             if (roleDDL.SelectedItem.Text == lblCurrentRole.Text)
             {
+                lblError.Visible = true;
                 lblError.Text = "This is already your role!";
                 btnRequest.Enabled = false;
             }
             else
             {
-                lblError.Visible = false;
                 btnRequest.Enabled = true;
+                lblError.Visible = false;
             }
         }
 
         protected void btnRequest_Click(object sender, EventArgs e)
         {
-            RequestPermission request = new RequestPermission();
-            request.AddRequest(ad.adminEmail, roleDDL.SelectedItem.Text);
+            if (roleDDL.SelectedItem.Text == lblCurrentRole.Text)
+            {
+                lblError.Visible = true;
+                lblError.Text = "This is already your role!";
+                btnRequest.Enabled = false;
+            }
+            else
+            {
+                RequestPermission request = new RequestPermission();
+                request.AddRequest(ad.adminEmail, roleDDL.SelectedItem.Text);
+                Response.Redirect("/RequestAccess.aspx");
+            }
+
         }
     }
 }

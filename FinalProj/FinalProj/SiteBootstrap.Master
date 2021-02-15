@@ -306,6 +306,8 @@
                                         {%>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/SessionHistory.aspx">Session History</a>
+                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/RequestAccess.aspx">Request Access</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/AddVoucher.aspx">Add Vouchers</a>
                                     <div class="dropdown-divider"></div>

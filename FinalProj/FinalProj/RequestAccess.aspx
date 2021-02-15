@@ -4,7 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="adminDiv" runat="server">
-        <asp:GridView ID="gvAdmin" runat="server" AutoGenerateColumns="false">
+        <asp:GridView ID="gvAdmin" runat="server" AutoGenerateColumns="False">
+            <Columns>
+                <asp:BoundField HeaderText="Sub-Admin Email" />
+                <asp:BoundField HeaderText="Requested Role" />
+                <asp:BoundField HeaderText="Current Role" />
+            </Columns>
         </asp:GridView>
     </div>
     <div id="subAdminDiv" class="card" runat="server">
@@ -17,12 +22,13 @@
                         </div>
                         <div style="margin-top: 1%;" class="col-8">
                             <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="True" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged">
+                                <asp:ListItem Selected="True">Select a Role</asp:ListItem>
                             </asp:DropDownList>
                             <asp:Button ID="btnRequest" runat="server" CssClass="btn btn-success" Text="Request" OnClick="btnRequest_Click" />
                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Id], [Roles] FROM [rolesTable]"></asp:SqlDataSource>
-                            <asp:Label ID="lblError" runat="server" Text="" CssClass="alert-danger"></asp:Label>
-                            <asp:Label ID="lblSuccess" runat="server" Text="" CssClass="alert-success"></asp:Label>
                         </div>
+                        <asp:Label ID="lblError" runat="server" Text="" CssClass="alert alert-danger" Visible="false"></asp:Label><br />
+                        <asp:Label ID="lblSuccess" runat="server" Text="" CssClass="alert alert-success" Visible="false"></asp:Label>
                     </div>
                 </div>
 
