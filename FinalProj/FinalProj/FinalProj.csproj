@@ -698,6 +698,7 @@
     <Folder Include="App_Start\" />
     <Folder Include="Data\" />
     <Folder Include="Img\User\AdminFaceVerification\" />
+    <Folder Include="Img\User\NewFolder1\" />
     <Folder Include="Img\User\UserFaceVerification\" />
     <Folder Include="Img\Voucher\" />
     <Folder Include="Models\" />

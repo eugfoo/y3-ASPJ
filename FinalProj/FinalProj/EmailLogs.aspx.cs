@@ -12,7 +12,12 @@ namespace FinalProj
     {
         protected List<EmailLog> elgList = new List<EmailLog>();
         public List<string> complete = new List<string>();
-        public int userId;
+        public string userEmail;
+
+        public string email { get; set; }
+        public string senderEmail { get; set; }
+        public DateTime dateTime { get; set; }
+        public string title { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         { 
             EmailLog elg = new EmailLog();
@@ -28,18 +33,11 @@ namespace FinalProj
                 if (!IsPostBack)
                 {
                     Users user = (Users)Session["user"];
-                    userId = user.id;
-                    elgList = elg.GetAllLogsFromId(userId);
+                    userEmail = user.email;
+                    elgList = elg.GetAllLogsOfUser(userEmail);
 
-                    for (int i = 0; i < elgList.Count; i++)
-                    {
-                        lblUserEmail.Text = elg.userEmail;
-                        lblTitle.Text = elg.emailTitle;
-                        lblDate.Text = elg.dateTime.ToString();
-                        lblSenderEmail.Text = elg.senderEmail;
-                    }
                 }
-                elg.GetAllLogsFromId(userId);
+                elg.GetAllLogsOfUser(userEmail);
             }
         }
     }

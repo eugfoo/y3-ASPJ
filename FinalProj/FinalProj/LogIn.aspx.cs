@@ -229,20 +229,51 @@ namespace FinalProj
                                                 {
                                                     ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
                                                 }
+                                                HttpCookie cookie = Request.Cookies["SessionID"];
+                                                if (cookie == null)
+                                                {
+                                                    // edit here
+                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                    {
+                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                    }
+                                                    else
+                                                    {
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
+
+                                                    }
+                                                    EmailLog elg = new EmailLog();
+                                                    DateTime dtelg = DateTime.Now;
+                                                    title = "New login from unknown device";
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name);
+                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                    //Creates new cookie session
+                                                    Guid guid = Guid.NewGuid();
+                                                    string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                    HttpCookie cookie2 = new HttpCookie("SessionID");
+                                                    cookie2["sid"] = uSid;
+                                                    cookie2.Expires = DateTime.Now.AddYears(1);
+                                                    Response.Cookies.Add(cookie2);
+                                                }
+
+                                                Response.Redirect("homepage.aspx");
+                                                //end
 
                                                 if (us.GetUserByEmail(tbEmail.Text) != null) // check if its admin or subadmin
-                                                {
+                                                    {
 
-                                                    string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
-                                                }
-                                                else
-                                                {
-                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                                }
-                                                Response.Redirect("TwoFactor1.aspx");
-                                                // end
+                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", tbEmail.Text, countryLogged);
+                                                    }
+                                                    else
+                                                    {
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                    }
+                                                    Response.Redirect("TwoFactor1.aspx");
+                                                    // end
                                             }
                                             else {
                                                 lblError.Visible = true;

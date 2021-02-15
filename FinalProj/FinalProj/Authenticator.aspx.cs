@@ -61,7 +61,7 @@ namespace FinalProj
 
                 if (Session["user"] == null)
                 {
-                    Response.Redirect("homepage.aspx");
+                    Response.Redirect("/homepage.aspx");
                 }
                 else
                 {

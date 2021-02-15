@@ -11,14 +11,14 @@ namespace FinalProj.DAL
 {
     public class EmailLogDAO
     {
-        public List<EmailLog> SelectByEmail(string email)
+        public List<EmailLog> SelectByEmail(string userEmail)
         {
 
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "Select * from emailLogs where emailSent = @email ORDER BY DateTime DESC";
+            string sqlStmt = "Select * from emailLogs where userEmail = @userEmail ORDER BY DateTime DESC";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
-            da.SelectCommand.Parameters.AddWithValue("@email", email);
+            da.SelectCommand.Parameters.AddWithValue("@userEmail", userEmail);
             DataSet ds = new DataSet();
             da.Fill(ds);
 

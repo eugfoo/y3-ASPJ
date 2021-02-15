@@ -14,13 +14,13 @@
              <% foreach (var element in elgList)
                     { %>
                 <div class="form-group">
-                    <asp:Label ID="lblTitle" CssClass="lblClass" runat="server" Text=""></asp:Label>
+                    <span ID="lblTitle" ><%=element.emailTitle %></span>
                     <br />
-                    <asp:Label ID="lblDate" CssClass="lblClass" runat="server" Text=""></asp:Label>
+                    <span ID="lblDate" ><%=element.dateTime %></span>
                     <br />
-                    <asp:Label ID="lblUserEmail" CssClass="lblClass" runat="server" Text=""></asp:Label>
+                    <span ID="lblUser" ><%=element.userEmail %></span>
                     <asp:Label ID="lblSeperator" CssClass="lblClass" runat="server" Text=" . "></asp:Label>
-                    <asp:Label ID="lblSenderEmail" CssClass="lblClass" runat="server" Text=""></asp:Label>
+                    <span ID="lblDate1" ><%=element.senderEmail %></span>
                 </div>
             <% } %>
         </div>
