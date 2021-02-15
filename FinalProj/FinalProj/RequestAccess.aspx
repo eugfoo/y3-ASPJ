@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <div id="adminDiv" runat="server">
         <asp:GridView ID="gvAdmin" runat="server" AutoGenerateColumns="False">
             <Columns>
@@ -12,6 +13,7 @@
             </Columns>
         </asp:GridView>
     </div>
+
     <div id="subAdminDiv" class="card" runat="server">
         <div class="card-body">
             <div class="row">
@@ -21,8 +23,10 @@
                             <b class="lead">Request Role from Admin:</b>
                         </div>
                         <div style="margin-top: 1%;" class="col-8">
-                            <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="True" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged">
-                                <asp:ListItem Selected="True">Select a Role</asp:ListItem>
+                            <asp:DropDownList ID="roleDDL" class="btn btn-primary dropdown-toggle" DataSourceID="SqlDataSource1" DataTextField="Roles" DataValueField="Roles" runat="server" AutoPostBack="True" AppendDataBoundItems="true" OnSelectedIndexChanged="roleDDL_SelectedIndexChanged">
+                                <Items>
+                                    <asp:ListItem Text="Select a Role" Value=""></asp:ListItem>
+                                </Items>
                             </asp:DropDownList>
                             <asp:Button ID="btnRequest" runat="server" CssClass="btn btn-success" Text="Request" OnClick="btnRequest_Click" />
                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Id], [Roles] FROM [rolesTable]"></asp:SqlDataSource>
@@ -45,6 +49,5 @@
             </div>
         </div>
     </div>
-
 
 </asp:Content>

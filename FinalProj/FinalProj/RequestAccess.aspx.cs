@@ -34,6 +34,7 @@ namespace FinalProj
                     ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
                     lblCurrentRole.Text = ad.adminRole;
                     listReq = req.getAllRequestsEmail(ad.adminEmail);
+                    btnRequest.Enabled = false;
                     foreach (var i in listReq)
                     {
                         if (i.subAdminEmail == ad.adminEmail)
@@ -56,6 +57,10 @@ namespace FinalProj
                 lblError.Text = "This is already your role!";
                 btnRequest.Enabled = false;
             }
+            if (roleDDL.SelectedItem.Text == "Select a Role")
+            {
+                btnRequest.Enabled = false;
+            }
             else
             {
                 btnRequest.Enabled = true;
@@ -74,7 +79,7 @@ namespace FinalProj
             else
             {
                 RequestPermission request = new RequestPermission();
-                request.AddRequest(ad.adminEmail, roleDDL.SelectedItem.Text);
+                request.AddRequest(ad.adminEmail, roleDDL.SelectedItem.Text, ad.adminRole);
                 Response.Redirect("/RequestAccess.aspx");
             }
 

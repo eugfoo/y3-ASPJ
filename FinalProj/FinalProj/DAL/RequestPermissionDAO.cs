@@ -11,7 +11,7 @@ namespace FinalProj.DAL
 {
     public class RequestPermissionDAO
     {
-        public int Insert(string email, string role)
+        public int Insert(string email, string role, string currentRole)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -24,13 +24,14 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO RequestTable(subAdminEmail, requestRole) " +
-                "VALUES (@subAdminEmail, @requestRole)";
+            string sqlStmt = "INSERT INTO RequestTable(subAdminEmail, requestRole, currentRole) " +
+                "VALUES (@subAdminEmail, @requestRole, @currentRole)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
             sqlCmd.Parameters.AddWithValue("@subAdminEmail", email);
             sqlCmd.Parameters.AddWithValue("@requestRole", role);
+            sqlCmd.Parameters.AddWithValue("@currentRole", currentRole);
 
             // Step 4 Open connection the execute NonQuery of sql command   
             myConn.Open();
@@ -62,9 +63,10 @@ namespace FinalProj.DAL
                 int requestId = Convert.ToInt32(row["Id"]);
                 string requestEmail = row["subAdminEmail"].ToString();
                 string requestRole = row["requestRole"].ToString();
+                string currentRole = row["currentRole"].ToString();
                 int requestStatus = Convert.ToInt32(row["status"]);
 
-                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, requestStatus);
+                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, currentRole, requestStatus);
                 allReqList.Add(req);
             }
 
@@ -91,9 +93,10 @@ namespace FinalProj.DAL
                 int requestId = Convert.ToInt32(row["Id"]);
                 string requestEmail = row["subAdminEmail"].ToString();
                 string requestRole = row["requestRole"].ToString();
+                string currentRole = row["currentRole"].ToString();
                 int requestStatus = Convert.ToInt32(row["status"]);
 
-                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, requestStatus);
+                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, currentRole, requestStatus);
                 allReqList.Add(req);
             }
 
@@ -125,13 +128,13 @@ namespace FinalProj.DAL
             if (rec_cnt == 1)
             {
                 DataRow row = ds.Tables[0].Rows[0];  // Sql command returns only one record\
-                int requestId = int.Parse(row["Id"].ToString());
-                string subAdminEmail = row["subAdminEmail"].ToString();
+                int requestId = Convert.ToInt32(row["Id"]);
+                string requestEmail = row["subAdminEmail"].ToString();
                 string requestRole = row["requestRole"].ToString();
-                int requestStatus = int.Parse(row["status"].ToString());
+                string currentRole = row["currentRole"].ToString();
+                int requestStatus = Convert.ToInt32(row["status"]);
 
-
-                requestDetail = new RequestPermission(requestId, subAdminEmail, requestRole, requestStatus);
+                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, currentRole, requestStatus);
             }
             else
             {

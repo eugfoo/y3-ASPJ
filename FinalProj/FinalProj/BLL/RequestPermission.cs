@@ -11,21 +11,23 @@ namespace FinalProj.BLL
         public int requestId { get; set; }
         public string subAdminEmail { get; set; }
         public string requestRole { get; set; }
+        public string currentRole { get; set; }
         public int requestStatus { get; set; }
 
         public RequestPermission() { }
-        public RequestPermission(int id, string email, string role, int status)
+        public RequestPermission(int id, string email, string role, string currentRol, int status)
         {
             requestId = id;
             subAdminEmail = email;
             requestRole = role;
+            currentRole = currentRol;
             requestStatus = status;
         }
 
-        public int AddRequest(string email, string role)
+        public int AddRequest(string email, string role, string currentRole)
         {
             RequestPermissionDAO reqDAO = new RequestPermissionDAO();
-            return reqDAO.Insert(email, role);
+            return reqDAO.Insert(email, role, currentRole);
         }
 
         public RequestPermission GetLastRequest(string email)
