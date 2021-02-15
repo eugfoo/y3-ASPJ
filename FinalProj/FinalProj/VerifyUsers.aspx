@@ -5,6 +5,7 @@
         #outsideBox {
             margin: auto;
             margin-top: 50px;
+            margin-bottom: 50px;
             width: 1050px;
         }
 

@@ -1,17 +1,41 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteBootstrap.Master" AutoEventWireup="true" CodeBehind="RequestAccess.aspx.cs" Inherits="FinalProj.RequestAccess" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        #outsideBox {
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            width: 500px;
+        }
+
+        .gvAdminCSS {
+            padding: 5px 10px 5px 10px;
+        }
+
+        #btnCSS {
+            padding: 0 20px 0 20px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    <div id="adminDiv" runat="server">
-        <asp:GridView ID="gvAdmin" runat="server" AutoGenerateColumns="False">
-            <Columns>
-                <asp:BoundField HeaderText="Sub-Admin Email" />
-                <asp:BoundField HeaderText="Requested Role" />
-                <asp:BoundField HeaderText="Current Role" />
-            </Columns>
-        </asp:GridView>
+    <div id="outsideBox">
+        <div id="adminDiv" runat="server">
+            <asp:GridView ID="gvAdmin" CssClass="gvAdminCSS" runat="server" AutoGenerateColumns="False" ShowHeader="True" OnRowCommand="btnVerify_Click">
+                <Columns>
+                    <asp:BoundField DataField="subAdminEmail" HeaderText="Sub-Admin Email" />
+                    <asp:BoundField DataField="requestRole" HeaderText="Requested Role" />
+                    <asp:BoundField DataField="currentRole" HeaderText="Current Role" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <div id="btnCSS">
+                                <asp:Button ID="btnVerify" CssClass="btn btn-success" runat="server" Text="Verify" CommandArgument='<%# Container.DataItemIndex %>' />
+                            </div>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
     </div>
 
     <div id="subAdminDiv" class="card" runat="server">

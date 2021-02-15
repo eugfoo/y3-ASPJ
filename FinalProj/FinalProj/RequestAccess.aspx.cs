@@ -12,37 +12,41 @@ namespace FinalProj
     {
         Admins ad = new Admins();
         RequestPermission req = new RequestPermission();
-        List<RequestPermission> listReq = new List<RequestPermission>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["subadmin"] == null && Session["admin"] == null)
+            List<RequestPermission> listReq = new List<RequestPermission>();
+            if (!IsPostBack)
             {
-                Response.Redirect("/homepage.aspx");
-            }
-            else
-            {
-                if (Session["admin"] != null)
+                if (Session["subadmin"] == null && Session["admin"] == null)
                 {
-                    subAdminDiv.Visible = false;
-                    listReq = req.getAllRequests();
-                    gvAdmin.DataSource = listReq;
+                    Response.Redirect("/homepage.aspx");
                 }
                 else
                 {
-                    adminDiv.Visible = false;
-                    ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
-                    lblCurrentRole.Text = ad.adminRole;
-                    listReq = req.getAllRequestsEmail(ad.adminEmail);
-                    btnRequest.Enabled = false;
-                    foreach (var i in listReq)
+                    if (Session["admin"] != null)
                     {
-                        if (i.subAdminEmail == ad.adminEmail)
+                        subAdminDiv.Visible = false;
+                        listReq = req.getAllRequests();
+                        gvAdmin.DataSource = listReq;
+                        gvAdmin.DataBind();
+                    }
+                    else
+                    {
+                        adminDiv.Visible = false;
+                        ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+                        lblCurrentRole.Text = ad.adminRole;
+                        listReq = req.getAllRequestsEmail(ad.adminEmail);
+                        btnRequest.Enabled = false;
+                        foreach (var i in listReq)
                         {
-                            lblSuccess.Visible = true;
-                            lblSuccess.Text = "Your request has been sent for review";
-                            btnRequest.Enabled = false;
-                            roleDDL.Enabled = false;
+                            if (i.subAdminEmail == ad.adminEmail)
+                            {
+                                lblSuccess.Visible = true;
+                                lblSuccess.Text = "Your request has been sent for review";
+                                btnRequest.Enabled = false;
+                                roleDDL.Enabled = false;
+                            }
                         }
                     }
                 }
@@ -78,11 +82,26 @@ namespace FinalProj
             }
             else
             {
+                ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
+
                 RequestPermission request = new RequestPermission();
                 request.AddRequest(ad.adminEmail, roleDDL.SelectedItem.Text, ad.adminRole);
                 Response.Redirect("/RequestAccess.aspx");
             }
 
+        }
+
+        protected void btnVerify_Click(object sender, GridViewCommandEventArgs e)
+        {
+            int index = Convert.ToInt32(e.CommandArgument);
+            GridViewRow row = gvAdmin.Rows[index];
+
+            string email = row.Cells[0].Text;
+            string role = row.Cells[1].Text;
+
+            ad.UpdateRoleByEmail(email, role);
+            req.DeleteByIdEmail(email);
+            Response.Redirect("/RequestAccess.aspx");
         }
     }
 }

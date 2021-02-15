@@ -48,10 +48,8 @@ namespace FinalProj
                         Gv_imgs.DataSource = Imgs;
                         Gv_imgs.DataBind();
                     }
-
                 }
             }
-
         }
 
         protected void btnVerify_Click(object sender, GridViewCommandEventArgs e)

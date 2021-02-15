@@ -144,7 +144,7 @@ namespace FinalProj.DAL
             return requestDetail;
         }
 
-        public int deleteRequest(int id, string email)
+        public int deleteRequest(string email)
         {
             // Execute NonQuery return an integer value
             int result = 0;
@@ -157,11 +157,10 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with DELETE statement
-            string sqlStmt = "DELETE from RequestTable WHERE ID = @paraId AND subAdminEmail = @paraEmail";
+            string sqlStmt = "DELETE from RequestTable WHERE subAdminEmail = @paraEmail";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
-            sqlCmd.Parameters.AddWithValue("@paraId", id);
             sqlCmd.Parameters.AddWithValue("@paraEmail", email);
 
             // Step 4 Open connection the execute NonQuery of sql command   
