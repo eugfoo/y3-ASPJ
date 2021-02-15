@@ -124,7 +124,8 @@ namespace FinalProj
                         }
                         else
                         {
-                            
+                            rolename.Visible = false;
+                            roleUsed.Visible = false;
                             // show configurations for role
                             if (aaLogs.Checked == true)
                             {
@@ -441,7 +442,10 @@ namespace FinalProj
                 Response.Redirect("addCollaborator.aspx");
             }
             else {
-                Response.Redirect("addCollaborator.aspx");
+                if (tbName.Text == "" || tbName.Text == " " || tbName.Text == "   ") {
+                    rolename.Visible = true;
+                }
+                //Response.Redirect("addCollaborator.aspx");
             }
         }
 

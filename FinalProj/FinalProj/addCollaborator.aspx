@@ -196,6 +196,8 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
+                    <asp:Label ID="rolename" runat="server" Text="Please enter a rolename" ForeColor="#CC0000" Visible="False"></asp:Label>
+
                      <asp:Label ID="roleUsed" runat="server" Text="The role is currently being used" ForeColor="#CC0000" Visible="False"></asp:Label>
                     <div class="form-group">
                         <div class="mt-2 align-bottom" style="text-align: right;">

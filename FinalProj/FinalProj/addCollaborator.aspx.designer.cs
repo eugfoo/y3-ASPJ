@@ -141,6 +141,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.CheckBox mgAdLg;
 
         /// <summary>
+        /// rolename control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label rolename;
+
+        /// <summary>
         /// roleUsed control.
         /// </summary>
         /// <remarks>
