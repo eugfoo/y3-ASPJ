@@ -102,6 +102,10 @@ namespace FinalProj
 					}
 				}
 			}
+			else {
+				createEvent.Enabled = false;
+
+			}
 
 
 		}
