@@ -218,7 +218,7 @@ namespace FinalProj
             if (!Page.IsPostBack)
             {
                 List<ListItem> Imgs = new List<ListItem>();
-                string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
+                string path = Path.Combine(Server.MapPath("~/Img/User/UserFaceVerification/"));
                 string[] ImagePaths = Directory.GetFiles(path);
 
                 foreach (string imgPath in ImagePaths)

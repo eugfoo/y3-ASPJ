@@ -54,12 +54,12 @@
                 <div class="row" style="margin-top:1%;">
                     <div class="col-2">
                         Start Date:
-                        <asp:TextBox class="form-control" ID="txtStartDate" runat="server" AutoPostBack="True" />
+                        <asp:TextBox class="form-control" onkeypress="return false;" ID="txtStartDate" runat="server" AutoPostBack="True" />
                     </div>
                     <div class="col-2">
 
                         End Date:
-                        <asp:TextBox class="form-control" ID="txtEndDate" runat="server" AutoPostBack="True" />
+                        <asp:TextBox class="form-control" onkeypress="return false;" ID="txtEndDate" runat="server" AutoPostBack="True" />
                     </div>
                     <div class="col-2">
 
