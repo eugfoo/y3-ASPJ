@@ -93,6 +93,70 @@ namespace FinalProj
 
                         adl.AddAdminLog(dtLog, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Successful Login Attempt", "-", Session["adminEmail"].ToString(), countryLogged);
                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt"); // idk why this is affecting the activity logs
+                        //start of cookie check
+                        if (browser.Contains("CHROME"))
+                        {
+                            HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                            if (cookie == null)
+                            {
+                                // edit here change to admin
+                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                {
+                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                    lg.AddLog(adminlogin.MainadminEmail, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                    adl.AddAdminLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                }
+                                else
+                                {
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                }
+                                EmailLog elg = new EmailLog();
+                                DateTime dtelg = DateTime.Now;
+                                title = "New login from new browser";
+                                EmailNewDevice(adminlogin.MainadminEmail, adminlogin.MainadminName, browser);
+                                elg.AddEmailLog(adminlogin.MainadminEmail, senderEmail, dtelg, title);
+                                //Creates new cookie session
+                                Guid guid = Guid.NewGuid();
+                                string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                cookie2["sid"] = uSid;
+                                cookie2.Expires = DateTime.Now.AddYears(1);
+                                Response.Cookies.Add(cookie2);
+                            }
+                        }
+                        else if (browser.Contains("INTERNETEXPLORER"))
+                        {
+                            HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                            if (cookie == null)
+                            {
+                                // edit here
+                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                {
+                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                    lg.AddLog(adminlogin.MainadminEmail, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                    adl.AddAdminLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                }
+                                else
+                                {
+                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                }
+                                EmailLog elg = new EmailLog();
+                                DateTime dtelg = DateTime.Now;
+                                title = "New login from new browser";
+                                EmailNewDevice(adminlogin.MainadminEmail, adminlogin.MainadminName, browser);
+                                elg.AddEmailLog(adminlogin.MainadminEmail, senderEmail, dtelg, title);
+                                //Creates new cookie session
+                                Guid guid = Guid.NewGuid();
+                                string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                cookie2["sid"] = uSid;
+                                cookie2.Expires = DateTime.Now.AddYears(1);
+                                Response.Cookies.Add(cookie2);
+                            }
+                        }
+                        //end
                         Response.Redirect("homepage.aspx");
                     }
                     else
@@ -242,12 +306,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New device Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -273,12 +337,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -405,12 +469,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New device Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -436,12 +500,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -731,12 +795,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New device Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -762,12 +826,12 @@ namespace FinalProj
                                                         if (us.GetUserByEmail(tbEmail.Text) != null)
                                                         {
                                                             string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                         }
                                                         else
                                                         {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                         }
                                                         EmailLog elg = new EmailLog();
@@ -932,12 +996,12 @@ namespace FinalProj
                                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                                     {
                                                         string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
-                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                     }
                                                     else
                                                     {
-                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
 
                                                     }
                                                     EmailLog elg = new EmailLog();
@@ -964,12 +1028,12 @@ namespace FinalProj
                                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                                     {
                                                         string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New device Detected");
-                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: "+browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                     }
                                                     else
                                                     {
-                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New device Detected");
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: "+ browser);
 
                                                     }
                                                     EmailLog elg = new EmailLog();
