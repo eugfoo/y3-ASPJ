@@ -16,19 +16,15 @@
             width: 270px;
         }
 
-        .gvAdminCSS {
-            padding: 5px 10px 5px 10px;
-        }
-
         #btnCSS {
-            padding: 0 20px 0 20px;
+            padding: 5px 0 5px 0;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="outsideBox">
         <div id="adminDiv" runat="server">
-            <asp:GridView ID="gvAdmin" CssClass="gvAdminCSS" runat="server" AutoGenerateColumns="False" ShowHeader="True" OnRowCommand="btnVerify_Click">
+            <asp:GridView ID="gvAdmin" class="table table-bordered table-striped table-hover" runat="server" AutoGenerateColumns="False" ShowHeader="True" OnRowCommand="btnVerify_Click">
                 <Columns>
                     <asp:BoundField DataField="subAdminEmail" HeaderText="Sub-Admin Email" />
                     <asp:BoundField DataField="requestRole" HeaderText="Requested Role" />

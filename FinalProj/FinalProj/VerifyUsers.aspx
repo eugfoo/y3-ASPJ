@@ -4,18 +4,17 @@
     <style>
         #outsideBox {
             margin: auto;
-            margin-top: 50px;
+            margin-top: 30px;
             margin-bottom: 50px;
-            width: 1050px;
+            width: 1100px;
         }
 
         #btnVerifyCSS, #btnDeclineCSS {
-            padding: 0 20px 0 20px;
+            padding: 5px 0 5px 0;
         }
 
         #labelBox {
             margin: auto;
-            margin-top: 15%;
             width: 200px;
         }
 
@@ -42,7 +41,7 @@
         <asp:Label ID="lblNoUsers" runat="server" Text="No users to verify!" Visible="false" CssClass="label success"></asp:Label>
     </div>
     <div id="outsideBox">
-        <asp:GridView ID="Gv_imgs" CssClass="grid" runat="server" AutoGenerateColumns="false" ShowHeader="True" OnRowCommand="btnVerify_Click">
+        <asp:GridView ID="Gv_imgs" class="table table-bordered table-striped table-hover" runat="server" AutoGenerateColumns="false" ShowHeader="True" OnRowCommand="btnVerify_Click">
             <Columns>
                 <asp:BoundField DataField="Text" HeaderText="Name" />
                 <asp:TemplateField HeaderText="Admin Verification">
