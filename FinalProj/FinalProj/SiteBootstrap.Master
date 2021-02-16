@@ -431,10 +431,11 @@
 <script type="text/javascript">
     var count = <%= count %>;
     var adcounter = <%= adcounter %>;
+    var reqCounter = <%= reqCounter %>;
     var color = ['#DC143C', 'white'];
     var index = 0;
 
-    if (count > 0 || adcounter > 0) {
+    if (count > 0 || adcounter > 0 || reqCounter > 0) {
         setInterval(function () {
             document.getElementById("hexagon").style.backgroundColor = color[index];
             index = (index + 1) % 2;
