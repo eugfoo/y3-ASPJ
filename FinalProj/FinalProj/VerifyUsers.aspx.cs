@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using FinalProj.BLL;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProj
 {
@@ -96,12 +98,76 @@ namespace FinalProj
         protected void btnVerify_Click(object sender, GridViewCommandEventArgs e)
         {
             int index = Convert.ToInt32(e.CommandArgument);
+            MainAdmins mad = new MainAdmins();
             GridViewRow row = Gv_imgs.Rows[index];
-
+            adminLog adl = new adminLog();
+            DateTime dt = DateTime.Now;
+            Users us = new Users();
+            string ipAddr = GetIPAddress();
+            string countryLogged = CityStateCountByIp(ipAddr);
             string email = row.Cells[0].Text;
             Users user = new Users();
             user.VerifyOrgByEmail(email);
+            if (Session["admin"] != null)
+            {
+                adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Verified " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["adminEmail"].ToString(), countryLogged);
+            }
+            else
+            {
+                adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Verified "  + email + " ("+us.GetUserByEmail(email).name+")'s selfie", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+            }
             Response.Redirect("/VerifyUsers.aspx");
+        }
+        public static string CityStateCountByIp(string IP)
+        {
+            //var url = "http://freegeoip.net/json/" + IP;
+            //var url = "http://freegeoip.net/json/" + IP;
+            string url = "http://api.ipstack.com/" + IP + "?access_key=01ca9062c54c48ef1b7d695b008cae00";
+            var request = System.Net.WebRequest.Create(url);
+            WebResponse myWebResponse = request.GetResponse();
+            Stream stream = myWebResponse.GetResponseStream();
+
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string json = reader.ReadToEnd();
+                JObject objJson = JObject.Parse(json);
+                string Country = objJson["country_name"].ToString();
+                string Country_code = objJson["country_code"].ToString();
+                if (Country == "")
+                {
+                    Country = "-";
+                }
+
+                else if (Country_code == "")
+                {
+                    Country = Country;
+                }
+                else
+                {
+                    Country = Country + " (" + Country_code + ")";
+                }
+                return Country;
+
+            }
+
+        }
+
+        protected string GetIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+
+            return context.Request.ServerVariables["REMOTE_ADDR"];
         }
     }
 }
