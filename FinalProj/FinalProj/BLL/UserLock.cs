@@ -14,34 +14,48 @@ namespace FinalProj.BLL
 		public string userName { get; set; }
 		public DateTime dateTime { get; set; }
 		public int userLock { get; set; }
+		public int userAttempts { get; set; }
 
 
 
 		public UserLock() { }
-		public UserLock(int Id, string ulEmail, string ulName, DateTime dateT, int ulLock)
+		public UserLock(int Id, string ulEmail, string ulName, DateTime dateT, int ulLock, int uAttempts)
 		{
 			userLockId = Id;
 			userEmail = ulEmail;
 			userName = ulName;
 			dateTime = dateT;
 			userLock = ulLock;
+			userAttempts = uAttempts;
 		}
 
-		public List<UserLock> GetAllLogsOfUser(string email)
+		public UserLock GetLockStatusByEmail(string email)
 		{
-			UserLockDAO elg = new UserLockDAO();
-			return elg.SelectByEmail(email);
+			UserLockDAO uld = new UserLockDAO();
+			return uld.SelectByEmail(email);
 		}
-		public List<UserLock> GetAllLogsFromId(int Id)
+		public List<UserLock> GetAllLockUsers()
 		{
 			UserLockDAO elg = new UserLockDAO();
-			return elg.SelectById(Id);
+			return elg.SelectAllLock();
 		}
 
-		public int AddEmailLog(string userEmail, string userName, DateTime dateTime, int ulLock)
+		public int AddEmail(string userEmail, string userName, DateTime dateTime, int ulLock)
 		{
 			UserLockDAO lgDao = new UserLockDAO();
-			int result = lgDao.Insert(userEmail, userName, dateTime, ulLock);
+			int result = lgDao.InsertEmail(userEmail, userName, dateTime, ulLock);
+			return result;
+		}
+		public int UpdateAttempts(string userEmail,int ulAttempts)
+		{
+			UserLockDAO lgDao = new UserLockDAO();
+			int result = lgDao.UpdateAttempts(userEmail,ulAttempts);
+			return result;
+		}
+		public int UpdateStatus(string userEmail ,DateTime dateTime, int ulLock)
+		{
+			UserLockDAO lgDao = new UserLockDAO();
+			int result = lgDao.UpdateLockStatus(userEmail, dateTime, ulLock);
 			return result;
 		}
 	}
