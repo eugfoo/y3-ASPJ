@@ -112,9 +112,9 @@
                                     { %>
                                 <td style="color: #006400;"><%= element.Action %></td>
                                 <%}
-                                    else if (element.Action == "Failed Login Attempt")
+                                    else if (element.Action == "Successful Log out Attempt")
                                     { %>
-                                <td style="color: #8B0000;"><%= element.Action %></td>
+                                <td style="color: #006400;"><%= element.Action %></td>
                                 <%}
                                     else if (element.ViolationType == "-")
                                     { %>
@@ -125,6 +125,7 @@
                                 <td style="color: #8B0000;"><%= element.Action %></td>
 
                                 <%} %>
+
                                 <%if (element.ViolationType != "-")
                                     { %><td style="color: #8B0000;"><%= element.ViolationType %></td>
 
@@ -154,16 +155,16 @@
                                     else
                                     {%><td><%= element.Username %> </td>
                                 <%} %>
+
                                 <td><%= element.ipAddr %></td>
                                 <% if (element.Action == "Successful Login Attempt")
                                     { %>
                                 <td style="color: #006400;"><%= element.Action %></td>
                                 <%}
-                                    else if (element.Action == "Failed Login Attempt")
+                                    else if (element.Action == "Successful Log out Attempt")
                                     { %>
-                                <td style="color: #8B0000;"><%= element.Action %></td>
-                                <%}
-                                    else if (element.ViolationType == "-")
+                                <td style="color: #006400;"><%= element.Action %></td>
+                                <%}else if (element.ViolationType == "-")
                                     { %>
                                 <td style="color: #006400;"><%= element.Action %></td>
                                 <%}

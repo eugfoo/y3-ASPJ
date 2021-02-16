@@ -78,19 +78,26 @@ namespace FinalProj
                                 Gv_imgs.DataBind();
                             }
                         }
+                        else // If a non-admin tries to access the page...
+                        {
+                            if (Convert.ToBoolean(Session["subadmin"]))
+                            {
+                                string err = "NoPermission";
+                                Response.Redirect("homepage.aspx?error=" + err);
+                            }
+                            else
+                            {
+                                Response.Redirect("homepage.aspx");
+                            }
+                        }
                     }
-                    else // If a non-admin tries to access the page...
+                    else
                     {
-                        if (Convert.ToBoolean(Session["subadmin"]))
-                        {
-                            string err = "NoPermission";
-                            Response.Redirect("homepage.aspx?error=" + err);
-                        }
-                        else
-                        {
-                            Response.Redirect("homepage.aspx");
-                        }
+                        Session.Clear();
+                        string err = "SessionKicked";
+                        Response.Redirect("homepage.aspx?error=" + err);
                     }
+                    
                 }
             }
         }
