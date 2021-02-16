@@ -14,6 +14,10 @@ namespace FinalProj
     public class Global : System.Web.HttpApplication
     {
         List<Logs> lgList;
+        void Application_Start(object sender, EventArgs e)
+        {
+            RouteConfig.RegisterRoutes(System.Web.Routing.RouteTable.Routes);
+        }
         void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();

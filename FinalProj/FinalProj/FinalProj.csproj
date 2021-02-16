@@ -67,6 +67,9 @@
     <Reference Include="IpData, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IpData.2.0.1\lib\netstandard2.0\IpData.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.FriendlyUrls, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.2\lib\net45\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -288,6 +291,7 @@
     <Content Include="TwoFactor1.aspx" />
     <Content Include="Verify.aspx" />
     <Content Include="VerifyUsers.aspx" />
+    <Content Include="ViewSwitcher.ascx" />
     <Content Include="Voucher.css" />
     <Content Include="AddVoucher.aspx" />
     <Content Include="VoucherRedemption.aspx" />
@@ -320,6 +324,7 @@
     <Compile Include="AdminPage.aspx.designer.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AttendanceEdit.aspx.cs">
       <DependentUpon>AttendanceEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -604,6 +609,13 @@
     <Compile Include="SecurityCheckup.aspx.designer.cs">
       <DependentUpon>SecurityCheckup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Site.Mobile.Master.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Mobile.Master.designer.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
     <Compile Include="SiteBootstrap.Master.cs">
       <DependentUpon>SiteBootstrap.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -645,6 +657,13 @@
     </Compile>
     <Compile Include="VerifyUsers.aspx.designer.cs">
       <DependentUpon>VerifyUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.designer.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
     <Compile Include="VoucherRedemption.aspx.cs">
       <DependentUpon>VoucherRedemption.aspx</DependentUpon>
@@ -697,6 +716,7 @@
     <None Include="packages.config" />
     <Content Include="SiteBootstrap.Master" />
     <Content Include="ProfilePage.Master" />
+    <Content Include="Site.Mobile.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -705,7 +725,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Start\" />
     <Folder Include="Data\" />
     <Folder Include="Img\User\AdminFaceVerification\" />
     <Folder Include="Img\User\UserFaceVerification\" />
