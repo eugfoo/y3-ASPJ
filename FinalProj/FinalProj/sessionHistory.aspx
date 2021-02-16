@@ -48,22 +48,30 @@
             <td><%= element.ipAddr %></td>
             <td><%= element.Country %></td>
             <% if (element.result == "Successful Login Attempt")
-                { %>
+    { %>
                 <td style="color: #006400;"><%= element.result %></td>
                <%}
-               else if (element.result == "Failed Login Attempt")
-               { %>
-                    <td style="color: #8B0000;"><%= element.result %></td>
-                        <%}
-               else if (element.result == "Successful Log out Attempt")
-               {%>
+                else if (element.result == "Failed Login Attempt")
+                { %>
+                <td style="color: #8B0000;"><%= element.result %></td>
+                                    <%}
+                else if (element.result == "Successful Log out Attempt")
+                {%>
+                <td style="color: #006400;"><%= element.result %></td>
+                                    <%}
+                else if (element.result == "Session Timeout")
+                {%>
+                <td style="color: #8B0000;"><%= element.result %></td>
+                    
+                           <%}
+                else if (element.result == "New Browser Detected: INTERNETEXPLORER11")
+                {%>
                     <td style="color: #006400;"><%= element.result %></td>
-                        <%}
-               else if (element.result == "Session Timeout")
-               {%>
-                    <td style="color: #8B0000;"><%= element.result %></td>
-
-               <%} %>
+                    
+                <%}
+                else if (element.result == "New Browser Detected: CHROME88")%>
+                    <td style="color: #006400;"><%= element.result %></td>
+            <%} %>
 
         </tr>        
         <%} %>
