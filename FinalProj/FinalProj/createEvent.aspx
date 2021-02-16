@@ -117,26 +117,41 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="eventTitle">Title:</label>
-                        <asp:TextBox ID="eventTitle" CssClass="form-control" placeholder="Project Free Cycle" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="eventTitle" CssClass="form-control" placeholder="Project Free Cycle" runat="server"></asp:TextBox>                                                                         
+                        <asp:RequiredFieldValidator ID="v_eventTitle" runat="server" class="alert-danger" role="alert" 
+                            ErrorMessage="Title is required" ControlToValidate="eventTitle">                                                         
+                        </asp:RequiredFieldValidator> 
                     </div>
 
                 </div>
                 <div class="form-group">
                     <label for="eventAddress">Venue:</label>
                     <asp:TextBox ID="eventAddress" CssClass="form-control" placeholder="1234 Main St" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="v_eventAddress" runat="server" class="alert-danger" role="alert" 
+                        ErrorMessage="Venue is required" ControlToValidate="eventAddress">                                                         
+                    </asp:RequiredFieldValidator>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="eventDate">Date:</label>
-                        <asp:TextBox ID="eventDate" CssClass="form-control" runat="server" type="date" format="DD-MM-YYYY" min="<%=DateTime.Now.Date %>" Font-Overline="False"></asp:TextBox>
+                        <asp:TextBox ID="eventDate" CssClass="form-control" runat="server" type="date" format="DD-MM-YYYY" min="<%=DateTime.Now.Date %>" Font-Overline="False"></asp:TextBox>                    
+                        <asp:CompareValidator id="v_eventDate" runat="server" Type="Date" Operator="DataTypeCheck" ControlToValidate="eventDate"  
+                            ErrorMessage="Please enter a valid date."> 
+                        </asp:CompareValidator> 
                     </div>
                     <div class="form-group col-md-3">
                         <label for="startTime">Start Time: </label>
                         <asp:TextBox ID="startTime" CssClass="form-control" runat="server" min="07:00" max="22:00" format="hh:mm" type="time"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="v_startTime" runat="server" class="alert-danger" role="alert" 
+                            ErrorMessage="Start Time is required" ControlToValidate="startTime">                                                         
+                        </asp:RequiredFieldValidator>   
                     </div>
                     <div class="form-group col-md-3">
                         <label for="endTime">End Time: </label>
                         <asp:TextBox ID="endTime" CssClass="form-control" runat="server" min="07:00" max="22:00" format="hh:mm" type="time"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="v_endTime" runat="server" class="alert-danger" role="alert" 
+                            ErrorMessage="End Time is required" ControlToValidate="endTime">                                                         
+                        </asp:RequiredFieldValidator>   
                     </div>
                 </div>
                 <div class="form-group">
@@ -144,13 +159,9 @@
                     <label for="maxAttend">Max Number of Attendees:</label>
                     <asp:TextBox ID="maxAttend" CssClass="form-control" runat="server" Rows="5" placeholder="20" type="number"></asp:TextBox>
                 </div>
-                <div class="card-title" style="background-color: #22537C; font-family: 'Franklin Gothic'; padding: 1%; color: white; font-size: 1em;">&nbsp;Write a summary of your Event*</div>
-                <div class="form-group">
-                    <label for="desc">Description:</label>
-
-                    <asp:TextBox ID="desc" CssClass="form-control" runat="server" Height="250" TextMode="MultiLine" onkeyup="countChars(this);"></asp:TextBox>
-                    <p id="charNum">3000 characters remaining</p>
-
+                <asp:RequiredFieldValidator ID="v_maxAttend" runat="server" class="alert-danger" role="alert" 
+                        ErrorMessage="'Max Number of Attendees' is required" ControlToValidate="maxAttend">                                                         
+                    </asp:RequiredFieldValidator>  
                 </div>
                 <div class="card-title" style="background-color: #22537C; font-family: 'Franklin Gothic'; padding: 1%; color: white; font-size: 1em;">&nbsp;Add a Photo</div>
 
@@ -182,7 +193,7 @@
 
                 </div>
                 <div class="card-title" style="background-color: #22537C; font-family: 'Franklin Gothic'; padding: 1%; color: white; font-size: 1em;">&nbsp;Include a Short Note</div>
-                <label for="noteText">Note:</label>
+                <asp:TextBox ID="desc" CssClass="form-control" runat="server" OnTextChanged="desc_TextChanged"></asp:TextBox> 
                 <asp:TextBox ID="noteText" CssClass="form-control" runat="server"></asp:TextBox>
 
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">

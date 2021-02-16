@@ -282,6 +282,7 @@
         <asp:Panel ID="replyPanel" runat="server">
             <div class="form-group">
                 <label for="comment">Reply to this post:</label>
+                 <asp:Label ID="v_spamCheckMessage" runat="server" Text="" class="alert-danger" role="alert"></asp:Label>
                 <asp:TextBox ID="tbReplyContent" runat="server" CssClass="form-control" Height="250px" TextMode="MultiLine"></asp:TextBox>
                 <asp:Label ID="LblMsg" runat="server" ForeColor="Red"></asp:Label>
             </div>

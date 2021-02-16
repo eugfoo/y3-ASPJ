@@ -58,7 +58,7 @@ namespace FinalProj
                                 user.AddUser();                                BLL.Cookie ck = new BLL.Cookie();                                ck.AddEmail(user.email, "", "");
 
                                 PassHist pass = new PassHist(user.email, passHash, DTNow);
-                                pass.AddPass();
+                                pass.AddPass();                                userProfilePrivacy profilePriv = new userProfilePrivacy();                                profilePriv.AddEmail(user.email);
                                 Response.Redirect("LogIn.aspx");
                             }
                             else

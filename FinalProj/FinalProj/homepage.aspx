@@ -185,7 +185,7 @@
 				height: 2em;
 				line-height: 2em;
 			}
-
+/**/
 		thead tr {
 			color: #e66b6b;
 			font-weight: 700;

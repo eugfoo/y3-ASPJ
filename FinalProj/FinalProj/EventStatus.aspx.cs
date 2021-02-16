@@ -14,6 +14,8 @@ namespace FinalProj
         protected List<EventsStatus> evStListTemp;
         protected List<EventsStatus> evStList = new List<EventsStatus>();
 
+       
+
         protected List<EventsStatus> evStListEventCounter;
         protected List<EventsStatus> evStListParticipateCounter;
 
@@ -60,10 +62,13 @@ namespace FinalProj
                         if (viewingUserId != null)
                         {
 
+                            
                             // This is a counter
                             evStListEventCounter = evSt.GetAllEventsByName();
                             counterId = evSt.GetAllEventsParticipate(int.Parse(viewingUserId));
                             evStListParticipateCounter = evSt.GetAllEventsEventId(counterId);
+                            
+                           
 
                             foreach (var element in evStListParticipateCounter)
                             {
@@ -425,6 +430,8 @@ namespace FinalProj
                         Response.Redirect("homepage.aspx?error=" + err);
                     }
                 }
+
+
             }
         }
 

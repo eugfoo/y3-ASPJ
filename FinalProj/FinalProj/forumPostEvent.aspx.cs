@@ -434,6 +434,34 @@ namespace FinalProj
 
         protected void btnReply_Click(object sender, EventArgs e)
         {
+            bool isInitialLoad = false;
+            // check if this is the first to reply for this session.
+            if (Session["spamCheckStartTime"] == null)
+            {
+                Session["spamCheckStartTime"] = DateTime.Now;
+                isInitialLoad = true;
+            }
+
+            if (!isInitialLoad)
+            {
+                DateTime spamCheckStartTime = (DateTime)Session["spamCheckStartTime"];
+                DateTime today = DateTime.Now;
+
+                TimeSpan timeDiff = today - spamCheckStartTime;
+
+                Session["spamCheckStartTime"] = DateTime.Now;
+
+                // just do a X second spam check
+                int _SPAM_CHECK_INTERVAL = 60;
+                if (timeDiff.TotalSeconds <= _SPAM_CHECK_INTERVAL)
+                {
+                    v_spamCheckMessage.Text = "Spam Reply Detected. Please do it again after " + _SPAM_CHECK_INTERVAL + " seconds.";
+                    return;
+                }
+
+            }
+
+            v_spamCheckMessage.Text = "";
             ThreadReply threadReply = new ThreadReply();
             Users user = (Users)Session["user"];
             int user_id = user.id;

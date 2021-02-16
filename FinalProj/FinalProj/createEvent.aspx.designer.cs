@@ -60,6 +60,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox eventTitle;
 
         /// <summary>
+        /// v_eventTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator v_eventTitle;
+
+        /// <summary>
         /// eventAddress control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace FinalProj
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox eventAddress;
+
+        /// <summary>
+        /// v_eventAddress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator v_eventAddress;
 
         /// <summary>
         /// eventDate control.
@@ -78,6 +96,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox eventDate;
 
         /// <summary>
+        /// v_eventDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator v_eventDate;
+
+        /// <summary>
         /// startTime control.
         /// </summary>
         /// <remarks>
@@ -85,6 +112,15 @@ namespace FinalProj
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox startTime;
+
+        /// <summary>
+        /// v_startTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator v_startTime;
 
         /// <summary>
         /// endTime control.
@@ -96,6 +132,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox endTime;
 
         /// <summary>
+        /// v_endTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator v_endTime;
+
+        /// <summary>
         /// maxAttend control.
         /// </summary>
         /// <remarks>
@@ -105,13 +150,13 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.TextBox maxAttend;
 
         /// <summary>
-        /// desc control.
+        /// v_maxAttend control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox desc;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator v_maxAttend;
 
         /// <summary>
         /// FileUploadControl control.
@@ -139,6 +184,15 @@ namespace FinalProj
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
+        /// desc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox desc;
 
         /// <summary>
         /// noteText control.
