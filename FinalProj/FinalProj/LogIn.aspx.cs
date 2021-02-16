@@ -252,10 +252,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -285,10 +283,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 17);
-                                                        Str2 = browser.Substring(17, 19);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -419,10 +415,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -452,10 +446,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 17);
-                                                        Str2 = browser.Substring(17, 19);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -749,10 +741,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -782,10 +772,8 @@ namespace FinalProj
                                                         }
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 17);
-                                                        Str2 = browser.Substring(17, 19);
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -954,10 +942,8 @@ namespace FinalProj
                                                     }
                                                     EmailLog elg = new EmailLog();
                                                     DateTime dtelg = DateTime.Now;
-                                                    Str1 = browser.Substring(0, 17);
-                                                    Str2 = browser.Substring(17, 19);
                                                     title = "New login from new browser";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
@@ -988,10 +974,8 @@ namespace FinalProj
                                                     }
                                                     EmailLog elg = new EmailLog();
                                                     DateTime dtelg = DateTime.Now;
-                                                    Str1 = browser.Substring(0, 7);
-                                                    Str2 = browser.Substring(7, 10);
                                                     title = "New login from new browser";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
@@ -1243,14 +1227,14 @@ namespace FinalProj
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
-        public static async Task EmailNewDevice(string email, string name, string Str1, string Str2)
+        public static async Task EmailNewDevice(string email, string name, string browser)
         {
             var client = new SendGridClient("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");
             var from = new EmailAddress("kovitwk21@gmail.com", "ClearView21");
             var subject = "New login from new browser" ;
             var to = new EmailAddress(email, name);
             var plainTextContent = "";
-            var htmlContent = "<strong><h2>We detected a new sign-in to your account from </h2></strong>"+ Str1 + "<strong><h2>Version</h2></strong>"+Str2+"<br/>" +
+            var htmlContent = "<strong><h2>We detected a new sign-in to your account from </h2></strong>"+ browser+ "<br/>" +
                 "<p>If this was you, please ignore this email, otherwise click here to change your password " + "http://localhost:60329/EditProfile.aspx" + "</p></strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
