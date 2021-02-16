@@ -234,40 +234,7 @@ namespace FinalProj
                                                 {
                                                     ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
                                                 }
-                                                if (browser.Contains("Firefox"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDFF"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDFF");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
-                                                    }
-                                                }
-                                                else if (browser.Contains("CHROME"))
+                                                if (browser.Contains("CHROME"))
                                                 {
                                                     HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                     if (cookie == null)
@@ -288,6 +255,39 @@ namespace FinalProj
                                                         DateTime dtelg = DateTime.Now;
                                                         Str1 = browser.Substring(0, 7);
                                                         Str2 = browser.Substring(7, 10);
+                                                        title = "New login from new browser";
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                        //Creates new cookie session
+                                                        Guid guid = Guid.NewGuid();
+                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                        cookie2["sid"] = uSid;
+                                                        cookie2.Expires = DateTime.Now.AddYears(1);
+                                                        Response.Cookies.Add(cookie2);
+                                                    }
+                                                }
+                                                else if (browser.Contains("INTERNETEXPLORER"))
+                                                {
+                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                    if (cookie == null)
+                                                    {
+                                                        // edit here
+                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                        {
+                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        }
+                                                        else
+                                                        {
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+
+                                                        }
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        Str1 = browser.Substring(0, 17);
+                                                        Str2 = browser.Substring(17, 19);
                                                         title = "New login from new browser";
                                                         EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
@@ -401,40 +401,7 @@ namespace FinalProj
                                                 {
                                                     lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                                 }
-                                                if (browser.Contains("Firefox"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDFF"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDFF");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
-                                                    }
-                                                }
-                                                else if (browser.Contains("CHROME"))
+                                                if (browser.Contains("CHROME"))
                                                 {
                                                     HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                     if (cookie == null)
@@ -455,6 +422,39 @@ namespace FinalProj
                                                         DateTime dtelg = DateTime.Now;
                                                         Str1 = browser.Substring(0, 7);
                                                         Str2 = browser.Substring(7, 10);
+                                                        title = "New login from new browser";
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                        //Creates new cookie session
+                                                        Guid guid = Guid.NewGuid();
+                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                        cookie2["sid"] = uSid;
+                                                        cookie2.Expires = DateTime.Now.AddYears(1);
+                                                        Response.Cookies.Add(cookie2);
+                                                    }
+                                                }
+                                                else if (browser.Contains("INTERNETEXPLORER"))
+                                                {
+                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                    if (cookie == null)
+                                                    {
+                                                        // edit here
+                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                        {
+                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        }
+                                                        else
+                                                        {
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+
+                                                        }
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        Str1 = browser.Substring(0, 17);
+                                                        Str2 = browser.Substring(17, 19);
                                                         title = "New login from new browser";
                                                         EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
@@ -731,40 +731,7 @@ namespace FinalProj
                                                     EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                 }
-                                                if (browser.Contains("Firefox"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDFF"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        Str1 = browser.Substring(0, 7);
-                                                        Str2 = browser.Substring(7, 10);
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDFF");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
-                                                    }
-                                                }
-                                                else if (browser.Contains("CHROME"))
+                                                if (browser.Contains("CHROME"))
                                                 {
                                                     HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                     if (cookie == null)
@@ -797,6 +764,39 @@ namespace FinalProj
                                                         Response.Cookies.Add(cookie2);
                                                     }
                                                 }
+                                                else if (browser.Contains("INTERNETEXPLORER"))
+                                                {
+                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                    if (cookie == null)
+                                                    {
+                                                        // edit here
+                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                        {
+                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        }
+                                                        else
+                                                        {
+                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
+
+                                                        }
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        Str1 = browser.Substring(0, 17);
+                                                        Str2 = browser.Substring(17, 19);
+                                                        title = "New login from new browser";
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                        //Creates new cookie session
+                                                        Guid guid = Guid.NewGuid();
+                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                        cookie2["sid"] = uSid;
+                                                        cookie2.Expires = DateTime.Now.AddYears(1);
+                                                        Response.Cookies.Add(cookie2);
+                                                    }
+                                                }                                            
 
                                                 Response.Redirect("homepage.aspx");
                                                 //end
@@ -936,39 +936,40 @@ namespace FinalProj
                                                 EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                                 elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                             }
-                                            if (browser.Contains("Firefox"))
+                                            if (browser.Contains("INTERNETEXPLORER"))
                                             {
-                                                HttpCookie cookie = Request.Cookies["SessionIDFF"];
+                                                HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                 if (cookie == null)
                                                 {
                                                     // edit here
                                                     if (us.GetUserByEmail(tbEmail.Text) != null)
                                                     {
                                                         string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Device Detected");
-                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Device Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New browser Detected");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New browser Detected", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                     }
                                                     else
                                                     {
-                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Device Detected");
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New browser Detected");
 
                                                     }
                                                     EmailLog elg = new EmailLog();
                                                     DateTime dtelg = DateTime.Now;
-                                                    Str1 = browser.Substring(0, 7);
-                                                    Str2 = browser.Substring(7, 10);
+                                                    Str1 = browser.Substring(0, 17);
+                                                    Str2 = browser.Substring(17, 19);
                                                     title = "New login from new browser";
                                                     EmailNewDevice(userTrying.userEmail, tryingUser.name, Str1, Str2);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                     //Creates new cookie session
                                                     Guid guid = Guid.NewGuid();
                                                     string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                    HttpCookie cookie2 = new HttpCookie("SessionIDFF");
+                                                    HttpCookie cookie2 = new HttpCookie("SessionIDCH");
                                                     cookie2["sid"] = uSid;
                                                     cookie2.Expires = DateTime.Now.AddYears(1);
                                                     Response.Cookies.Add(cookie2);
                                                 }
                                             }
+
                                             else if (browser.Contains("CHROME"))
                                             {
                                                 HttpCookie cookie = Request.Cookies["SessionIDCH"];
