@@ -171,7 +171,8 @@ namespace FinalProj
                 adl.AddAdminLog(dtLog, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Session Timeout", "-", Session["subadminEmail"].ToString(), countryLogged);
                 lg.AddLog(Session["subadminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
             }
-            else {
+            else if (Session["admin"] != null)
+            {
                 Logs lg = new Logs();
                 adminLog adl = new adminLog();
                 MainAdmins mad = new MainAdmins();
@@ -183,6 +184,9 @@ namespace FinalProj
                 ses.UpdateSession(Session["adminEmail"].ToString(), 0);
                 adl.AddAdminLog(dtLog, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Session Timeout", "-", Session["adminEmail"].ToString(), countryLogged);
                 lg.AddLog(Session["adminEmail"].ToString(), dtLog, ipAddr, countryLogged, "Session Timeout");
+            }
+            else { 
+            
             }
 
         }
