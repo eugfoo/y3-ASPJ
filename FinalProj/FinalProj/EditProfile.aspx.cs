@@ -32,9 +32,13 @@ namespace FinalProj
                 sesDeets = ses.GetSession(Session["email"].ToString());
                 if (sesDeets.Active == 1)
                 {
+                    Users user = (Users)Session["user"];
+
                     loadFunctions();
+                    
                 }
-                else {
+                else
+                {
                     if (bl.GetBlockedAccWithEmail(Session["email"].ToString()) != null)
                     {
                         Session.Clear();
@@ -206,17 +210,20 @@ namespace FinalProj
                     CB2FA.Checked = true;
                 }
             }
+
             if (!Page.IsPostBack)
             {
                 if (user.googleauth == 0)
                 {
                     cbGoogle.Checked = false;
                 }
-                else
+                else if (user.googleauth == 1)
                 {
                     cbGoogle.Checked = true;
                 }
             }
+
+
             if (!Page.IsPostBack)
             {
                 List<ListItem> Imgs = new List<ListItem>();
