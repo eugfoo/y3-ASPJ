@@ -208,7 +208,15 @@
                         <span></span>
                     </div>
                 </div>
+
                 <a id="hmpage-link" style="" class="navbar-brand text-center" href="/homepage.aspx">Clear View</a>
+                <%if (Session["subadmin"] != null)
+                    {
+                        Admins ad = new Admins();
+
+                        %>
+                 <span  class="navbar-brand text-center">Role: <%= ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString()).adminRole %> </span>
+                <%} %>
                 <button style="padding: 0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav"
                     aria-controls="navbarnav" aria-expanded="false" aria-label="toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -218,9 +226,12 @@
 
                 <div class="collapse navbar-collapse justify-content-end" id="navbarnav">
                     <ul class="nav navbar-nav">
+                        <%if (Session["user"] != null)
+                            { %>
                         <li class="nav-item mr-3">
                             <asp:HyperLink ID="lblBookmark" CssClass="nav-link" runat="server" NavigateUrl="/bookmark.aspx">Bookmarks</asp:HyperLink>
                         </li>
+                        <%} %>
                         <li class="nav-item mr-3">
                             <a class="nav-link" href="/forumPage1.aspx">Forum</a>
                         </li>
