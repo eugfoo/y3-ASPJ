@@ -9,6 +9,7 @@ using System.Web.Security.AntiXss;
 using System.Web.UI.WebControls;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using AvScan.WindowsDefender;
 
 namespace FinalProj
 {
@@ -18,6 +19,7 @@ namespace FinalProj
         public string linkInst = "https://www.instagram.com/";
         public string linkTwit = "https://www.twitter.com/";
         static string finalHash;
+        static string fileName2;
         protected List<PassHist> passList;
         protected Sessionmg sesDeets;
 
@@ -55,7 +57,30 @@ namespace FinalProj
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
+
             Users user = (Users)Session["user"];
+            var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
+            var scanner = new WindowsDefenderScanner(exeLocation);
+            var result = scanner.Scan(fileName2);
+            if (result.ToString() == "ThreatFound")
+            {
+                File.Delete(fileName2);
+                Sessionmg ses = new Sessionmg();
+                blocked bl = new blocked();
+                string ipAddr = GetIPAddress();
+                string countryLogged = CityStateCountByIp(ipAddr);
+                DateTime dtLog = DateTime.Now;
+                CityStateCountByIp(ipAddr);
+                ActivityLog alg = new ActivityLog();
+                ses.UpdateSession(Session["email"].ToString(), 0);
+                alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Malicious Event Photo", "Malware", user.email, countryLogged);
+                bl.AddBlockedAcc(user.email, user.name, "Uploaded Malicious Event Photo", dtLog); // adds account the block table
+                alg.AddActivityLog(dtLog, user.name, ipAddr, "Account Blocked", "Malware", user.email, countryLogged); // logs block acc
+                Session.Clear();
+                Response.Redirect("/homepage.aspx?error=Malicious");
+
+            }
+
             if (tbName.Text != "")
             {
                 user.UpdateNameByID(user.id, AntiXssEncoder.HtmlEncode(tbName.Text, true));
@@ -134,6 +159,7 @@ namespace FinalProj
             {
                 var uniqueFileName = string.Format(@"{0}.png", Guid.NewGuid());
                 string fileName = Path.Combine(Server.MapPath("/Img/User"), uniqueFileName);
+                fileName2 = "C://Users//Eugene Foo//Documents//y3-ASPJ//FinalProj//FinalProj//Img//User//" + uniqueFileName;
                 fuDP.SaveAs(fileName);
                 imgDP.ImageUrl = "/Img/User/" + uniqueFileName;
                 Session["tempDP"] = imgDP.ImageUrl;

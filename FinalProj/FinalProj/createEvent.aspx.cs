@@ -43,24 +43,24 @@ namespace FinalProj
                     Users usr = new Users();
                     Users user = (Users)Session["user"];
                     //AntiForgery.GetHtml().ToString();
-                    var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
-                    var scanner = new WindowsDefenderScanner(exeLocation);
-                    var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
-                    if (result.ToString() == "ThreatFound")
-                    {
-                        string ipAddr = GetIPAddress();
-                        string countryLogged = CityStateCountByIp(ipAddr);
-                        DateTime dtLog = DateTime.Now;
-                        CityStateCountByIp(ipAddr);
-                        ActivityLog alg = new ActivityLog();
-                        ses.UpdateSession(Session["email"].ToString(), 0); 
-                        alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Malicious Event Photo", "Malware", user.email, countryLogged);
-                        bl.AddBlockedAcc(user.email, user.name, "Uploaded Malicious Event Photo", dtLog); // adds account the block table
-                        alg.AddActivityLog(dtLog, user.name, ipAddr, "Account Blocked", "Malware", user.email, countryLogged); // logs block acc
-                        Session.Clear();
-                        Response.Redirect("/homepage.aspx");
+                    //var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
+                    //var scanner = new WindowsDefenderScanner(exeLocation);
+                    //var result = scanner.Scan("C://Users//Eugene Foo//Documents//Digital Forensics//eicar.com.txt");
+                    //if (result.ToString() == "ThreatFound")
+                    //{
+                    //    string ipAddr = GetIPAddress();
+                    //    string countryLogged = CityStateCountByIp(ipAddr);
+                    //    DateTime dtLog = DateTime.Now;
+                    //    CityStateCountByIp(ipAddr);
+                    //    ActivityLog alg = new ActivityLog();
+                    //    ses.UpdateSession(Session["email"].ToString(), 0); 
+                    //    alg.AddActivityLog(dtLog, user.name, ipAddr, "Uploaded Malicious Event Photo", "Malware", user.email, countryLogged);
+                    //    bl.AddBlockedAcc(user.email, user.name, "Uploaded Malicious Event Photo", dtLog); // adds account the block table
+                    //    alg.AddActivityLog(dtLog, user.name, ipAddr, "Account Blocked", "Malware", user.email, countryLogged); // logs block acc
+                    //    Session.Clear();
+                    //    Response.Redirect("/homepage.aspx");
 
-                    }
+                    //}
 
 
                     goog = usr.GetUserById(user.id).googleauth;
@@ -207,6 +207,7 @@ namespace FinalProj
             if (FileUploadControl.HasFile)
             {
                 string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
+                // check file for malware 
                 
             }
             // prevent event spamming

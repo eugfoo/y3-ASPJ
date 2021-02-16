@@ -29,7 +29,8 @@ namespace FinalProj
 				lb_error.Text = "No Permissions. Please request for permission if you wish to access the feature.";
 
 			}
-			else if (Request.QueryString["error"] == "SessionKicked") {
+			else if (Request.QueryString["error"] == "SessionKicked")
+			{
 				panelError.Visible = true;
 				lb_error.Text = "Your sub-admin priviliges were removed.";
 			}
@@ -39,9 +40,14 @@ namespace FinalProj
 				lb_error.Text = "Your account has been banned.";
 			}
 			else if (Request.QueryString["error"] == "SessionRevoked")
+
 			{
 				panelError.Visible = true;
 				lb_error.Text = "Your sub-admin invitation has been revoked.";
+			}
+			else if (Request.QueryString["error"] == "Malicious") {
+				panelError.Visible = true;
+				lb_error.Text = "Your accout has been banned due to malicious activities.";
 			}
 
 			loadDates("no");
