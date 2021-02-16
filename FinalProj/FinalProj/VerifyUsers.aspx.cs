@@ -107,18 +107,46 @@ namespace FinalProj
             string countryLogged = CityStateCountByIp(ipAddr);
             string email = row.Cells[0].Text;
             Users user = new Users();
-            user.VerifyOrgByEmail(email);
-            if (Session["admin"] != null)
+            user = user.GetUserByEmail(email);
+            if (e.CommandName == "Verify")
             {
-                adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Verified " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["adminEmail"].ToString(), countryLogged);
-            }
-            else
-            {
-                adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Verified "  + email + " ("+us.GetUserByEmail(email).name+")'s selfie", "-", Session["subadminEmail"].ToString(), countryLogged);
+                user.VerifyOrgByEmail(email);
 
+                if (Session["admin"] != null)
+                {
+                    adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Verified " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["adminEmail"].ToString(), countryLogged);
+                }
+                else
+                {
+                    adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Verified " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                }
+                Response.Redirect("/VerifyUsers.aspx");
             }
-            Response.Redirect("/VerifyUsers.aspx");
+            else if (e.CommandName == "Decline")
+            {
+                user.UpdateVerifyImage(user.id, "");
+
+                string path = Path.Combine(Server.MapPath("/Img/User/UserFaceVerification/"));
+                string fileNameWitPath = path + user.email.ToString() + ".png";
+                FileInfo file = new FileInfo(fileNameWitPath);
+                if (file.Exists)
+                {
+                    file.Delete();
+                    if (Session["admin"] != null)
+                    {
+                        adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Declined " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["adminEmail"].ToString(), countryLogged);
+                    }
+                    else
+                    {
+                        adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Declined " + email + " (" + us.GetUserByEmail(email).name + ")'s selfie", "-", Session["subadminEmail"].ToString(), countryLogged);
+
+                    }
+                    Response.Redirect("/VerifyUsers.aspx");
+                }
+            }
         }
+
         public static string CityStateCountByIp(string IP)
         {
             //var url = "http://freegeoip.net/json/" + IP;

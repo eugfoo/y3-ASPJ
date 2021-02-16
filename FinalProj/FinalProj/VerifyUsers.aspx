@@ -9,7 +9,7 @@
             width: 1050px;
         }
 
-        #btnCSS {
+        #btnVerifyCSS, #btnDeclineCSS {
             padding: 0 20px 0 20px;
         }
 
@@ -22,7 +22,7 @@
         .success {
             background-color: #4CAF50;
             border-radius: 5px;
-            font-weight:500;
+            font-weight: 500;
             font-size: 20px;
         }
 
@@ -53,8 +53,9 @@
                 <asp:ImageField DataImageUrlField="Value" ControlStyle-Height="500" ControlStyle-Width="320" HeaderText="User Submitted" />
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <div id="btnCSS">
-                            <asp:Button ID="btnVerify" CssClass="btn btn-success" runat="server" Text="Verify" CommandArgument='<%# Container.DataItemIndex %>' />
+                        <div id="btnVerifyCSS">
+                            <asp:Button ID="btnVerify" CssClass="btn btn-success" runat="server" Text="Verify" CommandName="Verify" CommandArgument='<%# Container.DataItemIndex %>' />
+                            <asp:Button ID="btnDecline" CssClass="btn btn-danger" runat="server" Text="Decline" CommandName="Decline" CommandArgument='<%# Container.DataItemIndex %>' />
                         </div>
                     </ItemTemplate>
                 </asp:TemplateField>
