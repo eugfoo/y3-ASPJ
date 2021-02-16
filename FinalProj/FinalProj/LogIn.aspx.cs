@@ -100,9 +100,9 @@ namespace FinalProj
                             if (cookie == null)
                             {
                                 // edit here change to admin
-                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                if (mad.GetAdminByEmail(tbEmail.Text) != null)
                                 {
-                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                    string name = mad.GetAdminByEmail(tbEmail.Text).MainadminName;
                                     lg.AddLog(adminlogin.MainadminEmail, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
                                     adl.AddAdminLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                 }
@@ -131,9 +131,9 @@ namespace FinalProj
                             if (cookie == null)
                             {
                                 // edit here
-                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                if (mad.GetAdminByEmail(tbEmail.Text) != null)
                                 {
-                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                    string name = mad.GetAdminByEmail(tbEmail.Text).MainadminName;
                                     lg.AddLog(adminlogin.MainadminEmail, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
                                     adl.AddAdminLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                 }

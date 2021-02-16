@@ -48,7 +48,7 @@
             <td><%= element.ipAddr %></td>
             <td><%= element.Country %></td>
             <% if (element.result == "Successful Login Attempt")
-    { %>
+                { %>
                 <td style="color: #006400;"><%= element.result %></td>
                <%}
                 else if (element.result == "Failed Login Attempt")
@@ -69,7 +69,7 @@
                     <td style="color: #006400;"><%= element.result %></td>
                     
                 <%}
-                else if (element.result == "New Browser Detected: CHROME88")%>
+                else if (element.result == "New Browser Detected: CHROME88"){%>
                     <td style="color: #006400;"><%= element.result %></td>
             <%} %>
 
