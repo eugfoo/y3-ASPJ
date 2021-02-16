@@ -209,6 +209,7 @@ namespace FinalProj
                 string filename = Path.GetFileName(FileUploadControl.PostedFile.FileName);
                 
             }
+            // prevent event spamming
             List<Events> evList;
             Users user = (Users)Session["user"];
             Events ev = new Events();
