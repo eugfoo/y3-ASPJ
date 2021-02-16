@@ -33,6 +33,15 @@ namespace FinalProj
         protected global::System.Web.UI.WebControls.GridView gvAdmin;
 
         /// <summary>
+        /// lblNothin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNothin;
+
+        /// <summary>
         /// subAdminDiv control.
         /// </summary>
         /// <remarks>

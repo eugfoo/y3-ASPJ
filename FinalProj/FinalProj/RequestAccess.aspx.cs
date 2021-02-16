@@ -34,6 +34,11 @@ namespace FinalProj
                         listReq = req.getAllRequests();
                         gvAdmin.DataSource = listReq;
                         gvAdmin.DataBind();
+                        if (listReq.Count == 0)
+                        {
+                            lblNothin.Visible = true;
+                            lblNothin.Text = "There are currently no requests";
+                        }
                     }
                     else
                     {

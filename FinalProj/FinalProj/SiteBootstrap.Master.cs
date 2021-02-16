@@ -16,13 +16,16 @@ namespace FinalProj
     {
         protected List<Notifications> notiListTemp;
         protected List<Admins> adListTemp;
-                protected Admins adDeets;
+        protected List<RequestPermission> reqListTemp;
+        protected Admins adDeets;
         protected roles rlDeets;
         protected List<Notifications> notiList = new List<Notifications>();
         protected List<Admins> adList = new List<Admins>();
+        protected List<RequestPermission> reqList = new List<RequestPermission>();
         List<MainAdmins> maList;
         protected int count = 0;
         protected int adcounter = 0;
+        protected int reqCounter = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,9 +40,19 @@ namespace FinalProj
                 Div2.Visible = false;
                 lisubadmin.Visible = true;
             }
-            else if (Convert.ToBoolean(Session["admin"])) {
+            else if (Convert.ToBoolean(Session["admin"]))
+            {
                 liAdmin.Visible = true;
                 Div2.Visible = false;
+
+                RequestPermission req = new RequestPermission();
+                reqListTemp = req.getAllRequests();
+
+                for (int j = 0; j < reqListTemp.Count; j++)
+                {
+                    reqCounter += 1;
+                    reqList.Add(reqListTemp[j]);
+                }
 
             }
             else
@@ -58,6 +71,7 @@ namespace FinalProj
                     notiListTemp = noti.GetEventsEnded();
                     Admins ad = new Admins();
                     adListTemp = ad.GetAllAdmins();
+
                     System.Diagnostics.Debug.WriteLine("This is notiListTemp: " + notiListTemp);
                     for (int j = 0; j < adListTemp.Count; j++)
                     {
@@ -68,6 +82,8 @@ namespace FinalProj
                             //System.Diagnostics.Debug.WriteLine("This is notiList" + notiList[i]);
                         }
                     }
+
+
 
                     for (int i = 0; i < notiListTemp.Count; i++)
                     {
@@ -112,12 +128,13 @@ namespace FinalProj
                     {
                         cbOTP.UpdateOTPByEmail(cbDetails.userEmail, "", 0); ;
                     }
-                    
+
                     alg.AddActivityLog(dtLog, user.name, ipAddr, "Successful Log out Attempt ", "-", user.email, countryLogged);
                     Session.Clear();
                     Response.Redirect("/homepage.aspx");
                 }
-                else {
+                else
+                {
                     Users user = new Users();
                     Admins adUser = new Admins();
                     Sessionmg ses = new Sessionmg();
@@ -137,7 +154,8 @@ namespace FinalProj
                     Response.Redirect("/homepage.aspx");
                 }
             }
-            else {
+            else
+            {
                 Sessionmg ses = new Sessionmg();
 
                 ses.UpdateSession(Session["adminEmail"].ToString(), 0);
@@ -149,7 +167,7 @@ namespace FinalProj
                 adminLog adl = new adminLog();
                 MainAdmins ma = new MainAdmins();
                 maList = ma.SelectAllMainAdmins();
-                
+
                 adl.AddAdminLog(dtLog, maList[0].MainadminName, ipAddr, "Successful Log out Attempt", "-", maList[0].MainadminEmail, countryLogged);
 
                 lg.AddLog(maList[0].MainadminEmail, dtLog, ipAddr, countryLogged, "Successful Log out Attempt");

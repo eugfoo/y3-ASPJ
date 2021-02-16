@@ -9,6 +9,13 @@
             width: 700px;
         }
 
+        #divLbl {
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            width: 270px;
+        }
+
         .gvAdminCSS {
             padding: 5px 10px 5px 10px;
         }
@@ -37,6 +44,9 @@
                 </Columns>
             </asp:GridView>
         </div>
+    </div>
+    <div id="divLbl">
+        <asp:Label ID="lblNothin" runat="server" Text="" CssClass="alert alert-success" Visible="false"></asp:Label>
     </div>
 
     <div id="subAdminDiv" class="card" runat="server">

@@ -175,7 +175,7 @@
                             { %>
                         <div class="dropdown-content">
                             <br />
-                            <% if (adList.Count == 0 && notiList.Count == 0)
+                            <% if (adList.Count == 0 && notiList.Count == 0 && reqList.Count == 0)
                                 { %>
                                     <p>You have no notifications</p>
                                 <%}
@@ -191,6 +191,7 @@
                                             Please click here to verify! </a>
                                         <%}
                                     }
+                                  
                                     for (int i = 0; i < notiList.Count; i++)
                                     {
                                         if (notiList[i].User_id.ToString() == Session["id"].ToString())
@@ -204,6 +205,27 @@
                                     }%>
                                 <%}%>
                         </div>
+                        <% } %>
+
+                        <%if (Session["admin"] != null)
+                        { %>
+                            <div class="dropdown-content">
+                            <br />
+                            <% if (reqList.Count == 0)
+                                { %>
+                                    <p>You have no notifications</p>
+                                <%}
+                                else
+                                {
+                                    for (int j = 0; j < reqList.Count; j++)
+                                    { %>
+                                        <a href="/RequestAccess.aspx">
+                                        <p>Sub-admin <%=reqList[j].subAdminEmail %> is requesting for <%=reqList[j].requestRole %></p>
+                                        <br />
+                                        Please click here to verify! </a>
+                                    <%}
+                                }%>
+                            </div>
                         <% } %>
                         <span></span>
                     </div>
