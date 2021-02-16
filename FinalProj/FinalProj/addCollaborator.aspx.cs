@@ -31,12 +31,14 @@ namespace FinalProj
         protected int mgCollabCheck;
         protected int mgVouchCheck;
         protected int mgAdminLgCheck;
+        protected int vSelfieCheck;
         string OldText = string.Empty;
         protected bool capsuleApp;
         protected bool capsuleCollab;
         protected bool capsuleVouch;
         protected bool capsuleBan;
         protected bool capsuleAdminLog;
+        protected bool capsuleVSelfie;
         protected roles cap;
         protected int capPerm = 0;
         protected Sessionmg sesDeets;
@@ -93,6 +95,7 @@ namespace FinalProj
                             mgVouch.Checked = Convert.ToBoolean(rlList[0].mgVouch);
                             mgBan.Checked = Convert.ToBoolean(rlList[0].mgBan);
                             mgAdLg.Checked = Convert.ToBoolean(rlList[0].mgAdLg);
+                            vSelfie.Checked = Convert.ToBoolean(rlList[0].vSelfie);
                             assignDDL.Items.Clear();
                             assignRoleDDL.Items.Clear();
                             foreach (var adminDetail in adList)
@@ -172,6 +175,14 @@ namespace FinalProj
                             else
                             {
                                 mgAdminLgCheck = 0;
+                            }
+                            if (vSelfie.Checked == true)
+                            {
+                                vSelfieCheck = 1;
+                            }
+                            else
+                            {
+                                vSelfieCheck = 0;
                             }
 
                             if (assignRoleDDL.SelectedValue != ad.GetAllAdminWithEmail(assignDDL.SelectedValue).adminRole) {
@@ -371,6 +382,7 @@ namespace FinalProj
                     mgVouch.Checked = Convert.ToBoolean(role.mgVouch);
                     mgBan.Checked = Convert.ToBoolean(role.mgBan);
                     mgAdLg.Checked = Convert.ToBoolean(role.mgAdLg);
+                    vSelfie.Checked = Convert.ToBoolean(role.vSelfie);
                 }
             }
             btnCancel.Visible = false;
@@ -389,6 +401,7 @@ namespace FinalProj
             mgVouch.Checked = false;
             mgBan.Checked = false;
             mgAdLg.Checked = false;
+            vSelfie.Checked = false;
             btnUpdate.Visible = false;
             btnDelete.Visible = false;
             btnCancel.Visible = true;
@@ -418,7 +431,7 @@ namespace FinalProj
                 rlList = rl.GetAllRoles();
                 OldText = rlList[0].Roles;
                 roles singleRl = rl.GetRole(roleDDL.SelectedValue);
-                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck, mgBanCheck, mgAdminLgCheck);
+                rl.UpdateRole(singleRl.RoleId, AntiXssEncoder.HtmlEncode(tbName.Text, true), aaLogsCheck, mgCollabCheck, mgVouchCheck, mgBanCheck, mgAdminLgCheck, vSelfieCheck);
                 if (Session["admin"] != null)
                 {
                     adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Updated " + OldText + " role", "-", Session["adminEmail"].ToString(), countryLogged);
@@ -451,7 +464,6 @@ namespace FinalProj
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            Admins ad = new Admins();
             adminLog adl = new adminLog();
             MainAdmins mad = new MainAdmins();
             Users us = new Users();
@@ -466,6 +478,7 @@ namespace FinalProj
             int manageVouch = Convert.ToInt32(mgVouch.Checked);
             int manageBan = Convert.ToInt32(mgBan.Checked);
             int manageAdLg = Convert.ToInt32(mgAdLg.Checked);
+            int verifySelfie = Convert.ToInt32(vSelfie.Checked);
             List<roles> rlList;
             rlList = rl.GetAllRoles();
             bool tracker = false;
@@ -481,7 +494,7 @@ namespace FinalProj
                 }
                 if (!tracker)
                 {
-                    rl.InsertRole(role, applog, manageCollab, manageVouch, manageBan, manageAdLg);
+                    rl.InsertRole(role, applog, manageCollab, manageVouch, manageBan, manageAdLg, verifySelfie);
                     if (Session["admin"] != null)
                     {
                         adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Created " + role + " role", "-", Session["adminEmail"].ToString(), countryLogged);

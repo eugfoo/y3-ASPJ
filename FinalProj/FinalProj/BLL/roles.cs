@@ -16,11 +16,12 @@ namespace FinalProj.BLL
 		public int mgVouch { get; set; }
 		public int mgBan { get; set; }
 		public int mgAdLg { get; set; }
+		public int vSelfie { get; set; }
 
 
 
 		public roles() { }
-		public roles(int id, string roles, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog)
+		public roles(int id, string roles, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog, int verifySelfie)
 		{
 			RoleId = id;
 			Roles = roles;
@@ -29,6 +30,7 @@ namespace FinalProj.BLL
 			mgVouch = mgVouchers;
 			mgBan = mgBans;
 			mgAdLg = mgAdmingLog;
+			vSelfie = verifySelfie;
 
 
 		}
@@ -47,21 +49,21 @@ namespace FinalProj.BLL
 
 
 
-		public int UpdatePermsByRole(string roles, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog)
+		public int UpdatePermsByRole(string roles, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog, int verifySelfie)
 		{
 			RolesDAO rl = new RolesDAO();
-			return rl.UpdatePerms(roles, appLogs, mgCollaborators, mgVouchers,  mgBans, mgAdmingLog);
+			return rl.UpdatePerms(roles, appLogs, mgCollaborators, mgVouchers,  mgBans, mgAdmingLog, verifySelfie);
 		}
 
-		public int UpdateRole(int id, string newRoleName, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog)
+		public int UpdateRole(int id, string newRoleName, int appLogs, int mgCollaborators, int mgVouchers, int mgBans, int mgAdmingLog, int verifySelfie)
 		{
 			RolesDAO rl = new RolesDAO();
-			return rl.UpdateRole(id, newRoleName, appLogs, mgCollaborators, mgVouchers,  mgBans, mgAdmingLog);
+			return rl.UpdateRole(id, newRoleName, appLogs, mgCollaborators, mgVouchers,  mgBans, mgAdmingLog, verifySelfie);
 		}
 
-		public int InsertRole(string roles, int appLogs, int mgCollab, int mgVouch, int mgBans, int mgAdmingLog) {
+		public int InsertRole(string roles, int appLogs, int mgCollab, int mgVouch, int mgBans, int mgAdmingLog, int verifySelfie) {
 			RolesDAO rl = new RolesDAO();
-			return rl.Insert(roles, appLogs, mgCollab, mgVouch,  mgBans, mgAdmingLog);
+			return rl.Insert(roles, appLogs, mgCollab, mgVouch,  mgBans, mgAdmingLog, verifySelfie);
 		}
 
 		public int DeleteRole(string roles)

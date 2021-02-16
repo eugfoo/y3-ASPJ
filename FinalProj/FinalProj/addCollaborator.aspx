@@ -155,7 +155,7 @@
                     <div class="form-group">
                         <label>View Application Logs: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                            title="Allow users under this role to view application activity logs"></i>
+                            title="Allow sub-admins under this role to view application activity logs"></i>
                         <label class="switch">
                             <asp:CheckBox ID="aaLogs" runat="server" />
                             <span class="slider round"></span>
@@ -164,7 +164,7 @@
                     <div class="form-group">
                             <label>Manage Collaborators: </label>
                             <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                                title="Allow users under this role to manage collaborators and assign specific roles"></i>
+                                title="Allow sub-admins under this role to manage collaborators and assign specific roles"></i>
                             <label class="switch">
                                 <asp:CheckBox ID="mgCollab" runat="server" />
                                 <span class="slider round"></span>
@@ -173,7 +173,7 @@
                     <div class="form-group">
                         <label>Manage Vouchers: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                            title="Allow users under this role to manage vouchers"></i>
+                            title="Allow sub-admins under this role to manage vouchers"></i>
                         <label class="switch">
                             <asp:CheckBox ID="mgVouch" runat="server" />
                             <span class="slider round"></span>
@@ -182,7 +182,7 @@
                     <div class="form-group">
                         <label>Manage Bans: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                            title="Allow users under this role to manage bans"></i>
+                            title="Allow sub-admins under this role to manage bans"></i>
                         <label class="switch">
                             <asp:CheckBox ID="mgBan" runat="server" />
                             <span class="slider round"></span>
@@ -191,9 +191,17 @@
                      <div class="form-group">
                         <label>View Admin Logs: </label>
                         <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
-                            title="Allow users under this role to view admin logs"></i>
+                            title="Allow sub-admins under this role to view admin logs"></i>
                         <label class="switch">
                             <asp:CheckBox ID="mgAdLg" runat="server" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div><div class="form-group">
+                        <label>Verify User Selfies </label>
+                        <i class="ttInfo fas fa-info-circle" data-html='true' data-toggle="tooltip" data-placement="bottom"
+                            title="Allow sub-admins under this role to verify user selfies"></i>
+                        <label class="switch">
+                            <asp:CheckBox ID="vSelfie" runat="server" />
                             <span class="slider round"></span>
                         </label>
                     </div>

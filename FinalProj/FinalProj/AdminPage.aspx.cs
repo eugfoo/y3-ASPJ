@@ -21,30 +21,10 @@ namespace FinalProj
                 // Whatever you want here.
             }
 
-
                 
         }
 
-        // gets mac address of device
-        //public void GetMACAddress()
-        //{
-        //    NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-        //    String sMacAddress = string.Empty;
-        //    foreach (NetworkInterface adapter in nics)
-        //    {
-        //        if (sMacAddress == String.Empty)// only return MAC Address from first card  
-        //        {
-        //            IPInterfaceProperties properties = adapter.GetIPProperties();
-        //            sMacAddress = adapter.GetPhysicalAddress().ToString();
-        //        }
-        //    }
-        //    txtMacAddress.Text = sMacAddress;
-        //}
-
-        //protected void btnMACgetter_Click(object sender, EventArgs e)
-        //{
-        //    GetMACAddress();
-        //}
+        
     }
        
     
