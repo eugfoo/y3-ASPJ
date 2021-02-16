@@ -15,12 +15,6 @@
       <body>
         <h2>Password policy</h2>
         <table border="1" cellpadding="1" cellspacing="0" class="table">       
-            <tr class="odd">
-              <td>Password duration</td>
-              <td align="center">
-                <xsl:value-of select="PasswordPolicy/Password/duration"/> days.
-              </td>
-            </tr>
             <tr>
               <td>Password minimum length:</td>
               <td align="center">

@@ -106,7 +106,7 @@ namespace FinalProj.DAL
 
             // Step 2 - Instantiate SqlCommand instance to add record 
             //          with INSERT statement
-            string sqlStmt = "INSERT INTO UserLock(userEmail, userName, ldt, userLock) " + "VALUES (@userEmail, @userName,ldt,userLock)";
+            string sqlStmt = "INSERT INTO UserLock(userEmail, userName, dateTime, userLock) " + "VALUES (@userEmail, @userName,@ldt,@userLock)";
             sqlCmd = new SqlCommand(sqlStmt, myConn);
 
             // Step 3 : Add each parameterised variable with value
@@ -130,7 +130,7 @@ namespace FinalProj.DAL
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE Cookie SET userAttempts = @parauserAttempts WHERE userEmail = @Email";
+            string sqlStmt = "UPDATE UserLock SET userAttempts = @parauserAttempts WHERE userEmail = @Email";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
@@ -146,7 +146,7 @@ namespace FinalProj.DAL
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
-            string sqlStmt = "UPDATE Cookie SET dateTime = @paradateTime , userLock = @parauserLock WHERE userEmail = @Email";
+            string sqlStmt = "UPDATE UserLock SET dateTime = @paradateTime , userLock = @parauserLock WHERE userEmail = @Email";
             int result = 0;
             SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
             sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);

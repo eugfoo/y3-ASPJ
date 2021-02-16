@@ -55,8 +55,7 @@ namespace FinalProj
                                 Users user = new Users(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), AntiXssEncoder.HtmlEncode(tbName.Text, true), cbIsOrg.Checked.ToString(), finalHash ,DTNow,salt);
                                 HistoryOTP otp = new HistoryOTP();
                                 otp.AddHistoryOTP(user.email, "", 0); ;
-                                user.AddUser();                                BLL.Cookie ck = new BLL.Cookie();                                ck.AddEmail(user.email, "", "");
-
+                                user.AddUser();                                BLL.Cookie ck = new BLL.Cookie();                                ck.AddEmail(user.email, "", "");                                UserLock ul =  new UserLock();                                DateTime datetime = DateTime.Now;                                ul.AddEmail(user.email, user.name, datetime, 0);
                                 PassHist pass = new PassHist(user.email, passHash, DTNow);
                                 pass.AddPass();                                userProfilePrivacy profilePriv = new userProfilePrivacy();                                profilePriv.AddEmail(user.email);
                                 Response.Redirect("LogIn.aspx");

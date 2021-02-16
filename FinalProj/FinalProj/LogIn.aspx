@@ -65,6 +65,7 @@
                     </div>
                     <div class="align-bottom" style="text-align: right;">
                         <asp:Label ID="lblError" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small">Incorrect account information. Please try again.</asp:Label>
+                         <asp:Label ID="lblAttempts" CssClass="vError mr-3" runat="server" Visible="False" Font-Italic="False" Font-Size="Small"></asp:Label>
                         <button id="btnForgotPwd" type="button" class="btn btn-hazard" onclick="pop()">Forgot Password</button>
                         <asp:Button ID="btnSignIn" runat="server" CssClass="btn btn-primary" Text="Sign In" OnClick="btnSignIn_Click" ValidationGroup="Credentials" ValidateRequestMode="Enabled" />
                         <br />
