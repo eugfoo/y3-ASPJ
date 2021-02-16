@@ -241,124 +241,126 @@ namespace FinalProj
                 }else
                 {
                     Users tryingUser = user.GetUserByEmail(tbEmail.Text);
-                    if (userTrying.userOTPCheck == 0)
+                    if (userTrying != null)
                     {
-                        if (tryingUser != null) // user exists
+                        if (userTrying.userOTPCheck == 0)
                         {
-                            string dbHash = tryingUser.passHash;
-                            string dbSalt = tryingUser.passSalt;
-                            SHA256Managed hashing = new SHA256Managed();
-                            blocked bl = new blocked();
-
-
-                            if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
+                            if (tryingUser != null) // user exists
                             {
-                                string pwdWithSalt = passHash + dbSalt;
-                                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                                string userHash = Convert.ToBase64String(hashWithSalt);
-                                if (userHash.Equals(dbHash))
+                                string dbHash = tryingUser.passHash;
+                                string dbSalt = tryingUser.passSalt;
+                                SHA256Managed hashing = new SHA256Managed();
+                                blocked bl = new blocked();
+
+
+                                if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                                 {
-                                    if (tryingUser.twofactor == 1)
+                                    string pwdWithSalt = passHash + dbSalt;
+                                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                                    string userHash = Convert.ToBase64String(hashWithSalt);
+                                    if (userHash.Equals(dbHash))
                                     {
-                                        if (IsReCaptchaValid())
+                                        if (tryingUser.twofactor == 1)
                                         {
-                                            blList = bl.getAllBlockedUsers();
-
-                                            foreach (var blckedAcc in blList)
+                                            if (IsReCaptchaValid())
                                             {
-                                                if (blckedAcc.email == tbEmail.Text)
-                                                {
-                                                    blockedAcc = true;
-                                                }
-                                            }
-                                            if (!blockedAcc)
-                                            {
-                                                Session["user"] = tryingUser;
-                                                Session["id"] = tryingUser.id;
-                                                Session["Name"] = tryingUser.name;
-                                                Session["Pic"] = tryingUser.DPimage;
-                                                Session["email"] = tryingUser.email;
+                                                blList = bl.getAllBlockedUsers();
 
-                                                string ipAddr = GetIPAddress();
-                                                string countryLogged = CityStateCountByIp(ipAddr);
-                                                CityStateCountByIp(ipAddr);
-
-                                                DateTime dtLog = DateTime.Now;
-                                                Logs lg = new Logs();
-                                                ActivityLog alg = new ActivityLog();
-                                                Users us = new Users();
-                                                Sessionmg ses = new Sessionmg();
-                                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                foreach (var blckedAcc in blList)
                                                 {
-                                                    // update
-                                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                                }
-                                                else
-                                                {
-                                                    ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                                }
-                                                if (browser.Contains("CHROME"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                    if (cookie == null)
+                                                    if (blckedAcc.email == tbEmail.Text)
                                                     {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
+                                                        blockedAcc = true;
                                                     }
                                                 }
-                                                else if (browser.Contains("INTERNETEXPLORER"))
+                                                if (!blockedAcc)
                                                 {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                    Session["user"] = tryingUser;
+                                                    Session["id"] = tryingUser.id;
+                                                    Session["Name"] = tryingUser.name;
+                                                    Session["Pic"] = tryingUser.DPimage;
+                                                    Session["email"] = tryingUser.email;
 
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
+                                                    string ipAddr = GetIPAddress();
+                                                    string countryLogged = CityStateCountByIp(ipAddr);
+                                                    CityStateCountByIp(ipAddr);
+
+                                                    DateTime dtLog = DateTime.Now;
+                                                    Logs lg = new Logs();
+                                                    ActivityLog alg = new ActivityLog();
+                                                    Users us = new Users();
+                                                    Sessionmg ses = new Sessionmg();
+                                                    if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                    {
+                                                        // update
+                                                        ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
                                                     }
-                                                }
+                                                    else
+                                                    {
+                                                        ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                    }
+                                                    if (browser.Contains("CHROME"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
+                                                    else if (browser.Contains("INTERNETEXPLORER"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
 
                                                     //Response.Redirect("homepage.aspx");                                                //end
 
@@ -374,185 +376,210 @@ namespace FinalProj
                                                         lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                                     }
                                                     Response.Redirect("TwoFactor1.aspx");
-                                                
+
                                                     // end
-                                            }
-                                            else {
-                                                lblError.Visible = true;
+                                                }
+                                                else
+                                                {
+                                                    lblError.Visible = true;
 
-                                                lblError.Text = "Your Account has been banned.";
+                                                    lblError.Text = "Your Account has been banned.";
 
-                                            }
-                                        }
-                                        else
-                                        {
-                                            lblError.Text = "Failed Captcha please try again";
-                                            string ipAddr = GetIPAddress();
-                                            string countryLogged = CityStateCountByIp(ipAddr);
-                                            CityStateCountByIp(ipAddr);
-                                            DateTime dtLog = DateTime.Now;
-
-                                            Logs lg = new Logs();
-                                            ActivityLog alg = new ActivityLog();
-                                            Users us = new Users();
-                                            if (us.GetUserByEmail(tbEmail.Text) != null)
-                                            {
-                                                string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                }
                                             }
                                             else
                                             {
-                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            }
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (IsReCaptchaValid())
-                                        {
-                                            blList = bl.getAllBlockedUsers();
-
-                                            foreach (var blckedAcc in blList)
-                                            {
-                                                if (blckedAcc.email == tbEmail.Text)
-                                                {
-                                                    blockedAcc = true;
-                                                    // show error msg, dont allow login
-                                                }
-                                            }
-                                            if (!blockedAcc)
-                                            {
-                                                Session["user"] = tryingUser;
-                                                Session["id"] = tryingUser.id;
-                                                Session["Name"] = tryingUser.name;
-                                                Session["Pic"] = tryingUser.DPimage;
-                                                Session["email"] = tryingUser.email;
-
+                                                lblError.Text = "Failed Captcha please try again";
                                                 string ipAddr = GetIPAddress();
                                                 string countryLogged = CityStateCountByIp(ipAddr);
                                                 CityStateCountByIp(ipAddr);
-
                                                 DateTime dtLog = DateTime.Now;
-                                                Logs lg = new Logs();
 
+                                                Logs lg = new Logs();
                                                 ActivityLog alg = new ActivityLog();
                                                 Users us = new Users();
-                                                Sessionmg ses = new Sessionmg();
-                                                if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
-                                                {
-                                                    // update
-                                                    ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                                }
-                                                else
-                                                {
-                                                    ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                                }
-
                                                 if (us.GetUserByEmail(tbEmail.Text) != null)
                                                 {
                                                     string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                    lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                                    alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
                                                 }
                                                 else
                                                 {
-                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                                 }
-                                                if (browser.Contains("CHROME"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
-                                                    }
-                                                }
-                                                else if (browser.Contains("INTERNETEXPLORER"))
-                                                {
-                                                    HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                    if (cookie == null)
-                                                    {
-                                                        // edit here
-                                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                        {
-                                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                            alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                        }
-                                                        else
-                                                        {
-                                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-
-                                                        }
-                                                        EmailLog elg = new EmailLog();
-                                                        DateTime dtelg = DateTime.Now;
-                                                        title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
-                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                        //Creates new cookie session
-                                                        Guid guid = Guid.NewGuid();
-                                                        string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                        HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                        cookie2["sid"] = uSid;
-                                                        cookie2.Expires = DateTime.Now.AddYears(1);
-                                                        Response.Cookies.Add(cookie2);
-                                                    }
-                                                }
-
-                                                Response.Redirect("Homepage.aspx");
                                             }
-                                            else {
-                                                lblError.Visible = true;
 
-                                                lblError.Text = "Your Account has been banned.";
-                                            }
                                         }
                                         else
                                         {
-                                            lblError.Visible = true;
-                                            lblError.Text = "Failed Captcha please try again";
-                                            string ipAddr = GetIPAddress();
-                                            string countryLogged = CityStateCountByIp(ipAddr);
-                                            CityStateCountByIp(ipAddr);
-                                            DateTime dtLog = DateTime.Now;
-
-                                            Logs lg = new Logs();
-                                            ActivityLog alg = new ActivityLog();
-                                            Users us = new Users();
-                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                            if (IsReCaptchaValid())
                                             {
-                                                string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                blList = bl.getAllBlockedUsers();
+
+                                                foreach (var blckedAcc in blList)
+                                                {
+                                                    if (blckedAcc.email == tbEmail.Text)
+                                                    {
+                                                        blockedAcc = true;
+                                                        // show error msg, dont allow login
+                                                    }
+                                                }
+                                                if (!blockedAcc)
+                                                {
+                                                    Session["user"] = tryingUser;
+                                                    Session["id"] = tryingUser.id;
+                                                    Session["Name"] = tryingUser.name;
+                                                    Session["Pic"] = tryingUser.DPimage;
+                                                    Session["email"] = tryingUser.email;
+
+                                                    string ipAddr = GetIPAddress();
+                                                    string countryLogged = CityStateCountByIp(ipAddr);
+                                                    CityStateCountByIp(ipAddr);
+
+                                                    DateTime dtLog = DateTime.Now;
+                                                    Logs lg = new Logs();
+
+                                                    ActivityLog alg = new ActivityLog();
+                                                    Users us = new Users();
+                                                    Sessionmg ses = new Sessionmg();
+                                                    if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                    {
+                                                        // update
+                                                        ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                    }
+                                                    else
+                                                    {
+                                                        ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                    }
+
+                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                    {
+                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                    }
+                                                    else
+                                                    {
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                    }
+                                                    if (browser.Contains("CHROME"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
+                                                    else if (browser.Contains("INTERNETEXPLORER"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
+
+                                                    Response.Redirect("Homepage.aspx");
+                                                }
+                                                else
+                                                {
+                                                    lblError.Visible = true;
+
+                                                    lblError.Text = "Your Account has been banned.";
+                                                }
                                             }
                                             else
                                             {
-                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                lblError.Visible = true;
+                                                lblError.Text = "Failed Captcha please try again";
+                                                string ipAddr = GetIPAddress();
+                                                string countryLogged = CityStateCountByIp(ipAddr);
+                                                CityStateCountByIp(ipAddr);
+                                                DateTime dtLog = DateTime.Now;
+
+                                                Logs lg = new Logs();
+                                                ActivityLog alg = new ActivityLog();
+                                                Users us = new Users();
+                                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                {
+                                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                }
+                                                else
+                                                {
+                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                }
                                             }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        lblError.Visible = true;
+                                        string ipAddr = GetIPAddress();
+                                        string countryLogged = CityStateCountByIp(ipAddr);
+                                        CityStateCountByIp(ipAddr);
+                                        DateTime dtLog = DateTime.Now;
+
+                                        Logs lg = new Logs();
+                                        ActivityLog alg = new ActivityLog();
+                                        Users us = new Users();
+                                        if (us.GetUserByEmail(tbEmail.Text) != null)
+                                        {
+                                            string name = us.GetUserByEmail(tbEmail.Text).name;
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                        }
+                                        else
+                                        {
+                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                         }
                                     }
                                 }
@@ -602,115 +629,288 @@ namespace FinalProj
                                 }
                             }
                         }
-                        else
+                        if (userTrying.userOTPCheck == 1)
                         {
-                            lblError.Visible = true;
-                            string ipAddr = GetIPAddress();
-                            string countryLogged = CityStateCountByIp(ipAddr);
-                            CityStateCountByIp(ipAddr);
-                            DateTime dtLog = DateTime.Now;
+                            string otpSent = tbPass.Text;
 
-                            Logs lg = new Logs();
-                            ActivityLog alg = new ActivityLog();
-                            Users us = new Users();
-                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                            if (tryingUser != null) // user exists
                             {
-                                string name = us.GetUserByEmail(tbEmail.Text).name;
-                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                            }
-                            else
-                            {
-                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        lblError.Visible = true;
-                    }
+                                int counter = 0;
 
-
-                    if (userTrying.userOTPCheck == 1)
-                    {
-                        string otpSent = tbPass.Text;
-
-                        if (tryingUser != null) // user exists
-                        {
-                            int counter = 0;
-
-                            string dbHash = tryingUser.passHash;
-                            string dbSalt = tryingUser.passSalt;
-                            SHA256Managed hashing = new SHA256Managed();
-                            blocked bl = new blocked();
-                            if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
-                            {
-                                string pwdWithSalt = passHash + dbSalt;
-                                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                                string userHash = Convert.ToBase64String(hashWithSalt);
-                                if (userHash.Equals(dbHash))
+                                string dbHash = tryingUser.passHash;
+                                string dbSalt = tryingUser.passSalt;
+                                SHA256Managed hashing = new SHA256Managed();
+                                blocked bl = new blocked();
+                                if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                                 {
-                                    blList = bl.getAllBlockedUsers();
-
-                                    foreach (var blckedAcc in blList)
+                                    string pwdWithSalt = passHash + dbSalt;
+                                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                                    string userHash = Convert.ToBase64String(hashWithSalt);
+                                    if (userHash.Equals(dbHash))
                                     {
-                                        if (blckedAcc.email == tbEmail.Text)
-                                        {
-                                            blockedAcc = true;
-                                        }
-                                    }
-                                    if (!blockedAcc)
-                                    {
-                                        Session["user"] = tryingUser;
-                                        Session["id"] = tryingUser.id;
-                                        Session["Name"] = tryingUser.name;
-                                        Session["Pic"] = tryingUser.DPimage;
-                                        Session["email"] = tryingUser.email;
+                                        blList = bl.getAllBlockedUsers();
 
-                                        string ipAddr = GetIPAddress();
-                                        string countryLogged = CityStateCountByIp(ipAddr);
-                                        CityStateCountByIp(ipAddr);
-
-                                        DateTime dtLog = DateTime.Now;
-                                        Logs lg = new Logs();
-                                        //Email function for new sign in
-                                        lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
-                                        foreach (var log in lgList)
+                                        foreach (var blckedAcc in blList)
                                         {
-                                            if (log.ipAddr == ipAddr)
+                                            if (blckedAcc.email == tbEmail.Text)
                                             {
-                                                counter++;
+                                                blockedAcc = true;
                                             }
                                         }
-                                        ActivityLog alg = new ActivityLog();
-                                        Users us = new Users();
-                                        Sessionmg ses = new Sessionmg();
-                                        if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                        if (!blockedAcc)
                                         {
-                                            // update
-                                            ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            Session["user"] = tryingUser;
+                                            Session["id"] = tryingUser.id;
+                                            Session["Name"] = tryingUser.name;
+                                            Session["Pic"] = tryingUser.DPimage;
+                                            Session["email"] = tryingUser.email;
+
+                                            string ipAddr = GetIPAddress();
+                                            string countryLogged = CityStateCountByIp(ipAddr);
+                                            CityStateCountByIp(ipAddr);
+
+                                            DateTime dtLog = DateTime.Now;
+                                            Logs lg = new Logs();
+                                            //Email function for new sign in
+                                            lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                            foreach (var log in lgList)
+                                            {
+                                                if (log.ipAddr == ipAddr)
+                                                {
+                                                    counter++;
+                                                }
+                                            }
+                                            ActivityLog alg = new ActivityLog();
+                                            Users us = new Users();
+                                            Sessionmg ses = new Sessionmg();
+                                            if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                            {
+                                                // update
+                                                ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            }
+                                            else
+                                            {
+                                                ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            }
+                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                            {
+                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                            }
+                                            else
+                                            {
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                            }
+                                            Response.Redirect("Homepage.aspx");
                                         }
                                         else
                                         {
-                                            ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                            lblError.Visible = true;
+
+                                            lblError.Text = "Your Account has been banned.";
                                         }
-                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                        {
-                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                            lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                        }
-                                        else
-                                        {
-                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                        }
-                                        Response.Redirect("Homepage.aspx");
                                     }
                                     else
                                     {
-                                        lblError.Visible = true;
+                                        if (userTrying.userOTP == otpSent)
+                                        {
+                                            if (IsReCaptchaValid())
+                                            {
+                                                blList = bl.getAllBlockedUsers();
 
-                                        lblError.Text = "Your Account has been banned.";
+                                                foreach (var blckedAcc in blList)
+                                                {
+                                                    if (blckedAcc.email == tbEmail.Text)
+                                                    {
+                                                        blockedAcc = true;
+                                                    }
+                                                }
+                                                if (!blockedAcc)
+                                                {
+                                                    int OTPChecked = 0;
+                                                    Session["user"] = tryingUser;
+                                                    Session["id"] = tryingUser.id;
+                                                    Session["Name"] = tryingUser.name;
+                                                    Session["Pic"] = tryingUser.DPimage;
+                                                    Session["email"] = tryingUser.email;
+
+                                                    string ipAddr = GetIPAddress();
+                                                    string countryLogged = CityStateCountByIp(ipAddr);
+                                                    CityStateCountByIp(ipAddr);
+
+                                                    DateTime dtLog = DateTime.Now;
+                                                    Logs lg = new Logs();
+                                                    //Email function for new sign in
+                                                    lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                                    foreach (var log in lgList)
+                                                    {
+                                                        if (log.ipAddr == ipAddr)
+                                                        {
+                                                            counter++;
+                                                        }
+                                                    }
+
+                                                    ActivityLog alg = new ActivityLog();
+                                                    Users us = new Users();
+                                                    Sessionmg ses = new Sessionmg();
+                                                    if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
+                                                    {
+                                                        // update
+                                                        ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                    }
+                                                    else
+                                                    {
+                                                        ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
+                                                    }
+                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                    {
+                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                        alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                    }
+                                                    else
+                                                    {
+                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
+                                                    }
+
+                                                    otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
+
+                                                    if (counter == 0)
+                                                    {
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        title = "Is this you? Login Clearview";
+                                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                    }
+                                                    if (browser.Contains("CHROME"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
+                                                    else if (browser.Contains("INTERNETEXPLORER"))
+                                                    {
+                                                        HttpCookie cookie = Request.Cookies["SessionIDCH"];
+                                                        if (cookie == null)
+                                                        {
+                                                            // edit here
+                                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                            {
+                                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+                                                                alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                            }
+                                                            else
+                                                            {
+                                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
+
+                                                            }
+                                                            EmailLog elg = new EmailLog();
+                                                            DateTime dtelg = DateTime.Now;
+                                                            title = "New login from new browser";
+                                                            EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
+                                                            elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                            //Creates new cookie session
+                                                            Guid guid = Guid.NewGuid();
+                                                            string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
+                                                            HttpCookie cookie2 = new HttpCookie("SessionIDCH");
+                                                            cookie2["sid"] = uSid;
+                                                            cookie2.Expires = DateTime.Now.AddYears(1);
+                                                            Response.Cookies.Add(cookie2);
+                                                        }
+                                                    }
+
+                                                    Response.Redirect("homepage.aspx");
+                                                    //end
+                                                }
+                                                else
+                                                {
+                                                    lblError.Visible = true;
+
+                                                    lblError.Text = "Your Account has been banned.";
+
+                                                }
+                                            }
+                                            else if (IsReCaptchaValid() == false)
+                                            {
+                                                lblError.Text = "Failed Captcha please try again";
+                                            }
+
+
+                                            else
+                                            {
+                                                lblError.Visible = true;
+                                                string ipAddr = GetIPAddress();
+                                                string countryLogged = CityStateCountByIp(ipAddr);
+                                                CityStateCountByIp(ipAddr);
+                                                DateTime dtLog = DateTime.Now;
+
+                                                Logs lg = new Logs();
+                                                ActivityLog alg = new ActivityLog();
+                                                Users us = new Users();
+                                                if (us.GetUserByEmail(tbEmail.Text) != null)
+                                                {
+                                                    string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                    lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                    alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                                }
+                                                else
+                                                {
+                                                    lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                }
+                                            }
+                                        }
+
+                                        else
+                                        {
+                                            lblError.Visible = true;
+                                            string ipAddr = GetIPAddress();
+                                            string countryLogged = CityStateCountByIp(ipAddr);
+                                            CityStateCountByIp(ipAddr);
+                                            DateTime dtLog = DateTime.Now;
+
+                                            Logs lg = new Logs();
+                                            Users us = new Users();
+                                            ActivityLog alg = new ActivityLog();
+                                            if (us.GetUserByEmail(tbEmail.Text) != null)
+                                            {
+                                                string name = us.GetUserByEmail(tbEmail.Text).name;
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
+                                            }
+                                            else
+                                            {
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                            }
+
+                                        }
                                     }
                                 }
                                 else
@@ -786,7 +986,7 @@ namespace FinalProj
                                                     EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
                                                     elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                 }
-                                                if (browser.Contains("CHROME"))
+                                                if (browser.Contains("INTERNETEXPLORER"))
                                                 {
                                                     HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                     if (cookie == null)
@@ -806,7 +1006,7 @@ namespace FinalProj
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -817,7 +1017,8 @@ namespace FinalProj
                                                         Response.Cookies.Add(cookie2);
                                                     }
                                                 }
-                                                else if (browser.Contains("INTERNETEXPLORER"))
+
+                                                else if (browser.Contains("CHROME"))
                                                 {
                                                     HttpCookie cookie = Request.Cookies["SessionIDCH"];
                                                     if (cookie == null)
@@ -837,7 +1038,7 @@ namespace FinalProj
                                                         EmailLog elg = new EmailLog();
                                                         DateTime dtelg = DateTime.Now;
                                                         title = "New login from new browser";
-                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name,browser);
+                                                        EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
                                                         elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                                         //Creates new cookie session
                                                         Guid guid = Guid.NewGuid();
@@ -847,14 +1048,13 @@ namespace FinalProj
                                                         cookie2.Expires = DateTime.Now.AddYears(1);
                                                         Response.Cookies.Add(cookie2);
                                                     }
-                                                }                                            
+                                                }
 
                                                 Response.Redirect("homepage.aspx");
-                                                //end
                                             }
-                                            else {
+                                            else
+                                            {
                                                 lblError.Visible = true;
-
                                                 lblError.Text = "Your Account has been banned.";
 
                                             }
@@ -884,7 +1084,7 @@ namespace FinalProj
                                             }
                                             else
                                             {
-                                                lg.AddLog(tbEmail.Text, dtLog, ipAddr, countryLogged, "Failed Login Attempt");
+                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
                                             }
                                         }
                                     }
@@ -913,216 +1113,21 @@ namespace FinalProj
 
                                     }
                                 }
+
                             }
                             else
                             {
-                                if (userTrying.userOTP == otpSent)
-                                {
-                                    if (IsReCaptchaValid())
-                                    {
-                                        blList = bl.getAllBlockedUsers();
-
-                                        foreach (var blckedAcc in blList)
-                                        {
-                                            if (blckedAcc.email == tbEmail.Text)
-                                            {
-                                                blockedAcc = true;
-                                            }
-                                        }
-                                        if (!blockedAcc)
-                                        {
-                                            int OTPChecked = 0;
-                                            Session["user"] = tryingUser;
-                                            Session["id"] = tryingUser.id;
-                                            Session["Name"] = tryingUser.name;
-                                            Session["Pic"] = tryingUser.DPimage;
-                                            Session["email"] = tryingUser.email;
-
-                                            string ipAddr = GetIPAddress();
-                                            string countryLogged = CityStateCountByIp(ipAddr);
-                                            CityStateCountByIp(ipAddr);
-
-                                            DateTime dtLog = DateTime.Now;
-                                            Logs lg = new Logs();
-                                            //Email function for new sign in
-                                            lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
-                                            foreach (var log in lgList)
-                                            {
-                                                if (log.ipAddr == ipAddr)
-                                                {
-                                                    counter++;
-                                                }
-                                            }
-
-                                            ActivityLog alg = new ActivityLog();
-                                            Users us = new Users();
-                                            Sessionmg ses = new Sessionmg();
-                                            if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
-                                            {
-                                                // update
-                                                ses.UpdateSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                            }
-                                            else
-                                            {
-                                                ses.InsertSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), 1);
-                                            }
-                                            if (us.GetUserByEmail(tbEmail.Text) != null)
-                                            {
-                                                string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                                alg.AddActivityLog(dtLog, name, ipAddr, "Successful Login Attempt", "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                            }
-                                            else
-                                            {
-                                                lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
-                                            }
-
-                                            otp.UpdateOTPByEmail(userTrying.userEmail, OTPassword, OTPChecked);
-
-                                            if (counter == 0)
-                                            {
-                                                EmailLog elg = new EmailLog();
-                                                DateTime dtelg = DateTime.Now;
-                                                title = "Is this you? Login Clearview";
-                                                EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
-                                                elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                            }
-                                            if (browser.Contains("INTERNETEXPLORER"))
-                                            {
-                                                HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                if (cookie == null)
-                                                {
-                                                    // edit here
-                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                    {
-                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: " + browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                    }
-                                                    else
-                                                    {
-                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-
-                                                    }
-                                                    EmailLog elg = new EmailLog();
-                                                    DateTime dtelg = DateTime.Now;
-                                                    title = "New login from new browser";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
-                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                    //Creates new cookie session
-                                                    Guid guid = Guid.NewGuid();
-                                                    string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                    HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                    cookie2["sid"] = uSid;
-                                                    cookie2.Expires = DateTime.Now.AddYears(1);
-                                                    Response.Cookies.Add(cookie2);
-                                                }
-                                            }
-
-                                            else if (browser.Contains("CHROME"))
-                                            {
-                                                HttpCookie cookie = Request.Cookies["SessionIDCH"];
-                                                if (cookie == null)
-                                                {
-                                                    // edit here
-                                                    if (us.GetUserByEmail(tbEmail.Text) != null)
-                                                    {
-                                                        string name = us.GetUserByEmail(tbEmail.Text).name;
-                                                        lg.AddLog(tryingUser.email, dtLog, ipAddr, countryLogged, "New Browser Detected: " + browser);
-                                                        alg.AddActivityLog(dtLog, name, ipAddr, "New Browser Detected: "+browser, "-", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                                    }
-                                                    else
-                                                    {
-                                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "New Browser Detected: "+ browser);
-
-                                                    }
-                                                    EmailLog elg = new EmailLog();
-                                                    DateTime dtelg = DateTime.Now;
-                                                    title = "New login from new browser";
-                                                    EmailNewDevice(userTrying.userEmail, tryingUser.name, browser);
-                                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
-                                                    //Creates new cookie session
-                                                    Guid guid = Guid.NewGuid();
-                                                    string uSid = Convert.ToString(guid).Replace("-", "").Substring(0, 10);
-                                                    HttpCookie cookie2 = new HttpCookie("SessionIDCH");
-                                                    cookie2["sid"] = uSid;
-                                                    cookie2.Expires = DateTime.Now.AddYears(1);
-                                                    Response.Cookies.Add(cookie2);
-                                                }
-                                            }
-
-                                            Response.Redirect("homepage.aspx");
-                                        }
-                                        else {
-                                            lblError.Visible = true;
-                                            lblError.Text = "Your Account has been banned.";
-
-                                        }
-                                    }
-                                    else if (IsReCaptchaValid() == false)
-                                    {
-                                        lblError.Text = "Failed Captcha please try again";
-                                    }
-
-
-                                    else
-                                    {
-                                        lblError.Visible = true;
-                                        string ipAddr = GetIPAddress();
-                                        string countryLogged = CityStateCountByIp(ipAddr);
-                                        CityStateCountByIp(ipAddr);
-                                        DateTime dtLog = DateTime.Now;
-
-                                        Logs lg = new Logs();
-                                        ActivityLog alg = new ActivityLog();
-                                        Users us = new Users();
-                                        if (us.GetUserByEmail(tbEmail.Text) != null)
-                                        {
-                                            string name = us.GetUserByEmail(tbEmail.Text).name;
-                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                            alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                        }
-                                        else
-                                        {
-                                            lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                        }
-                                    }
-                                }
-
-                                else
-                                {
-                                    lblError.Visible = true;
-                                    string ipAddr = GetIPAddress();
-                                    string countryLogged = CityStateCountByIp(ipAddr);
-                                    CityStateCountByIp(ipAddr);
-                                    DateTime dtLog = DateTime.Now;
-
-                                    Logs lg = new Logs();
-                                    Users us = new Users();
-                                    ActivityLog alg = new ActivityLog();
-                                    if (us.GetUserByEmail(tbEmail.Text) != null)
-                                    {
-                                        string name = us.GetUserByEmail(tbEmail.Text).name;
-                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                        alg.AddActivityLog(dtLog, name, ipAddr, "Failed Login Attempt", "Failed Authentication", AntiXssEncoder.HtmlEncode(tbEmail.Text, true), countryLogged);
-                                    }
-                                    else
-                                    {
-                                        lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Failed Login Attempt");
-                                    }
-
-                                }
+                                lblError.Visible = true;
                             }
 
                         }
-                        else
-                        {
-                            lblError.Visible = true;
-                        }
-
                     }
+                        
+                    else
+                    {
+                        lblError.Visible = true;
+                    }                    
                 }
-
             }
         }
 
