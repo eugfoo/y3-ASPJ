@@ -31,7 +31,7 @@ namespace FinalProj
 
         public string browser = "";
         public int counter;
-        public string tempUserEmail;
+        public string tempUserEmail = "";
 
         public string Str1 = "";
         public string Str2 = "";
@@ -111,7 +111,6 @@ namespace FinalProj
                 }
                 else if (subadminlogin != null && subadminlogin.adminStatus == "Accepted") // if sub admin exist and is accepted as sub admin
                 {
-
                     string adminDbHash = subAdCreds.passHash;
                     string adminDbSalt = subAdCreds.passSalt;
                     SHA256Managed adminHashing = new SHA256Managed();
