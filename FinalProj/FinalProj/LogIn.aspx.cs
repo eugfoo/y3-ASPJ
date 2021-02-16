@@ -206,6 +206,23 @@ namespace FinalProj
                                 string countryLogged = CityStateCountByIp(ipAddr);
                                 DateTime dtLog = DateTime.Now;
                                 Logs lg = new Logs();
+                                //Email function for new sign in
+                                lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                foreach (var log in lgList)
+                                {
+                                    if (log.ipAddr == ipAddr)
+                                    {
+                                        counter++;
+                                    }
+                                }
+                                if (counter == 0)
+                                {
+                                    EmailLog elg = new EmailLog();
+                                    DateTime dtelg = DateTime.Now;
+                                    title = "Is this you? Login Clearview";
+                                    EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                    elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                }
                                 Sessionmg ses = new Sessionmg();
                                 if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null) {
                                     // update
@@ -289,6 +306,23 @@ namespace FinalProj
                                                     Logs lg = new Logs();
                                                     ActivityLog alg = new ActivityLog();
                                                     Users us = new Users();
+                                                    //Email function for new sign in
+                                                    lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                                    foreach (var log in lgList)
+                                                    {
+                                                        if (log.ipAddr == ipAddr)
+                                                        {
+                                                            counter++;
+                                                        }
+                                                    }
+                                                    if (counter == 0)
+                                                    {
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        title = "Is this you? Login Clearview";
+                                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                    }
                                                     Sessionmg ses = new Sessionmg();
                                                     if (ses.GetSession(AntiXssEncoder.HtmlEncode(tbEmail.Text, true)) != null)
                                                     {
@@ -439,7 +473,23 @@ namespace FinalProj
 
                                                     DateTime dtLog = DateTime.Now;
                                                     Logs lg = new Logs();
-
+                                                    //Email function for new sign in
+                                                    lgList = lg.GetAllLogsOfUser(userTrying.userEmail);
+                                                    foreach (var log in lgList)
+                                                    {
+                                                        if (log.ipAddr == ipAddr)
+                                                        {
+                                                            counter++;
+                                                        }
+                                                    }
+                                                    if (counter == 0)
+                                                    {
+                                                        EmailLog elg = new EmailLog();
+                                                        DateTime dtelg = DateTime.Now;
+                                                        title = "Is this you? Login Clearview";
+                                                        EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                        elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
+                                                    }
                                                     ActivityLog alg = new ActivityLog();
                                                     Users us = new Users();
                                                     Sessionmg ses = new Sessionmg();
@@ -679,6 +729,14 @@ namespace FinalProj
                                                 {
                                                     counter++;
                                                 }
+                                            }
+                                            if (counter == 0)
+                                            {
+                                                EmailLog elg = new EmailLog();
+                                                DateTime dtelg = DateTime.Now;
+                                                title = "Is this you? Login Clearview";
+                                                EmailFxNew(userTrying.userEmail, tryingUser.name, ipAddr, countryLogged);
+                                                elg.AddEmailLog(userTrying.userEmail, senderEmail, dtelg, title);
                                             }
                                             ActivityLog alg = new ActivityLog();
                                             Users us = new Users();
