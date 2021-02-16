@@ -48,6 +48,12 @@ namespace FinalProj.BLL
             return dao.getAllRequestByEmail(email);
         }
 
+        public int UpdateRequestByEmail(string email)
+        {
+            RequestPermissionDAO dao = new RequestPermissionDAO();
+            return dao.updateRequestByEmail(email);
+        }
+
         public int DeleteByIdEmail(string email)
         {
             RequestPermissionDAO reqDAO = new RequestPermissionDAO();

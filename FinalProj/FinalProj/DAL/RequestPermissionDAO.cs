@@ -78,7 +78,7 @@ namespace FinalProj.DAL
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            string sqlStmt = "SELECT * FROM RequestTable";
+            string sqlStmt = "SELECT * FROM RequestTable WHERE status = 0";
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
 
             DataSet ds = new DataSet();
@@ -105,24 +105,16 @@ namespace FinalProj.DAL
 
         public RequestPermission getLastRequest(string email)
         {
-            //Step 1 -  Define a connection to the database by getting
-            //          the connection string from web.config
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SqlConnection myConn = new SqlConnection(DBConnect);
 
-            //Step 2 -  Create a DataAdapter to retrieve data from the database table
-            string sqlStmt = "SELECT MAX(Id) FROM RequestTable WHERE subAdminEmail = @subAdminEmail";
+            string sqlStmt = "SELECT TOP 1 * FROM RequestTable WHERE subAdminEmail = @subAdminEmail ORDER BY ID DESC"; 
             SqlDataAdapter da = new SqlDataAdapter(sqlStmt, myConn);
 
             da.SelectCommand.Parameters.AddWithValue("@subAdminEmail", email);
-
-            //Step 3 -  Create a DataSet to store the data to be retrieved
             DataSet ds = new DataSet();
-
-            //Step 4 -  Use the DataAdapter to fill the DataSet with data retrieved
             da.Fill(ds);
 
-            //Step 5 -  Read data from DataSet.
             RequestPermission requestDetail = null;
             int rec_cnt = ds.Tables[0].Rows.Count;
             if (rec_cnt == 1)
@@ -134,7 +126,7 @@ namespace FinalProj.DAL
                 string currentRole = row["currentRole"].ToString();
                 int requestStatus = Convert.ToInt32(row["status"]);
 
-                RequestPermission req = new RequestPermission(requestId, requestEmail, requestRole, currentRole, requestStatus);
+                requestDetail = new RequestPermission(requestId, requestEmail, requestRole, currentRole, requestStatus);
             }
             else
             {
@@ -142,6 +134,23 @@ namespace FinalProj.DAL
             }
 
             return requestDetail;
+        }
+
+        public int updateRequestByEmail(string email)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            string sqlStmt = "UPDATE RequestTable SET status = @status WHERE subAdminEmail = @paraEmail";
+            int result = 0;
+            SqlCommand sqlCmd = new SqlCommand(sqlStmt, myConn);
+            sqlCmd = new SqlCommand(sqlStmt.ToString(), myConn);
+            sqlCmd.Parameters.AddWithValue("@status", 1);
+            sqlCmd.Parameters.AddWithValue("@paraEmail", email);
+
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
         }
 
         public int deleteRequest(string email)

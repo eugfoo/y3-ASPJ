@@ -6,7 +6,7 @@
             margin: auto;
             margin-top: 50px;
             margin-bottom: 50px;
-            width: 500px;
+            width: 700px;
         }
 
         .gvAdminCSS {
@@ -29,7 +29,8 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <div id="btnCSS">
-                                <asp:Button ID="btnVerify" CssClass="btn btn-success" runat="server" Text="Verify" CommandArgument='<%# Container.DataItemIndex %>' />
+                                <asp:Button ID="btnVerify" CssClass="btn btn-success" runat="server" Text="Verify" CommandName="Verify" CommandArgument='<%# Container.DataItemIndex %>' />
+                                <asp:Button ID="btnDecline" CssClass="btn btn-danger" runat="server" Text="Decline" CommandName="Decline" CommandArgument='<%# Container.DataItemIndex %>' />
                             </div>
                         </ItemTemplate>
                     </asp:TemplateField>

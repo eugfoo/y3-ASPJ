@@ -45,22 +45,29 @@ namespace FinalProj
                             adminDiv.Visible = false;
                             ad = ad.GetAllAdminWithEmail(Session["subadminEmail"].ToString());
                             lblCurrentRole.Text = ad.adminRole;
-                            listReq = req.getAllRequestsEmail(ad.adminEmail);
                             btnRequest.Enabled = false;
-                            foreach (var i in listReq)
+
+                            RequestPermission requesting = new RequestPermission();
+                            requesting = req.GetLastRequest(ad.adminEmail);
+                            if (requesting != null)
                             {
-                                if (i.subAdminEmail == ad.adminEmail)
+                                if(requesting.requestStatus == 0)
                                 {
                                     lblSuccess.Visible = true;
                                     lblSuccess.Text = "Your request has been sent for review";
-                                    btnRequest.Enabled = false;
                                     roleDDL.Enabled = false;
+                                }
+                                else if (requesting.requestStatus == 1)
+                                {
+                                    lblSuccess.Visible = false;
+                                    lblError.Visible = true;
+                                    lblError.Text = "Your request has been declined";
+                                    roleDDL.Enabled = true;
                                 }
                             }
                         }
                         else
                         {
-
                             Session.Clear();
                             string err = "SessionKicked";
                             Response.Redirect("homepage.aspx?error=" + err);
@@ -78,9 +85,10 @@ namespace FinalProj
                 lblError.Text = "This is already your role!";
                 btnRequest.Enabled = false;
             }
-            if (roleDDL.SelectedItem.Text == "Select a Role")
+            else if (roleDDL.SelectedItem.Text == "Select a Role")
             {
                 btnRequest.Enabled = false;
+                lblError.Visible = false;
             }
             else
             {
@@ -130,10 +138,21 @@ namespace FinalProj
             string countryLogged = CityStateCountByIp(ipAddr);
             DateTime dt = DateTime.Now;
             adl.AddAdminLog(dt, "Admin", ipAddr, "Accepted request for " + role + " permission made by " + email, "-", Session["adminEmail"].ToString(), countryLogged); ;
-            ad.UpdateRoleByEmail(email, role);
-            req.DeleteByIdEmail(email);
-            Response.Redirect("/RequestAccess.aspx");
+            
+            if (e.CommandName == "Verify")
+            {
+                ad.UpdateRoleByEmail(email, role);
+                req.DeleteByIdEmail(email);
+                Response.Redirect("/RequestAccess.aspx");
+            }
+            else if (e.CommandName == "Decline")
+            {
+                req.UpdateRequestByEmail(email);
+                Response.Redirect("/RequestAccess.aspx");
+            }
+
         }
+
         public static string CityStateCountByIp(string IP)
         {
             //var url = "http://freegeoip.net/json/" + IP;
