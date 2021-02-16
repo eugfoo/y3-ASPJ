@@ -352,6 +352,7 @@
     <Compile Include="BLL\Attendance.cs" />
     <Compile Include="BLL\blocked.cs" />
     <Compile Include="BLL\collabOTP.cs" />
+    <Compile Include="BLL\Cookie.cs" />
     <Compile Include="BLL\EmailLog.cs" />
     <Compile Include="BLL\EventStatus.cs" />
     <Compile Include="BLL\Events.cs" />
@@ -367,6 +368,7 @@
     <Compile Include="BLL\Sessionmg.cs" />
     <Compile Include="BLL\Thread.cs" />
     <Compile Include="BLL\ThreadReply.cs" />
+    <Compile Include="BLL\UserLock.cs" />
     <Compile Include="BLL\Users.cs" />
     <Compile Include="BLL\Voucher.cs" />
     <Compile Include="BLL\VoucherRedeemed.cs" />
@@ -397,7 +399,9 @@
     <Compile Include="DAL\SessionMgDAO.cs" />
     <Compile Include="DAL\ThreadReplyDAO.cs" />
     <Compile Include="DAL\ThreadDAO.cs" />
+    <Compile Include="DAL\CookieDAO.cs" />
     <Compile Include="DAL\userDAO.cs" />
+    <Compile Include="DAL\UserLockDAO.cs" />
     <Compile Include="DAL\voucherDAO.cs" />
     <Compile Include="DAL\voucherRedeemDAO.cs" />
     <Compile Include="editForumPost.aspx.cs">
