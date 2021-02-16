@@ -100,8 +100,13 @@
                                     { %>
                             <tr>
                                 <td><%= Convert.ToDateTime(element.DateTime) %></td>
-
-                                <td><%= element.Username %></td>
+                                <%if (element.Username != "Admin")
+                                    {%>
+                                <td><%= element.Username %> (Sub-Admin)</td>
+                                <%}
+                                    else
+                                    {%><td><%= element.Username %> </td>
+                                <%} %>
                                 <td><%= element.ipAddr %></td>
                                 <% if (element.Action == "Successful Login Attempt")
                                     { %>
@@ -142,7 +147,13 @@
                             <tr>
                                 <td><%= Convert.ToDateTime(element.DateTime) %></td>
 
-                                <td><%= element.Username %></td>
+                                <%if (element.Username != "Admin")
+                                    {%>
+                                <td><%= element.Username %> (Sub-Admin)</td>
+                                <%}
+                                    else
+                                    {%><td><%= element.Username %> </td>
+                                <%} %>
                                 <td><%= element.ipAddr %></td>
                                 <% if (element.Action == "Successful Login Attempt")
                                     { %>

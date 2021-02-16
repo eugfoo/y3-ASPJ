@@ -262,10 +262,10 @@ namespace FinalProj
                     Execute(AntiXssEncoder.HtmlEncode(collabEmail.Text, true), subAdmin.name);
                     if (Session["admin"] != null)
                     {
-                        adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Invited <b>" + collabEmail.Text + "</b> as a sub-admin under the <b>" + roleChoice.SelectedValue + "</i> role", "-", Session["adminEmail"].ToString(), countryLogged);
+                        adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Invited " + collabEmail.Text + " as a sub-admin under the " + roleChoice.SelectedValue + " role", "-", Session["adminEmail"].ToString(), countryLogged);
                     }
                     else {
-                        adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Invited <b>" + collabEmail.Text + "</b> as a sub-admin under the <b>" + roleChoice.SelectedValue + "</i> role", "-", Session["subadminEmail"].ToString(), countryLogged);
+                        adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Invited " + collabEmail.Text + " as a sub-admin under the " + roleChoice.SelectedValue + " role", "-", Session["subadminEmail"].ToString(), countryLogged);
 
                     }
                     ad.AddAdmin(subAdmin.name, AntiXssEncoder.HtmlEncode(collabEmail.Text, true), roleChoice.SelectedValue);
@@ -576,11 +576,11 @@ namespace FinalProj
             ad.UpdateRoleByEmail(assignDDL.SelectedValue, assignRoleDDL.SelectedValue);
             if (Session["admin"] != null)
             {
-                adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Updated " + assignDDL.SelectedValue + "'s role to <b>" + assignRoleDDL.SelectedValue +"</b>", "-", Session["adminEmail"].ToString(), countryLogged);
+                adl.AddAdminLog(dt, mad.GetAdminByEmail(Session["adminEmail"].ToString()).MainadminName, ipAddr, "Updated " + assignDDL.SelectedValue + "'s role to " + assignRoleDDL.SelectedValue, "-", Session["adminEmail"].ToString(), countryLogged);
             }
             else
             {
-                adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated" + assignDDL.SelectedValue + "'s role to <b>" + assignRoleDDL.SelectedValue + "</b>", "-", Session["subadminEmail"].ToString(), countryLogged);
+                adl.AddAdminLog(dt, us.GetUserByEmail(Session["subadminEmail"].ToString()).name, ipAddr, "Updated " + assignDDL.SelectedValue + "'s role to " + assignRoleDDL.SelectedValue, "-", Session["subadminEmail"].ToString(), countryLogged);
 
             }
             Response.Redirect("addCollaborator.aspx");
