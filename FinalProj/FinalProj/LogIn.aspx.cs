@@ -631,6 +631,7 @@ namespace FinalProj
                                                         {
                                                             lg.AddLog(AntiXssEncoder.HtmlEncode(tbEmail.Text, true), dtLog, ipAddr, countryLogged, "Successful Login Attempt");
                                                         }
+                                                        dt = DateTime.Now;
                                                         ulUser.UpdateStatus(tryingUser.email, dt, 0);
                                                         ulUser.UpdateAttempts(tryingUser.email, 0);
                                                         Response.Redirect("TwoFactor1.aspx");
