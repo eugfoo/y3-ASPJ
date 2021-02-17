@@ -35,7 +35,7 @@ namespace FinalProj
             else
             {
                 Sessionmg ses = new Sessionmg();
-                blocked bl = new blocked();
+                blocked bl = new blocked(); 
 
                 sesDeets = ses.GetSession(Session["email"].ToString());
                 if (sesDeets.Active == 1)

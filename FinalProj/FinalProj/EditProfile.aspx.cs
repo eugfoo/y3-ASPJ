@@ -20,6 +20,7 @@ namespace FinalProj
         public string linkTwit = "https://www.twitter.com/";
         static string finalHash;
         static string fileName2;
+        static string fileName;
         protected List<PassHist> passList;
         protected Sessionmg sesDeets;
 
@@ -61,7 +62,7 @@ namespace FinalProj
             Users user = (Users)Session["user"];
             var exeLocation = "C://Program Files//Windows Defender//MpCmdRun.exe";
             var scanner = new WindowsDefenderScanner(exeLocation);
-            var result = scanner.Scan(fileName2);
+            var result = scanner.Scan(fileName);
             if (result.ToString() == "ThreatFound")
             {
                 File.Delete(fileName2);
@@ -158,7 +159,7 @@ namespace FinalProj
             if (fuDP.HasFile)
             {
                 var uniqueFileName = string.Format(@"{0}.png", Guid.NewGuid());
-                string fileName = Path.Combine(Server.MapPath("/Img/User"), uniqueFileName);
+                fileName = Path.Combine(Server.MapPath("/Img/User"), uniqueFileName);
                 fileName2 = "C://Users//Eugene Foo//Documents//y3-ASPJ//FinalProj//FinalProj//Img//User//" + uniqueFileName;
                 fuDP.SaveAs(fileName);
                 imgDP.ImageUrl = "/Img/User/" + uniqueFileName;
