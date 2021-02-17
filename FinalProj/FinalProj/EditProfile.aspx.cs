@@ -65,7 +65,7 @@ namespace FinalProj
             var result = scanner.Scan(fileName);
             if (result.ToString() == "ThreatFound")
             {
-                File.Delete(fileName2);
+                File.Delete(fileName);
                 Sessionmg ses = new Sessionmg();
                 blocked bl = new blocked();
                 string ipAddr = GetIPAddress();
